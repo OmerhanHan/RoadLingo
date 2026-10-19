@@ -1,7 +1,9 @@
+
+
 <img width="2000" height="1000" alt="rd2" src="https://github.com/user-attachments/assets/2bbf194c-709c-4b01-b2ae-37bd97ef71fc" />
 
 
-<img width="2000" height="1000" alt="yatay" src="https://github.com/user-attachments/assets/cc37dafe-7606-4084-bf8d-90c55a1bf10e" />
+
 
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
