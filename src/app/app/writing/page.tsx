@@ -27,6 +27,14 @@ export default function WritingPage() {
           <span className={styles.cardDesc}>AI sana rastgele bir konu atar.</span>
           <span className={styles.cardCta}>Başla →</span>
         </button>
+
+        <button id="writing-mode-email" className={`${styles.card} ${styles.cardC}`} onClick={() => router.push('/app/writing/email')}>
+          <span className={styles.cardEmoji}>✉️</span>
+          <span className={styles.cardTitle}>Hızlı E-posta</span>
+          <span className={styles.cardTag}>7 dk</span>
+          <span className={styles.cardDesc}>Sabit sürede bir e-posta taslağı yaz.</span>
+          <span className={styles.cardCta}>Başla →</span>
+        </button>
       </div>
 
       <div className={`${styles.tip} anim-fade-up d2`}>

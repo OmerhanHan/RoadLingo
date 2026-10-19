@@ -26,6 +26,7 @@ export default function HomePage() {
       {/* Header */}
       <header className={`${styles.header} anim-fade-up`}>
         <div className={styles.greetBlock}>
+          <img src="/logo.png" alt="RoadLingo" className={styles.brandLogo} />
           <p className={styles.greetLabel}>{label}</p>
           <h1 className={styles.greetName}>{firstName}</h1>
           <p className={styles.greetSub}>

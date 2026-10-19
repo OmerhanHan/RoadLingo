@@ -26,8 +26,7 @@ export default function LoginPage() {
     <div className={styles.wrap}>
       <div className={styles.card}>
         <div className={styles.logo}>
-          <div className={styles.logoMark}>✎</div>
-          <span className={styles.logoTitle}>WriteAI</span>
+          <img src="/logo.png" alt="RoadLingo" className={styles.brandLogo} />
           <span className={styles.logoSub}>English Writing Practice</span>
         </div>
         <hr className={styles.rule} />

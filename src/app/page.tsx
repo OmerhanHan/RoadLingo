@@ -8,7 +8,8 @@ export default function RootPage() {
   const router = useRouter()
   useEffect(() => {
     if (!loading) {
-      router.replace(user ? '/app/home' : '/auth/login')
+      if (!user) router.replace('/auth/login')
+      else router.replace(!localStorage.getItem('selectedExam') ? '/onboarding' : !localStorage.getItem('targetScore') ? '/onboarding2' : '/app/home')
     }
   }, [user, loading, router])
   return (
