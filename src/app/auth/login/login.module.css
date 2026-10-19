@@ -26,23 +26,13 @@
   margin-bottom: 28px;
 }
 
-.logoMark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 52px; height: 52px;
-  background: var(--ink);
-  border-radius: var(--radius-xs);
-  font-size: 26px;
-  margin-bottom: 12px;
-}
-
-.logoTitle {
-  font-family: var(--font-serif);
-  font-size: 28px;
-  color: var(--ink);
+.brandLogo {
+  max-width: 155px;
+  width: 100%;
+  height: auto;
   display: block;
-  margin-bottom: 4px;
+  margin: 0 auto 10px auto;
+  object-fit: contain;
 }
 
 .logoSub {

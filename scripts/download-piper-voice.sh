@@ -1,37 +1,33 @@
 #!/usr/bin/env bash
-# Download a small local Piper male English voice (en_US-ryan-low ~60MB). No API key.
+# Download a local Piper English voice. No API key.
 # Usage:
-#   bash scripts/download-piper-voice.sh           # ryan (male, default)
-#   bash scripts/download-piper-voice.sh lessac    # female
-#   bash scripts/download-piper-voice.sh danny     # male alternative
+#   bash scripts/download-piper-voice.sh                 # ryan, low (~60MB)
+#   bash scripts/download-piper-voice.sh ryan medium     # male, medium (~60MB)
+#   bash scripts/download-piper-voice.sh ryan high       # male, high (~115MB, en iyi kalite)
+#   bash scripts/download-piper-voice.sh lessac medium   # female, medium
+#   bash scripts/download-piper-voice.sh lessac high     # female, high
+#   bash scripts/download-piper-voice.sh danny           # male alternative (yalnızca low)
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 DIR="$ROOT/models/tts"
-CHOICE="${1:-ryan}"
+NAME="${1:-ryan}"
+QUALITY="${2:-low}"
 
 mkdir -p "$DIR"
 cd "$DIR"
 
-case "$CHOICE" in
-  ryan|en_US-ryan-low)
-    VOICE="en_US-ryan-low"
-    BASE="https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_US/ryan/low"
-    ;;
-  danny|en_US-danny-low)
-    VOICE="en_US-danny-low"
-    BASE="https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_US/danny/low"
-    ;;
-  lessac|en_US-lessac-low)
-    VOICE="en_US-lessac-low"
-    BASE="https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_US/lessac/low"
-    ;;
+case "$NAME:$QUALITY" in
+  ryan:low|ryan:medium|ryan:high|lessac:low|lessac:medium|lessac:high|danny:low) ;;
   *)
-    echo "Unknown voice: $CHOICE"
-    echo "Options: ryan (male), danny (male), lessac (female)"
+    echo "Unknown voice/quality: $NAME $QUALITY"
+    echo "Options: ryan (low|medium|high), lessac (low|medium|high), danny (low)"
     exit 1
     ;;
 esac
+
+VOICE="en_US-${NAME}-${QUALITY}"
+BASE="https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_US/${NAME}/${QUALITY}"
 
 echo "Downloading $VOICE into $DIR ..."
 curl -L --fail -o "${VOICE}.onnx" "${BASE}/${VOICE}.onnx?download=true"

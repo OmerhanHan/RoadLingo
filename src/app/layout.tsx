@@ -6,9 +6,12 @@ import { AuthProvider } from '@/contexts/AuthContext'
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
 export const metadata: Metadata = {
-  title: 'WriteAI — İngilizce Yazı Sınavı Hazırlık',
+  title: 'RoadLingo — İngilizce Yazı Sınavı Hazırlık',
   description: 'AI destekli İngilizce yazı pratiği ve sınav hazırlık uygulaması. IELTS/TOEFL için akıllı geribildirim alın.',
   keywords: 'IELTS, TOEFL, İngilizce yazı, sınav hazırlık, AI feedback',
+  icons: {
+    icon: '/icon.png',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -38,6 +38,7 @@
 
 .cardA { background: var(--sage-light); }
 .cardB { background: var(--butter-light); }
+.cardC { background: var(--rose-light); }
 
 .tip {
   background: var(--rose-light);

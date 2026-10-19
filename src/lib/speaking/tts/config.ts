@@ -56,7 +56,7 @@ function resolvePiperBin(configured?: string): string {
 
 export function getTtsConfig(): TtsConfig {
   const provider = (env('TTS_PROVIDER', 'piper') ?? 'piper') as TtsProviderId
-  const defaultModel = path.join(process.cwd(), 'models', 'tts', 'en_US-ryan-low.onnx')
+  const defaultModel = path.join(process.cwd(), 'models', 'tts', 'en_US-ryan-high.onnx')
 
   return {
     provider,

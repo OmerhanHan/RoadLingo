@@ -15,6 +15,15 @@
   margin-bottom: 32px;
 }
 
+.brandLogo {
+  max-width: 125px;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 10px;
+  object-fit: contain;
+}
+
 .greetBlock {}
 .greetLabel {
   font-family: var(--font-mono);
