@@ -1,3 +1,4 @@
+<img width="2304" height="1536" alt="roadlingo_wordmark-1" src="https://github.com/user-attachments/assets/572a4601-cc7f-4db4-8984-00c901f7dd4e" />
 
 <img width="2000" height="1000" alt="yatay" src="https://github.com/user-attachments/assets/cc37dafe-7606-4084-bf8d-90c55a1bf10e" />
 
