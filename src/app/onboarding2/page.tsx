@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import MascotSpeech from '@/components/MascotSpeech'
+import { STORED_SSR, useStoredValue } from '@/lib/exam/useStoredValue'
 import styles from '../onboarding/onboarding.module.css'
 
 const CONFIG = {
@@ -13,19 +14,16 @@ type ExamId = keyof typeof CONFIG
 
 export default function Onboarding2Page() {
   const router = useRouter()
-  const [exam, setExam] = useState<ExamId | null>(null)
-  const [score, setScore] = useState(5)
+  const storedExam = useStoredValue('selectedExam')
+  const exam: ExamId | null = storedExam === 'toefl' || storedExam === 'ielts' ? storedExam : null
+  const [scoreChoice, setScore] = useState<number | null>(null)
+  const score = scoreChoice ?? (exam === 'toefl' ? 4.5 : 6.5)
   const [joke, setJoke] = useState(false)
   const [done, setDone] = useState(false)
 
   useEffect(() => {
-    const saved = localStorage.getItem('selectedExam')
-    if (saved === 'toefl' || saved === 'ielts') {
-      setExam(saved)
-      setScore(saved === 'toefl' ? 4.5 : 6.5)
-    }
-    else router.replace('/onboarding')
-  }, [router])
+    if (storedExam !== STORED_SSR && !exam) router.replace('/onboarding')
+  }, [storedExam, exam, router])
 
   if (!exam) return null
   const { label, max, min } = CONFIG[exam]
@@ -37,7 +35,7 @@ export default function Onboarding2Page() {
       return
     }
     localStorage.setItem('targetScore', String(score))
-    router.replace('/app/home')
+    router.replace('/onboarding3')
   }
 
   return (

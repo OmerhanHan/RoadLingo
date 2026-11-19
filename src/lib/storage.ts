@@ -60,7 +60,7 @@ export function getStats() {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
   let streak = 0
-  let checkDate = new Date(today)
+  const checkDate = new Date(today)
   const dateSets = new Set(writings.map(w => {
     const d = new Date(w.created_at)
     d.setHours(0, 0, 0, 0)

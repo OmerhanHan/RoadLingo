@@ -7,5 +7,5 @@ export type TtsResult = {
 
 export interface TtsProvider {
   readonly id: string
-  synthesize(text: string, options?: { signal?: AbortSignal }): Promise<TtsResult>
+  synthesize(text: string, options?: { signal?: AbortSignal; voice?: string }): Promise<TtsResult>
 }

@@ -1,4 +1,4 @@
-import type { ChatMessage, StreamChunk } from '../types'
+import type { StreamChunk } from '../types'
 import type { SpeakingProvider } from './types'
 
 /**
@@ -12,10 +12,7 @@ export function createGeminiProvider(opts: {
   return {
     id: 'gemini',
 
-    async *streamChat(
-      _messages: ChatMessage[],
-      _options?: { signal?: AbortSignal }
-    ): AsyncGenerator<StreamChunk, void, unknown> {
+    async *streamChat(): AsyncGenerator<StreamChunk, void, unknown> {
       if (!opts.apiKey) {
         yield {
           type: 'error',

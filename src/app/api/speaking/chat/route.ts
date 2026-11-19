@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSpeakingConfig } from '@/lib/speaking/config'
 import { SPEAKING_SYSTEM_PROMPT } from '@/lib/speaking/prompts'
 import { getSpeakingProvider } from '@/lib/speaking/providers'
+import { buildTopicSystemPrompt, getTopic, TOPIC_TOTAL_ANSWERS } from '@/lib/speaking/topics'
 import { SSE_HEADERS, streamChunksToSse } from '@/lib/speaking/sse'
 import type { ChatMessage } from '@/lib/speaking/types'
 
@@ -10,6 +11,10 @@ export const dynamic = 'force-dynamic'
 
 type Body = {
   messages?: Array<{ role?: string; content?: string }>
+  /** Optional category conversation (history, literature, art, sports). */
+  topic?: string
+  /** Number of answers the student has given so far. */
+  step?: number
 }
 
 function isRole(value: unknown): value is ChatMessage['role'] {
@@ -32,10 +37,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'messages required' }, { status: 400 })
     }
 
-    const withSystem: ChatMessage[] =
-      messages[0]?.role === 'system'
-        ? messages
-        : [{ role: 'system', content: SPEAKING_SYSTEM_PROMPT }, ...messages]
+    const topic = getTopic(body.topic)
+    const step = Math.max(0, Math.min(TOPIC_TOTAL_ANSWERS, Math.floor(Number(body.step) || 0)))
+    const systemPrompt = topic ? buildTopicSystemPrompt(topic, step) : SPEAKING_SYSTEM_PROMPT
+
+    // The system prompt is always decided server-side.
+    const withSystem: ChatMessage[] = [
+      { role: 'system', content: systemPrompt },
+      ...messages.filter((m) => m.role !== 'system'),
+    ]
 
     const config = getSpeakingConfig()
     const provider = getSpeakingProvider()

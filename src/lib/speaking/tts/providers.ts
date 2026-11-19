@@ -197,3 +197,69 @@ export function createOpenAiTtsProvider(opts: {
     },
   }
 }
+
+/**
+ * pocket-tts streams WAV with placeholder RIFF/data sizes (length unknown up front).
+ * Patch them to the real sizes so every browser can decode and seek the buffered file.
+ */
+function fixStreamedWavHeader(wav: Buffer): Buffer {
+  if (wav.length < 12 || wav.toString('ascii', 0, 4) !== 'RIFF' || wav.toString('ascii', 8, 12) !== 'WAVE') {
+    return wav
+  }
+  wav.writeUInt32LE(wav.length - 8, 4)
+  let offset = 12
+  while (offset + 8 <= wav.length) {
+    const id = wav.toString('ascii', offset, offset + 4)
+    const size = wav.readUInt32LE(offset + 4)
+    if (id === 'data') {
+      wav.writeUInt32LE(wav.length - (offset + 8), offset + 4)
+      break
+    }
+    offset += 8 + size + (size % 2)
+  }
+  return wav
+}
+
+/** Kyutai pocket-tts — talks to a running `pocket-tts serve` instance (keeps the model warm). */
+export function createPocketTtsProvider(opts: {
+  baseUrl: string
+  voice: string
+  timeoutMs: number
+}): TtsProvider {
+  const baseUrl = opts.baseUrl.replace(/\/$/, '')
+
+  return {
+    id: 'pocket',
+
+    async synthesize(text: string, options?: { signal?: AbortSignal; voice?: string }): Promise<TtsResult> {
+      const voice = options?.voice || opts.voice
+      const form = new FormData()
+      form.append('text', text)
+      if (voice) form.append('voice_url', voice)
+
+      const timeout = AbortSignal.timeout(opts.timeoutMs)
+      const signal = options?.signal ? AbortSignal.any([options.signal, timeout]) : timeout
+
+      let res: Response
+      try {
+        res = await fetch(`${baseUrl}/tts`, { method: 'POST', body: form, signal })
+      } catch (err) {
+        throw new Error(
+          `pocket-tts sunucusuna ulaşılamadı (${baseUrl}). "npm run tts:pocket" ile başlat. ${
+            err instanceof Error ? err.message : ''
+          }`.trim()
+        )
+      }
+
+      if (!res.ok) {
+        const detail = await res.text().catch(() => '')
+        throw new Error(`pocket-tts (${res.status}): ${detail || res.statusText}`)
+      }
+
+      const audio = fixStreamedWavHeader(Buffer.from(await res.arrayBuffer()))
+      if (audio.length <= 44) throw new Error('pocket-tts boş ses üretti')
+
+      return { audio, contentType: 'audio/wav', provider: 'pocket', model: `pocket-tts/${voice}` }
+    },
+  }
+}

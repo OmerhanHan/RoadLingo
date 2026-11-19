@@ -1,0 +1,63 @@
+/* Per-skill accent colors */
+.skill_reading   { --accent: var(--slate-dark);  --accent-bg: var(--slate-light); }
+.skill_writing   { --accent: var(--sage-dark);   --accent-bg: var(--sage-light); }
+.skill_listening { --accent: var(--rose-dark);   --accent-bg: var(--rose-light); }
+.skill_speaking  { --accent: var(--butter-dark); --accent-bg: var(--butter-light); }
+
+.page { max-width: var(--max-w); margin: 0 auto; min-height: 100vh; padding: 0 24px calc(var(--nav-h) + 32px); }
+
+.header { display: flex; align-items: center; gap: 16px; padding: 40px 0 28px; border-bottom: 1.5px dashed var(--border); margin-bottom: 24px; }
+.headerEmoji {
+  width: 60px; height: 60px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 30px;
+  background: var(--accent-bg); border: 2px solid var(--ink); border-radius: var(--radius-xs);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+.kicker { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); font-weight: 500; }
+.title { font-family: var(--font-serif); font-size: 30px; color: var(--ink); line-height: 1.15; }
+.sub { font-family: var(--font-mono); font-size: 12px; color: var(--text-3); margin-top: 2px; }
+
+/* Task list */
+.tasks { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+.task {
+  width: 100%; display: flex; align-items: center; gap: 14px;
+  padding: 16px; text-align: left;
+  background: var(--warm-white); border: 2px solid var(--ink); border-radius: var(--radius-xs);
+  box-shadow: 4px 4px 0 var(--ink);
+  transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
+}
+.task:hover:not(:disabled) { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink); background: var(--accent-bg); }
+.task:active:not(:disabled) { transform: translate(1px,1px); box-shadow: 3px 3px 0 var(--ink); }
+.taskSoon { cursor: default; border-style: dashed; border-color: var(--border-dark); box-shadow: none; background: var(--paper); }
+.taskSoon .taskEmoji, .taskSoon .taskBody { opacity: 0.6; }
+
+.taskNum { font-family: var(--font-mono); font-size: 12px; color: var(--accent); font-weight: 500; flex-shrink: 0; width: 20px; }
+.taskEmoji { font-size: 26px; flex-shrink: 0; }
+.taskBody { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.taskTitle { font-family: var(--font-serif); font-size: 17px; color: var(--ink); line-height: 1.25; }
+.taskTr { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-3); }
+.taskDesc { font-size: 13px; color: var(--text-2); line-height: 1.45; margin-top: 4px; }
+.taskCta { font-family: var(--font-mono); font-size: 18px; color: var(--ink); flex-shrink: 0; }
+.soonBadge {
+  flex-shrink: 0; padding: 3px 8px;
+  border: 1.5px solid var(--border-dark); border-radius: var(--radius-xs);
+  font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-3);
+}
+
+/* Extras */
+.sectionLabel { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-3); margin-bottom: 12px; }
+.extras { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+@media (max-width: 400px) { .extras { grid-template-columns: 1fr; } }
+.extra {
+  display: flex; flex-direction: column; gap: 6px; padding: 16px; text-align: left;
+  background: var(--warm-white); border: 1.5px solid var(--border-dark); border-radius: var(--radius-xs);
+  transition: border-color 0.12s, transform 0.12s;
+}
+.extra:hover { border-color: var(--ink); transform: translateY(-1px); }
+.extraEmoji { font-size: 22px; }
+.extraTitle { font-family: var(--font-serif); font-size: 16px; color: var(--ink); }
+.extraTag { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-3); }
+.extraDesc { font-size: 12px; color: var(--text-2); line-height: 1.45; }
+
+.tip { background: var(--accent-bg); border: 1.5px dashed var(--accent); border-radius: var(--radius-xs); padding: 14px 16px; display: flex; gap: 10px; align-items: flex-start; }
+.tipText { font-family: var(--font-mono); font-size: 12px; color: var(--ink-light); line-height: 1.6; }

@@ -3,6 +3,7 @@
 import { useCallback, useRef, useState } from 'react'
 import type { ChatMessage, StreamChunk } from '@/lib/speaking/types'
 import { SPEAKING_STARTER_PROMPT } from '@/lib/speaking/prompts'
+import { TOPIC_STARTER, type TopicId } from '@/lib/speaking/topics'
 
 export type LiveTurn = {
   id: string
@@ -48,8 +49,15 @@ async function* readSse(res: Response): AsyncGenerator<StreamChunk> {
   }
 }
 
-export function useSpeakingLive() {
+const countAnswers = (history: ChatMessage[]) => history.filter((m) => m.role === 'user').length
+
+/**
+ * Live coach chat. With a `topic`, the server runs the staged category
+ * conversation; `answered` tracks how many student answers have been accepted.
+ */
+export function useSpeakingLive(topic: TopicId | null = null) {
   const [turns, setTurns] = useState<LiveTurn[]>([])
+  const [answered, setAnswered] = useState(0)
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError] = useState<string | null>(null)
   const [providerMeta, setProviderMeta] = useState<{ provider: string; model: string } | null>(null)
@@ -69,6 +77,7 @@ export function useSpeakingLive() {
   const reset = useCallback(() => {
     stop()
     historyRef.current = []
+    setAnswered(0)
     setTurns([])
     setError(null)
     setStatus('idle')
@@ -99,7 +108,7 @@ export function useSpeakingLive() {
       const res = await fetch('/api/speaking/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: historyRef.current }),
+        body: JSON.stringify({ messages: historyRef.current, topic, step: countAnswers(historyRef.current) }),
         signal: ac.signal,
       })
 
@@ -117,7 +126,8 @@ export function useSpeakingLive() {
       let full = ''
       for await (const chunk of readSse(res)) {
         if (chunk.type === 'token') {
-          full += chunk.content
+          // Strip Markdown emphasis so it is neither shown nor read aloud.
+          full = (full + chunk.content).replace(/\*+/g, '')
           const snapshot = full
           setTurns((prev) =>
             prev.map((t) =>
@@ -135,6 +145,7 @@ export function useSpeakingLive() {
         ...historyRef.current,
         { role: 'assistant', content: full },
       ]
+      setAnswered(countAnswers(historyRef.current))
 
       setTurns((prev) =>
         prev.map((t) =>
@@ -168,7 +179,7 @@ export function useSpeakingLive() {
     } finally {
       if (abortRef.current === ac) abortRef.current = null
     }
-  }, [])
+  }, [topic])
 
   const startSession = useCallback(async () => {
     reset()
@@ -182,13 +193,13 @@ export function useSpeakingLive() {
     setStatus('connecting')
     setTurns([{ id: assistantId, role: 'assistant', content: '', streaming: true }])
 
-    const seed: ChatMessage[] = [{ role: 'user', content: SPEAKING_STARTER_PROMPT }]
+    const seed: ChatMessage[] = [{ role: 'user', content: topic ? TOPIC_STARTER : SPEAKING_STARTER_PROMPT }]
 
     try {
       const res = await fetch('/api/speaking/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: seed }),
+        body: JSON.stringify({ messages: seed, topic, step: 0 }),
         signal: ac.signal,
       })
 
@@ -206,7 +217,8 @@ export function useSpeakingLive() {
       let full = ''
       for await (const chunk of readSse(res)) {
         if (chunk.type === 'token') {
-          full += chunk.content
+          // Strip Markdown emphasis so it is neither shown nor read aloud.
+          full = (full + chunk.content).replace(/\*+/g, '')
           const snapshot = full
           setTurns((prev) =>
             prev.map((t) =>
@@ -235,10 +247,11 @@ export function useSpeakingLive() {
     } finally {
       if (abortRef.current === ac) abortRef.current = null
     }
-  }, [reset])
+  }, [reset, topic])
 
   return {
     turns,
+    answered,
     status,
     error,
     providerMeta,

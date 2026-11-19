@@ -1,0 +1,43 @@
+.toggle { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: var(--text-2); cursor: pointer; }
+.toggle input { width: 18px; height: 18px; accent-color: var(--ink); }
+
+/* ── Player card ── */
+.player {
+  background: var(--warm-white); border: 2px solid var(--ink); border-radius: var(--radius-xs);
+  box-shadow: 4px 4px 0 var(--ink); padding: 18px 16px; margin-bottom: 22px;
+  display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center;
+}
+.playerTitle { font-family: var(--font-serif); font-size: 19px; color: var(--ink); }
+.context { font-size: 14px; color: var(--text-2); }
+.speakers { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.speaker {
+  padding: 3px 10px; border: 1.5px solid var(--border-dark); border-radius: 999px;
+  font-family: var(--font-mono); font-size: 11px; color: var(--text-2); background: var(--paper);
+  transition: background 0.15s, border-color 0.15s;
+}
+.speakerActive { background: var(--butter-light); border-color: var(--ink); color: var(--ink); }
+
+.wave { display: flex; align-items: center; gap: 3px; height: 40px; }
+.bar { width: 4px; height: 8px; border-radius: 2px; background: var(--border-dark); }
+.playerOn .bar { background: var(--ink); animation: wave 0.9s ease-in-out infinite; }
+@keyframes wave {
+  0%, 100% { height: 8px; }
+  50% { height: 36px; }
+}
+
+.status { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-3); padding: 14px 0; }
+.prep { font-family: var(--font-mono); font-size: 11px; color: var(--text-3); }
+
+/* ── Review ── */
+.reviewClip { margin-bottom: 26px; padding-bottom: 6px; border-bottom: 1.5px dashed var(--border); }
+.transcript {
+  background: var(--paper); border: 1.5px dashed var(--border-dark); border-radius: var(--radius-xs);
+  padding: 12px 14px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px;
+}
+.transcriptHead { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.replay {
+  width: 30px; height: 30px; flex-shrink: 0; border: 1.5px solid var(--ink); border-radius: 50%;
+  font-size: 11px; color: var(--ink); background: var(--warm-white);
+}
+.tLine { font-size: 14px; line-height: 1.6; color: var(--ink); border-radius: 4px; padding: 1px 4px; margin: 0 -4px; transition: background 0.15s; }
+.tLineOn { background: var(--butter-light); }

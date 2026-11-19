@@ -7,6 +7,8 @@ export const dynamic = 'force-dynamic'
 type Body = {
   text?: string
   provider?: string
+  /** Optional voice name (pocket-tts only, e.g. "marius", "alba"). */
+  voice?: string
 }
 
 export async function POST(req: NextRequest) {
@@ -27,15 +29,20 @@ export async function POST(req: NextRequest) {
     }
 
     const prefer =
+      body.provider === 'pocket' ||
       body.provider === 'piper' ||
       body.provider === 'macos' ||
       body.provider === 'openai'
         ? body.provider
         : undefined
 
+    const voice =
+      typeof body.voice === 'string' && /^[a-z_]{2,32}$/.test(body.voice) ? body.voice : undefined
+
     const result = await synthesizeWithFallback(text, {
       signal: req.signal,
       prefer,
+      voice,
     })
 
     return new NextResponse(new Uint8Array(result.audio), {

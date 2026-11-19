@@ -2,10 +2,15 @@ import fs from 'fs'
 import os from 'os'
 import path from 'path'
 
-export type TtsProviderId = 'piper' | 'macos' | 'openai' | 'browser'
+export type TtsProviderId = 'pocket' | 'piper' | 'macos' | 'openai' | 'browser'
 
 export type TtsConfig = {
   provider: TtsProviderId
+  pocket: {
+    baseUrl: string
+    voice: string
+    timeoutMs: number
+  }
   piper: {
     bin: string
     modelPath: string
@@ -55,11 +60,16 @@ function resolvePiperBin(configured?: string): string {
 }
 
 export function getTtsConfig(): TtsConfig {
-  const provider = (env('TTS_PROVIDER', 'piper') ?? 'piper') as TtsProviderId
+  const provider = (env('TTS_PROVIDER', 'pocket') ?? 'pocket') as TtsProviderId
   const defaultModel = path.join(process.cwd(), 'models', 'tts', 'en_US-ryan-high.onnx')
 
   return {
     provider,
+    pocket: {
+      baseUrl: env('TTS_POCKET_URL', 'http://127.0.0.1:8765')!,
+      voice: env('TTS_POCKET_VOICE', 'marius')!,
+      timeoutMs: Number(env('TTS_POCKET_TIMEOUT_MS', '30000') ?? '30000'),
+    },
     piper: {
       bin: resolvePiperBin(env('TTS_PIPER_BIN', 'piper')),
       modelPath: env('TTS_PIPER_MODEL', defaultModel)!,
