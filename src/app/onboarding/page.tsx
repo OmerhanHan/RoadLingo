@@ -1,4 +1,5 @@
 'use client'
+import Image from 'next/image'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import MascotSpeech from '@/components/MascotSpeech'
@@ -21,7 +22,7 @@ export default function OnboardingPage() {
   return (
     <main className={styles.page}>
       <div className={styles.content}>
-        <img src="/logo.png" alt="RoadLingo" className={styles.brandLogo} />
+        <Image src="/logo.png" alt="RoadLingo" width={2304} height={1536} sizes="160px" loading="eager" className={styles.brandLogo} />
 
         <MascotSpeech title="Selam 👋" text="Hangi sınava hazırlanıyorsun?" onDone={() => setDone(true)} />
 

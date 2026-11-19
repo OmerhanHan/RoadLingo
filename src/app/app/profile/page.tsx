@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { getStats } from '@/lib/storage'
@@ -21,9 +21,9 @@ function levelPct(n: number) {
 export default function ProfilePage() {
   const { user, logout } = useAuth()
   const router = useRouter()
-  const [stats, setStats] = useState({ totalWritings: 0, totalWords: 0, avgBandScore: 0, streak: 0, lastStudied: null as string | null })
+  // Rendered client-only (AppLayout waits for auth), so localStorage is safe to read here.
+  const [stats] = useState(() => getStats())
   const [modal, setModal] = useState(false)
-  useEffect(() => { setStats(getStats()) }, [])
 
   const firstName = user?.name?.split(' ')[0] || ''
 

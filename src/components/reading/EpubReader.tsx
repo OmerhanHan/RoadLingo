@@ -18,21 +18,22 @@ type Props = {
 
 export default function EpubReader({ book }: Props) {
   const router = useRouter()
-  const [url, setUrl] = useState<string | null>(null)
-  const [error, setError] = useState<string | null>(null)
+  // Result is tagged with the epub it belongs to, so switching books shows "loading" without a reset.
+  const [loaded, setLoaded] = useState<{ epub: LibraryBook['epub']; url: string | null; error: string | null } | null>(null)
+  const current = loaded?.epub === book.epub ? loaded : null
+  const url = current?.url ?? null
+  const error = current?.error ?? null
   const [location, setLocation] = useState<string | number>(0)
 
   useEffect(() => {
     let cancelled = false
-    setUrl(null)
-    setError(null)
 
     resolveEpubUrl(book.epub)
       .then(resolved => {
-        if (!cancelled) setUrl(resolved)
+        if (!cancelled) setLoaded({ epub: book.epub, url: resolved, error: null })
       })
       .catch(err => {
-        if (!cancelled) setError(err instanceof Error ? err.message : 'EPUB açılamadı')
+        if (!cancelled) setLoaded({ epub: book.epub, url: null, error: err instanceof Error ? err.message : 'EPUB açılamadı' })
       })
 
     return () => { cancelled = true }

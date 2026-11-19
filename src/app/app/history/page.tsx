@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { getWritings } from '@/lib/storage'
 import type { Writing } from '@/lib/supabase'
@@ -17,9 +17,8 @@ function fmtDate(d: string) {
 
 export default function HistoryPage() {
   const router = useRouter()
-  const [writings, setWritings] = useState<Writing[]>([])
+  const [writings] = useState<Writing[]>(() => getWritings())
   const [filter, setFilter]     = useState<'all' | 'predetermined' | 'random'>('all')
-  useEffect(() => { setWritings(getWritings()) }, [])
   const filtered = filter === 'all' ? writings : writings.filter(w => w.mode === filter)
 
   return (

@@ -1,0 +1,51 @@
+.dialogue { background: var(--warm-white); border: 2px solid var(--ink); border-radius: var(--radius-xs); box-shadow: 4px 4px 0 var(--ink); padding: 18px 16px; display: flex; flex-direction: column; gap: 16px; margin-bottom: 22px; }
+
+.speaker { display: flex; gap: 10px; align-items: flex-start; }
+.speakerB { align-items: center; }
+
+.avatar { position: relative; width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--ink); background: var(--butter-light); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 12px; font-weight: 600; flex-shrink: 0; }
+.avatarB { background: var(--sage-light); }
+
+.bubble { font-family: var(--font-serif); font-size: 17px; line-height: 1.45; color: var(--ink); padding-top: 3px; }
+
+.slots { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; flex: 1; min-width: 0; }
+.slot { min-width: 54px; height: 40px; display: flex; align-items: center; justify-content: center; border: 2px dashed var(--ink-faint); border-radius: var(--radius-xs); transition: border-color 0.1s, background 0.1s; }
+.slotFilled { border-color: transparent; min-width: 0; }
+.slotHover { border-color: var(--butter-dark); border-style: solid; background: var(--butter-light); }
+.punct { font-family: var(--font-serif); font-size: 20px; color: var(--ink); margin-left: -2px; }
+
+.bank { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px; background: var(--paper); border: 1.5px dashed var(--border-dark); border-radius: var(--radius-xs); min-height: 64px; margin-bottom: 18px; transition: border-color 0.1s, background 0.1s; }
+.bankHover { border-color: var(--butter-dark); background: var(--butter-light); }
+.bankEmpty { font-family: var(--font-mono); font-size: 11px; color: var(--text-4); text-transform: uppercase; letter-spacing: 0.8px; align-self: center; }
+
+.tile { touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab; padding: 7px 12px; background: var(--warm-white); border: 2px solid var(--ink); border-radius: var(--radius-xs); font-family: var(--font-sans); font-size: 15px; color: var(--ink); box-shadow: 2px 2px 0 var(--ink); transition: transform 0.08s, box-shadow 0.08s; }
+.tile:hover:not(:disabled) { transform: translate(-1px,-1px); box-shadow: 3px 3px 0 var(--ink); }
+.tile:active:not(:disabled) { transform: translate(1px,1px); box-shadow: 1px 1px 0 var(--ink); }
+.tile:disabled { cursor: default; }
+.bank .tile:disabled { opacity: 0.5; }
+
+.tilePlaced { background: var(--butter-light); }
+.tileOk { background: var(--sage-light); border-color: var(--sage-dark); box-shadow: 2px 2px 0 var(--sage-dark); }
+.tileBad { background: var(--rose-light); border-color: var(--rose-dark); box-shadow: 2px 2px 0 var(--rose-dark); }
+
+.feedback { margin-bottom: 18px; }
+
+.tileDragging { opacity: 0.3; }
+
+.ghost {
+  position: fixed; z-index: 500; pointer-events: none;
+  transform: translate(-50%, -60%) rotate(-3deg);
+  padding: 7px 12px; background: var(--butter-light);
+  border: 2px solid var(--ink); border-radius: var(--radius-xs);
+  font-family: var(--font-sans); font-size: 15px; color: var(--ink);
+  box-shadow: 5px 5px 0 var(--ink); cursor: grabbing;
+}
+
+.gender { position: absolute; right: -6px; bottom: -6px; width: 16px; height: 16px; border-radius: 50%; background: var(--warm-white); border: 1.5px solid var(--ink); font-size: 10px; line-height: 13px; text-align: center; font-family: var(--font-sans); }
+
+.listen { flex-shrink: 0; width: 34px; height: 34px; margin-left: auto; border: 2px solid var(--ink); border-radius: 50%; background: var(--warm-white); font-size: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 2px 2px 0 var(--ink); transition: transform 0.1s, box-shadow 0.1s; }
+.listen:hover { transform: translate(-1px,-1px); box-shadow: 3px 3px 0 var(--ink); }
+.listenActive { background: var(--butter-light); }
+
+.dialogueBtn { display: block; margin-top: 10px; padding: 7px 12px; border: 1.5px solid var(--ink); border-radius: var(--radius-xs); background: var(--warm-white); font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--ink); }
+.dialogueBtn:hover { background: var(--butter-light); }

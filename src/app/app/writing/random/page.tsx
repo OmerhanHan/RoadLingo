@@ -47,7 +47,7 @@ export default function RandomPage() {
 
   const wordCount = content.trim().split(/\s+/).filter(Boolean).length
   const progress = Math.min(wordCount / 250 * 100, 100)
-  const showToast = (m: string) => { setToast(m); setTimeout(() => setToast(null), 2500) }
+  const showToast = useCallback((m: string) => { setToast(m); setTimeout(() => setToast(null), 2500) }, [])
 
   const clearTimers = () => {
     timersRef.current.forEach(clearTimeout)
@@ -91,7 +91,7 @@ export default function RandomPage() {
     setSaving(true)
     const w = saveWriting({ user_id: '', mode: 'random', topic, content, word_count: wordCount, has_feedback: false })
     setSavedId(w.id); setSaving(false); setShowModal(true)
-  }, [topic, wordCount, showToast])
+  }, [topic, wordCount, content, showToast])
 
   const handleAnalyze = useCallback(async () => {
     if (!savedId || !topic) return
@@ -102,13 +102,13 @@ export default function RandomPage() {
       setAnalyzing(false)
       router.push(`/app/history/${savedId}`)
     } catch (e) { console.error(e); setAnalyzing(false); showToast('❌ Analiz başarısız') }
-  }, [savedId, topic, content, showToast])
+  }, [savedId, topic, content, showToast, router])
 
   const handleSkip = useCallback(() => {
     setShowModal(false)
     showToast("✓ Çalışmalar'a kaydedildi")
     setTimeout(() => router.push('/app/history'), 1500)
-  }, [showToast])
+  }, [showToast, router])
 
   // Slotta görünen metin: çekiliş sırasında preview, bitince topic
   const slotText = rolling ? spinPreview : topic

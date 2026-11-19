@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useMemo, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { getWritingById } from '@/lib/storage'
 import type { Writing } from '@/lib/supabase'
@@ -25,16 +25,10 @@ function ScoreRow({ lbl, val, color }: { lbl: string; val: number; color: string
 export default function DetailPage() {
   const router = useRouter()
   const params = useParams()
-  const [writing, setWriting] = useState<Writing | null>(null)
-  const [tab, setTab] = useState<'feedback' | 'essay'>('feedback')
-
-  useEffect(() => {
-    if (params.id) {
-      const w = getWritingById(params.id as string)
-      setWriting(w)
-      if (!w?.has_feedback) setTab('essay')
-    }
-  }, [params.id])
+  const id = typeof params.id === 'string' ? params.id : null
+  const writing = useMemo<Writing | null>(() => (id ? getWritingById(id) : null), [id])
+  const [tabChoice, setTab] = useState<'feedback' | 'essay' | null>(null)
+  const tab = tabChoice ?? (writing?.has_feedback ? 'feedback' : 'essay')
 
   if (!writing) return <div className={styles.loading}><div className={styles.spinnerInk} /></div>
 
@@ -109,9 +103,9 @@ export default function DetailPage() {
                 {fb.grammar_errors.map((e, i) => (
                   <div key={i} className={styles.errCard}>
                     <div className={styles.errTop}>
-                      <span className={styles.errWord}>"{e.word}"</span>
+                      <span className={styles.errWord}>&ldquo;{e.word}&rdquo;</span>
                       <span className={styles.errArrow}>→</span>
-                      <span className={styles.errFix}>"{e.suggestion}"</span>
+                      <span className={styles.errFix}>&ldquo;{e.suggestion}&rdquo;</span>
                     </div>
                     <p className={styles.errExp}>{e.explanation}</p>
                   </div>

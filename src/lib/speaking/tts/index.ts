@@ -3,6 +3,7 @@ import {
   createMacosSayProvider,
   createOpenAiTtsProvider,
   createPiperProvider,
+  createPocketTtsProvider,
 } from './providers'
 import type { TtsProvider, TtsResult } from './types'
 
@@ -11,6 +12,8 @@ export function getTtsProvider(override?: TtsProviderId): TtsProvider {
   const id = override ?? config.provider
 
   switch (id) {
+    case 'pocket':
+      return createPocketTtsProvider(config.pocket)
     case 'macos':
       return createMacosSayProvider(config.macos)
     case 'openai':
@@ -23,10 +26,10 @@ export function getTtsProvider(override?: TtsProviderId): TtsProvider {
   }
 }
 
-/** Try preferred provider, then local fallbacks (piper → macos). */
+/** Try preferred provider, then local fallbacks (pocket → piper → macos). */
 export async function synthesizeWithFallback(
   text: string,
-  options?: { signal?: AbortSignal; prefer?: TtsProviderId }
+  options?: { signal?: AbortSignal; prefer?: TtsProviderId; voice?: string }
 ): Promise<TtsResult> {
   const config = getTtsConfig()
   const prefer = options?.prefer ?? config.provider
@@ -37,20 +40,16 @@ export async function synthesizeWithFallback(
   }
 
   push(prefer)
-  if (prefer === 'openai') {
-    push('piper')
-    push('macos')
-  } else {
-    push('piper')
-    push('macos')
-  }
+  push('pocket')
+  push('piper')
+  push('macos')
 
   let lastError: Error | null = null
 
   for (const id of chain) {
     try {
       const provider = getTtsProvider(id)
-      return await provider.synthesize(text, { signal: options?.signal })
+      return await provider.synthesize(text, { signal: options?.signal, voice: options?.voice })
     } catch (err) {
       lastError = err instanceof Error ? err : new Error(String(err))
       console.warn(`[tts] ${id} failed:`, lastError.message)

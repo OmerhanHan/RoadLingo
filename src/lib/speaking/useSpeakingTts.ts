@@ -34,18 +34,30 @@ function speakBrowser(text: string): Promise<void> {
   })
 }
 
-async function fetchServerTts(text: string, signal?: AbortSignal): Promise<Blob> {
+type QueueItem = { text: string; voice?: string }
+
+export type DialogueLine = { text: string; voice?: string }
+
+async function fetchServerTts(
+  text: string,
+  voice: string | undefined,
+  signal?: AbortSignal
+): Promise<{ blob: Blob; provider: string; model: string }> {
   const res = await fetch('/api/speaking/tts', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text }),
+    body: JSON.stringify({ text, voice }),
     signal,
   })
   if (!res.ok) {
     const err = await res.json().catch(() => ({}))
     throw new Error(err.detail || err.error || `TTS HTTP ${res.status}`)
   }
-  return res.blob()
+  return {
+    blob: await res.blob(),
+    provider: res.headers.get('X-TTS-Provider') ?? 'server',
+    model: res.headers.get('X-TTS-Model') ?? '',
+  }
 }
 
 export function useSpeakingTts() {
@@ -54,7 +66,7 @@ export function useSpeakingTts() {
   const [error, setError] = useState<string | null>(null)
   const [meta, setMeta] = useState<{ provider: string; model: string } | null>(null)
 
-  const queueRef = useRef<string[]>([])
+  const queueRef = useRef<QueueItem[]>([])
   const playingRef = useRef(false)
   const abortRef = useRef<AbortController | null>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -107,8 +119,8 @@ export function useSpeakingTts() {
       setError(null)
 
       try {
-        const blob = await fetchServerTts(next, ac.signal)
-        setMeta({ provider: 'server', model: 'piper/macos' })
+        const { blob, provider, model } = await fetchServerTts(next.text, next.voice, ac.signal)
+        setMeta({ provider, model })
         setStatus('playing')
         await playBlob(blob)
       } catch (err) {
@@ -117,7 +129,7 @@ export function useSpeakingTts() {
         try {
           setMeta({ provider: 'browser', model: 'speechSynthesis' })
           setStatus('playing')
-          await speakBrowser(next)
+          await speakBrowser(next.text)
         } catch (browserErr) {
           const message =
             err instanceof Error ? err.message : 'TTS başarısız'
@@ -136,20 +148,29 @@ export function useSpeakingTts() {
   }, [playBlob])
 
   const enqueue = useCallback(
-    (text: string) => {
+    (text: string, opts?: { voice?: string }) => {
       if (!enabled) return
       const chunks = splitSentences(text)
       if (!chunks.length) return
-      queueRef.current.push(...chunks)
+      queueRef.current.push(...chunks.map((c) => ({ text: c, voice: opts?.voice })))
       void drain()
     },
     [drain, enabled]
   )
 
   const speakFull = useCallback(
-    (text: string) => {
+    (text: string, opts?: { voice?: string }) => {
       stop()
-      enqueue(text)
+      enqueue(text, opts)
+    },
+    [enqueue, stop]
+  )
+
+  /** Plays several lines in order, each with its own voice (e.g. a two-person dialogue). */
+  const speakDialogue = useCallback(
+    (lines: DialogueLine[]) => {
+      stop()
+      for (const line of lines) enqueue(line.text, { voice: line.voice })
     },
     [enqueue, stop]
   )
@@ -162,6 +183,7 @@ export function useSpeakingTts() {
     meta,
     enqueue,
     speakFull,
+    speakDialogue,
     stop,
     isSpeaking: status === 'loading' || status === 'playing',
   }

@@ -1,4 +1,5 @@
 'use client'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import styles from '@/app/onboarding/onboarding.module.css'
 
@@ -29,9 +30,14 @@ export default function MascotSpeech({ title, text, onDone }: Props) {
 
   return (
     <section className={styles.mascotRow}>
-      <img
+      {/* unoptimized: keeps the GIF animated and the pixel art crisp */}
+      <Image
         src={done ? '/mascot-idle.png' : '/mascot-talking.gif'}
         alt="RoadLingo maskotu"
+        width={128}
+        height={128}
+        unoptimized
+        loading="eager"
         className={`${styles.mascot} ${done ? '' : styles.mascotTalking}`}
         onClick={() => setTyped(0)}
       />

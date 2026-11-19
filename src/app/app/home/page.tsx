@@ -1,8 +1,10 @@
 'use client'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { getStats } from '@/lib/storage'
-import { useEffect, useState } from 'react'
+import { TOEFL_SECTIONS } from '@/lib/exam/structure'
+import { useState } from 'react'
 import styles from './home.module.css'
 
 function greeting(name: string) {
@@ -15,8 +17,8 @@ function greeting(name: string) {
 export default function HomePage() {
   const { user } = useAuth()
   const router   = useRouter()
-  const [stats, setStats] = useState({ totalWritings: 0, totalWords: 0, avgBandScore: 0, streak: 0, lastStudied: null as string | null })
-  useEffect(() => { setStats(getStats()) }, [])
+  // Rendered client-only (AppLayout waits for auth), so localStorage is safe to read here.
+  const [stats] = useState(() => getStats())
 
   const firstName = user?.name?.split(' ')[0] || 'Kullanıcı'
   const { label }  = greeting(firstName)
@@ -26,7 +28,7 @@ export default function HomePage() {
       {/* Header */}
       <header className={`${styles.header} anim-fade-up`}>
         <div className={styles.greetBlock}>
-          <img src="/logo.png" alt="RoadLingo" className={styles.brandLogo} />
+          <Image src="/logo.png" alt="RoadLingo" width={2304} height={1536} sizes="160px" loading="eager" className={styles.brandLogo} />
           <p className={styles.greetLabel}>{label}</p>
           <h1 className={styles.greetName}>{firstName}</h1>
           <p className={styles.greetSub}>
@@ -51,30 +53,35 @@ export default function HomePage() {
         ))}
       </div>
 
-      {/* Cards */}
-      <p className={`${styles.sectionTitle} anim-fade-up d2`}>Ne yapmak istersin?</p>
+      {/* Skill sections */}
+      <p className={`${styles.sectionTitle} anim-fade-up d2`}>TOEFL Bölümleri</p>
       <div className={`${styles.mainCards} anim-fade-up d2`}>
-        <button id="home-notebook" className={`${styles.mainCard} ${styles.cardWrite}`} onClick={() => router.push('/app/writing')}>
-          <span className={styles.cardEmoji}>📓</span>
-          <span className={styles.cardTitle}>Yeni Yazı</span>
-          <span className={styles.cardDesc}>PRATIK YAP →</span>
-        </button>
-        <button id="home-reading" className={`${styles.mainCard} ${styles.cardRead}`} onClick={() => router.push('/app/reading')}>
-          <span className={styles.cardEmoji}>📖</span>
-          <span className={styles.cardTitle}>Okuma</span>
-          <span className={styles.cardDesc}>KÜTÜPHANE →</span>
-        </button>
-        <button id="home-folder" className={`${styles.mainCard} ${styles.cardHistory}`} onClick={() => router.push('/app/history')}>
-          <span className={styles.cardEmoji}>📁</span>
-          <span className={styles.cardTitle}>Geçmiş</span>
-          <span className={styles.cardDesc}>YAZILARI GÖR →</span>
-        </button>
-        <button id="home-audio" className={`${styles.mainCard} ${styles.cardMeet}`} onClick={() => router.push('/app/speaking')}>
-          <span className={styles.cardEmoji}>🎙️</span>
-          <span className={styles.cardTitle}>Sesli Antrenman</span>
-          <span className={styles.cardDesc}>Sohbet Et →</span>
-        </button>
+        {TOEFL_SECTIONS.map((section) => {
+          const ready = section.tasks.filter((t) => t.status === 'ready').length
+          return (
+            <button
+              key={section.id}
+              id={`home-${section.id}`}
+              className={`${styles.mainCard} ${styles[`card_${section.id}`]}`}
+              onClick={() => router.push(section.href)}
+            >
+              <span className={styles.cardEmoji}>{section.emoji}</span>
+              <span className={styles.cardTitle}>{section.labelTr}</span>
+              <span className={styles.cardKicker}>{section.label}</span>
+              <span className={styles.cardDesc}>{ready}/{section.tasks.length} GÖREV HAZIR →</span>
+            </button>
+          )
+        })}
       </div>
+
+      <button id="home-history" className={`${styles.historyRow} anim-fade-up d3`} onClick={() => router.push('/app/history')}>
+        <span className={styles.cardEmoji}>📁</span>
+        <span className={styles.historyText}>
+          <span className={styles.cardTitle}>Geçmiş</span>
+          <span className={styles.cardDesc}>Yazılarını ve geri bildirimlerini gör</span>
+        </span>
+        <span className={styles.historyArrow}>→</span>
+      </button>
 
       {/* Streak */}
       {stats.streak > 0 && (

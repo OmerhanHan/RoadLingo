@@ -1,6 +1,6 @@
 import type { Feedback, GrammarError } from './supabase'
 
-// Fallback topic pool (used if API fails)
+/* Fallback topic pool — only used by the commented-out generateTopic() below.
 const TOPICS_FALLBACK = [
   "The impact of social media on modern communication",
   "Should universities be free for all students?",
@@ -23,6 +23,7 @@ const TOPICS_FALLBACK = [
   "Should animals be used in scientific research?",
   "The impact of tourism on local cultures",
 ]
+*/
 
 // Fallback mock scorer (used if Gemini API fails)
 function pseudoRandom(seed: number, max: number): number {

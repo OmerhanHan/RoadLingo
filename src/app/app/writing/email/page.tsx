@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation'
 import {
   EMAIL_CATEGORY_LABELS,
   EMAIL_SCORE_LABELS,
-  EMAIL_SCENARIOS,
   analyzeEmail,
   formatEmailDraft,
   pickRandomEmailScenario,
@@ -104,12 +103,13 @@ function AnalysisBlock({ analysis }: { analysis: EmailAnalysis }) {
 export default function EmailWritingPage() {
   const router = useRouter()
   const [tab, setTab] = useState<Tab>('compose')
-  const [history, setHistory] = useState<EmailExercise[]>([])
+  // Client-only render (AppLayout), so localStorage / Math.random are safe in initializers.
+  const [history, setHistory] = useState<EmailExercise[]>(() => getEmailExercises())
   const [selectedId, setSelectedId] = useState<string | null>(null)
 
-  const [scenario, setScenario] = useState<EmailScenario>(EMAIL_SCENARIOS[0])
-  const [to, setTo] = useState(EMAIL_SCENARIOS[0].to)
-  const [subject, setSubject] = useState(EMAIL_SCENARIOS[0].subject)
+  const [scenario, setScenario] = useState<EmailScenario>(() => pickRandomEmailScenario())
+  const [to, setTo] = useState(() => scenario.to)
+  const [subject, setSubject] = useState(() => scenario.subject)
   const [body, setBody] = useState('')
   const [secondsLeft, setSecondsLeft] = useState(DURATION_SEC)
   const [running, setRunning] = useState(false)
@@ -122,22 +122,17 @@ export default function EmailWritingPage() {
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const finishOnceRef = useRef(false)
-  const draftRef = useRef({ to: '', subject: '', body: '' })
+  const draftRef = useRef({ to, subject, body })
   const scenarioRef = useRef(scenario)
 
-  draftRef.current = { to, subject, body }
-  scenarioRef.current = scenario
+  useEffect(() => {
+    draftRef.current = { to, subject, body }
+    scenarioRef.current = scenario
+  }, [to, subject, body, scenario])
 
   const refreshHistory = useCallback(() => {
     setHistory(getEmailExercises())
   }, [])
-
-  useEffect(() => {
-    const next = pickRandomEmailScenario()
-    setScenario(next)
-    applyScenarioFields(next, setTo, setSubject)
-    refreshHistory()
-  }, [refreshHistory])
 
   const canEdit = running && !finished
   const wordCount = body.trim().split(/\s+/).filter(Boolean).length
