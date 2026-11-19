@@ -91,22 +91,22 @@ export const TOEFL_SECTIONS: SkillSection[] = [
       {
         id: 'choose-response', title: 'Listen and Choose a Response', titleTr: 'Cevabı Seç', emoji: '🗨️',
         desc: 'Duyduğun cümleye en uygun cevabı seç.',
-        status: 'soon',
+        status: 'ready', href: '/app/listening/choose-response',
       },
       {
         id: 'conversation', title: 'Listen to a Conversation', titleTr: 'Konuşma Dinle', emoji: '👥',
         desc: 'İki kişi arasındaki kısa bir konuşmayı dinle.',
-        status: 'soon',
+        status: 'ready', href: '/app/listening/conversation',
       },
       {
         id: 'announcement', title: 'Listen to an Announcement', titleTr: 'Duyuru Dinle', emoji: '📢',
         desc: 'Kampüs veya günlük hayattan bir duyuruyu dinle.',
-        status: 'soon',
+        status: 'ready', href: '/app/listening/announcement',
       },
       {
         id: 'academic-talk', title: 'Listen to an Academic Talk', titleTr: 'Akademik Konuşma', emoji: '🏛️',
         desc: 'Kısa bir derse veya akademik sunuma kulak ver.',
-        status: 'soon',
+        status: 'ready', href: '/app/listening/academic-talk',
       },
     ],
   },

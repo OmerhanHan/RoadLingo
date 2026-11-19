@@ -121,3 +121,41 @@ export type DiscussionScore = {
   improvements: string[]
   corrections: Array<{ original: string; suggestion: string }>
 }
+
+/* ── Listening ── */
+
+export type ListeningTaskId = 'choose-response' | 'conversation' | 'announcement' | 'academic-talk'
+
+export type ListeningQuestionKind = 'response' | 'main_idea' | 'detail' | 'inference' | 'purpose' | 'action'
+
+export type ListeningQuestion = {
+  kind: ListeningQuestionKind
+  question: string
+  options: string[]
+  answer: number
+  explanation: string
+}
+
+/** One spoken segment, already mapped to a pocket-tts voice. */
+export type ListeningLine = {
+  speaker: string
+  gender: 'male' | 'female'
+  voice: string
+  text: string
+}
+
+/** One recording and the questions about it. */
+export type ListeningClip = {
+  /** Short setting shown before listening, e.g. "Two students in the library". */
+  context: string
+  lines: ListeningLine[]
+  questions: ListeningQuestion[]
+}
+
+export type ListeningSet = {
+  source: ContentSource
+  level: ToeflLevel
+  task: ListeningTaskId
+  title: string
+  clips: ListeningClip[]
+}
