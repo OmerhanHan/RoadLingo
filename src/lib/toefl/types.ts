@@ -49,3 +49,75 @@ export type CompleteWordsSet = {
   segments: CompleteWordsSegment[]
   gapCount: number
 }
+
+/* ── Read an Academic Passage ── */
+
+export type PassageQuestionType = 'main_idea' | 'detail' | 'vocabulary' | 'inference' | 'purpose'
+
+export type PassageQuestion = {
+  type: PassageQuestionType
+  question: string
+  options: string[]
+  answer: number
+  explanation: string
+  /** For vocabulary questions: the word to highlight in the passage. */
+  highlight?: string
+}
+
+export type AcademicPassageSet = {
+  source: ContentSource
+  level: ToeflLevel
+  topic: string
+  title: string
+  paragraphs: string[]
+  questions: PassageQuestion[]
+}
+
+/* ── Read in Daily Life ── */
+
+export type DailyGenre = 'email' | 'notice' | 'menu' | 'schedule' | 'messages' | 'social' | 'web'
+
+export type DailyMessage = { from: string; text: string }
+
+export type DailyText = {
+  genre: DailyGenre
+  title: string
+  /** Email sender, social media account, website name… */
+  sender?: string
+  /** Body lines. For menus / schedules a line may be "left | right". */
+  lines: string[]
+  /** Only for the `messages` genre. */
+  messages?: DailyMessage[]
+}
+
+export type DailyLifeSet = {
+  source: ContentSource
+  level: ToeflLevel
+  scenario: string
+  text: DailyText
+  questions: PassageQuestion[]
+}
+
+/* ── Write for an Academic Discussion ── */
+
+export type DiscussionPost = { name: string; text: string }
+
+export type AcademicDiscussionPrompt = {
+  source: ContentSource
+  level: ToeflLevel
+  course: string
+  professor: DiscussionPost
+  students: [DiscussionPost, DiscussionPost]
+}
+
+export type DiscussionCriterion = 'communication' | 'contribution' | 'language' | 'mechanics'
+
+export type DiscussionScore = {
+  /** Task-level score, 0–5 (TOEFL rubric). */
+  score: number
+  criteria: Record<DiscussionCriterion, number>
+  summary: string
+  strengths: string[]
+  improvements: string[]
+  corrections: Array<{ original: string; suggestion: string }>
+}

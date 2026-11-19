@@ -46,12 +46,12 @@ export const TOEFL_SECTIONS: SkillSection[] = [
       {
         id: 'daily-life', title: 'Read in Daily Life', titleTr: 'Günlük Hayatta Okuma', emoji: '🧾',
         desc: 'İlan, e-posta, menü gibi kısa günlük metinleri anla.',
-        status: 'soon',
+        status: 'ready', href: '/app/reading/daily-life',
       },
       {
         id: 'academic-passage', title: 'Read an Academic Passage', titleTr: 'Akademik Metin', emoji: '🎓',
         desc: 'Akademik bir pasajı oku ve soruları cevapla.',
-        status: 'soon',
+        status: 'ready', href: '/app/reading/academic-passage',
       },
     ],
   },
@@ -76,7 +76,7 @@ export const TOEFL_SECTIONS: SkillSection[] = [
       {
         id: 'academic-discussion', title: 'Write for an Academic Discussion', titleTr: 'Akademik Tartışma', emoji: '💬',
         desc: 'Profesörün sorusuna ve öğrenci görüşlerine katkı yaz.',
-        status: 'soon',
+        status: 'ready', href: '/app/writing/academic-discussion',
       },
     ],
   },
