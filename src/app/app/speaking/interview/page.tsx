@@ -4,6 +4,14 @@ import Image from 'next/image'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSpeakingLive } from '@/lib/speaking/useSpeakingLive'
+import {
+  SPEAKING_TOPICS,
+  TOPIC_STAGES,
+  TOPIC_TOTAL_ANSWERS,
+  getTopic,
+  stageForStep,
+  type TopicId,
+} from '@/lib/speaking/topics'
 import { useSpeakingTts } from '@/lib/speaking/useSpeakingTts'
 import styles from './speaking.module.css'
 
@@ -43,10 +51,14 @@ export default function SpeakingPage() {
   const [status, setStatus] = useState<RecStatus>(() => (getSpeechRecognitionCtor() ? 'idle' : 'unsupported'))
   const [toast, setToast] = useState<string | null>(null)
   const [sessionStarted, setSessionStarted] = useState(false)
+  /** null = category picker; 'free' = classic open coach. */
+  const [choice, setChoice] = useState<TopicId | 'free' | null>(null)
+  const topic = choice && choice !== 'free' ? getTopic(choice) : null
+  const coachName = topic?.character.shortName ?? 'Koç'
 
   const recRef = useRef<SpeechRec | null>(null)
   const finalRef = useRef('')
-  const live = useSpeakingLive()
+  const live = useSpeakingLive(topic?.id ?? null)
   const tts = useSpeakingTts()
   const { speakFull, stop: stopTts, enabled: ttsEnabled, setEnabled: setTtsEnabled, isSpeaking, error: ttsError } = tts
   const chatEndRef = useRef<HTMLDivElement | null>(null)
@@ -111,8 +123,8 @@ export default function SpeakingPage() {
 
     if (!last || last.id === lastSpokenIdRef.current) return
     lastSpokenIdRef.current = last.id
-    speakFull(last.content)
-  }, [live.turns, speakFull])
+    speakFull(last.content, { voice: topic?.character.voice })
+  }, [live.turns, speakFull, topic])
 
   const startListening = useCallback(() => {
     const rec = recRef.current
@@ -161,7 +173,7 @@ export default function SpeakingPage() {
       return
     }
     if (live.isBusy) {
-      showToast('⚠ Koç hâlâ yanıtlıyor…')
+      showToast(`⚠ ${coachName} hâlâ yanıtlıyor…`)
       return
     }
     stopListening()
@@ -188,17 +200,68 @@ export default function SpeakingPage() {
     setSessionStarted(false)
   }
 
+  const changeTopic = () => {
+    endLive()
+    setChoice(null)
+  }
+
   const displayAnswer = [transcript, interim].filter(Boolean).join(' ')
   const coachActive = live.turns.some((t) => t.streaming) || isSpeaking
+  const finished = !!topic && sessionStarted && live.answered >= TOPIC_TOTAL_ANSWERS && !live.isBusy
+  const currentStage = stageForStep(live.answered)
+
+  if (choice === null) {
+    return (
+      <main className={styles.page}>
+        <header className={`${styles.header} anim-fade-up`}>
+          <button id="speaking-back" className={styles.back} onClick={() => router.back()} aria-label="Geri">←</button>
+          <div className={styles.headerText}>
+            <h1 className={styles.hTitle}>Mülakat</h1>
+            <p className={styles.hSub}>TOEFL · Take an Interview</p>
+          </div>
+        </header>
+
+        <p className={`${styles.pickIntro} anim-fade-up d1`}>
+          Bir kategori seç. Resimdeki karakter seninle o konuda İngilizce sohbet edecek: önce tanışma, sonra
+          resmi anlatma, kendi deneyimin ve görüşün. Sonunda kısa bir geri bildirim verecek.
+        </p>
+
+        <div className={`${styles.topicGrid} anim-fade-up d2`}>
+          {SPEAKING_TOPICS.map((tp) => (
+            <button key={tp.id} id={`topic-${tp.id}`} className={styles.topicCard} onClick={() => setChoice(tp.id)}>
+              <span className={styles.topicThumb}>
+                <Image
+                  src={tp.image}
+                  alt={tp.imageAlt}
+                  fill
+                  sizes="(max-width: 680px) 50vw, 340px"
+                  className={`${styles.topicImg} ${tp.pixelArt ? styles.pixelated : ''}`}
+                  style={{ objectPosition: tp.focus }}
+                />
+              </span>
+              <span className={styles.topicBody}>
+                <span className={styles.topicLabel}>{tp.emoji} {tp.label}</span>
+                <span className={styles.topicChar}>{tp.character.name} · {tp.character.roleTr}</span>
+              </span>
+            </button>
+          ))}
+        </div>
+
+        <button id="topic-free" className={`${styles.nextBtn} ${styles.freeBtn}`} onClick={() => setChoice('free')}>
+          Serbest sohbet (genel koç) →
+        </button>
+      </main>
+    )
+  }
 
   return (
     <main className={styles.page}>
       <header className={`${styles.header} anim-fade-up`}>
         <button id="speaking-back" className={styles.back} onClick={() => router.back()} aria-label="Geri">←</button>
         <div className={styles.headerText}>
-          <h1 className={styles.hTitle}>Mülakat</h1>
+          <h1 className={styles.hTitle}>{topic ? `${topic.emoji} ${topic.label}` : 'Mülakat'}</h1>
           <p className={styles.hSub}>
-            TOEFL · Take an Interview
+            {topic ? `${topic.character.name} · ${topic.labelEn}` : 'TOEFL · Take an Interview'}
             {live.providerMeta ? ` · ${live.providerMeta.provider}/${live.providerMeta.model}` : ''}
             {ttsEnabled ? ' · TTS' : ' · TTS off'}
           </p>
@@ -208,16 +271,44 @@ export default function SpeakingPage() {
       <div className={`${styles.stage} anim-fade-up d1`}>
         <div className={styles.characterStage}>
           <Image
-            src="/characters/speaking-coach.jpeg"
-            alt="Speaking coach"
-            width={2752}
-            height={1536}
+            src={topic?.image ?? '/characters/speaking-coach.jpeg'}
+            alt={topic?.imageAlt ?? 'Speaking coach'}
+            width={topic ? 1600 : 2752}
+            height={topic ? 900 : 1536}
             sizes="(max-width: 680px) 100vw, 680px"
             loading="eager"
-            className={`${styles.characterImage} ${coachActive ? styles.characterTalking : ''}`}
+            className={`${styles.characterImage} ${!topic || topic.pixelArt ? styles.pixelated : ''} ${coachActive ? styles.characterTalking : ''}`}
+            style={topic ? { objectPosition: topic.focus } : undefined}
           />
+          {topic && (
+            <span className={styles.nameTag}>
+              <strong>{topic.character.name}</strong> · {topic.character.roleTr}
+            </span>
+          )}
           {coachActive && <span className={styles.liveBadge}>{isSpeaking ? 'TTS' : 'Live'}</span>}
         </div>
+
+        {topic && (
+          <ol className={styles.stepper} aria-label="Konuşma aşamaları">
+            {TOPIC_STAGES.map((st) => {
+              const idx = TOPIC_STAGES.indexOf(st)
+              const cur = TOPIC_STAGES.indexOf(currentStage)
+              const state = !sessionStarted
+                ? ''
+                : finished || idx < cur
+                  ? styles.stepDone
+                  : idx === cur
+                    ? styles.stepCurrent
+                    : ''
+              return (
+                <li key={st.id} className={`${styles.step} ${state}`}>
+                  <span className={styles.stepDot}>{idx + 1}</span>
+                  <span className={styles.stepLabel}>{st.label}</span>
+                </li>
+              )
+            })}
+          </ol>
+        )}
 
         <section className={styles.chatBox} aria-live="polite">
           <div className={styles.chatTop}>
@@ -236,18 +327,25 @@ export default function SpeakingPage() {
                   Bitir
                 </button>
               )}
+              {!sessionStarted && (
+                <button type="button" className={styles.clearBtn} onClick={changeTopic}>
+                  Kategori
+                </button>
+              )}
             </div>
           </div>
 
           {!sessionStarted && (
             <p className={`${styles.answerText} ${styles.answerPlaceholder}`}>
-              Live oturumu başlat — koç Ollama (gemma4:e4b) + local Piper TTS ile konuşacak.
+              {topic
+                ? `Live oturumu başlat — ${topic.character.shortName} kendini tanıtıp ilk soruyu soracak. ${TOPIC_TOTAL_ANSWERS} cevaplık bir sohbet olacak.`
+                : 'Live oturumu başlat — koç seninle serbest bir İngilizce sohbet yapacak.'}
             </p>
           )}
 
           {sessionStarted && live.turns.length === 0 && live.isBusy && (
             <p className={`${styles.answerText} ${styles.answerPlaceholder}`}>
-              Koç bağlanıyor…
+              {coachName} bağlanıyor…
             </p>
           )}
 
@@ -259,14 +357,14 @@ export default function SpeakingPage() {
               >
                 <div className={styles.bubbleHead}>
                   <span className={styles.bubbleRole}>
-                    {turn.role === 'user' ? 'Sen' : 'Koç'}
+                    {turn.role === 'user' ? 'Sen' : coachName}
                     {turn.streaming ? ' · …' : ''}
                   </span>
                   {turn.role === 'assistant' && !turn.streaming && turn.content && (
                     <button
                       type="button"
                       className={styles.replayBtn}
-                      onClick={() => speakFull(turn.content)}
+                      onClick={() => speakFull(turn.content, { voice: topic?.character.voice })}
                       aria-label="Yanıtı seslendir"
                     >
                       ▶
@@ -299,7 +397,18 @@ export default function SpeakingPage() {
       </div>
 
       <div className={`${styles.controls} anim-fade-up d2`}>
-        {!sessionStarted ? (
+        {finished ? (
+          <>
+            <p className={styles.doneNote}>✓ Sohbet tamamlandı · {TOPIC_TOTAL_ANSWERS} cevap</p>
+            <button type="button" className={styles.micBtn} onClick={beginLive}>
+              <span className={styles.micIcon}>↺</span>
+              <span>Tekrar Konuş</span>
+            </button>
+            <button type="button" className={styles.nextBtn} onClick={changeTopic}>
+              Başka kategori seç →
+            </button>
+          </>
+        ) : !sessionStarted ? (
           <button
             id="speaking-live-start"
             type="button"
@@ -331,7 +440,7 @@ export default function SpeakingPage() {
               onClick={sendToCoach}
               disabled={live.isBusy || !displayAnswer.trim()}
             >
-              {live.isBusy ? 'Koç yanıtlıyor…' : 'Koça Gönder →'}
+              {live.isBusy ? `${coachName} yanıtlıyor…` : 'Cevabı Gönder →'}
             </button>
 
             {(live.isBusy || isSpeaking) && (
@@ -361,7 +470,7 @@ export default function SpeakingPage() {
       )}
 
       {isSpeaking && (
-        <p className={styles.listeningNote} aria-live="polite">Koç konuşuyor… local TTS</p>
+        <p className={styles.listeningNote} aria-live="polite">{coachName} konuşuyor…</p>
       )}
 
       {toast && <div className="toast">{toast}</div>}

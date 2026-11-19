@@ -125,7 +125,7 @@ export const TOEFL_SECTIONS: SkillSection[] = [
       },
       {
         id: 'interview', title: 'Take an Interview', titleTr: 'Mülakat', emoji: '🎤',
-        desc: 'AI mülakatçının sorularını sesli olarak cevapla.',
+        desc: 'Tarih, edebiyat, sanat veya spor karakteriyle sesli sohbet et.',
         status: 'ready', href: '/app/speaking/interview',
       },
     ],
