@@ -1,18 +1,20 @@
 /**
  * Daily usage quotas for the paid AI features (server only).
  *
- * Limits come from the user's plan (src/lib/plans.ts), sent by the client in
- * the X-Plan header. Enforced in production, or anywhere with QUOTA_ENFORCE=1
- * (QUOTA_ENFORCE=0 turns it off).
+ * Limits come from the caller's plan (src/lib/plans.ts); who the caller is
+ * and which plan they are on is decided in src/lib/auth/server.ts. Enforced
+ * in production, or anywhere with QUOTA_ENFORCE=1 (QUOTA_ENFORCE=0 turns it
+ * off).
  *
- * Counters are kept in memory per device (X-User-Id) or IP and reset daily
- * (UTC). That is enough for a single server; with several instances move the
- * counter to a shared store (Redis / Supabase). Until payments go through a
- * real provider, X-Plan is trusted as sent — the plan must then come from the
- * backend instead.
+ * With Supabase the counters live in the usage_daily table (atomic
+ * consume_usage function), so they survive restarts and are shared by every
+ * server instance. Without it, or if the database cannot be reached, they
+ * are kept in memory. Days are UTC: counters reset at 03:00 Turkey time.
  */
 import { NextResponse, type NextRequest } from 'next/server'
-import { getPlanById, PLAN_BUDGETS, type BudgetKind, type LimitKind, type PlanId } from '@/lib/plans'
+import { PLAN_BUDGETS, getPlanById, type BudgetKind, type LimitKind } from '@/lib/plans'
+import { serverSupabaseEnabled, supabaseAdmin } from '@/lib/auth/admin'
+import { getCaller } from '@/lib/auth/server'
 
 export type QuotaKind = LimitKind
 
@@ -29,90 +31,133 @@ export function quotaEnforced(): boolean {
   return process.env.NODE_ENV === 'production'
 }
 
-export function requestPlan(req: NextRequest): PlanId {
-  return getPlanById(req.headers.get('x-plan')).id
-}
+const today = () => new Date().toISOString().slice(0, 10)
 
-export function quotaLimit(req: NextRequest, kind: QuotaKind): number {
-  return getPlanById(requestPlan(req)).limits[kind]
-}
+/* ── Counter stores ── */
 
-const counters = new Map<string, number>()
-let counterDay = ''
+const memory = new Map<string, number>()
+let memoryDay = ''
 
-function rollDay() {
-  const day = new Date().toISOString().slice(0, 10)
-  if (day !== counterDay) {
-    counters.clear()
-    counterDay = day
+function memoryKey(subject: string, kind: string) {
+  const day = today()
+  if (day !== memoryDay) {
+    memory.clear()
+    memoryDay = day
   }
+  return `${kind}:${subject}`
 }
 
-export function clientKey(req: NextRequest): string {
-  const user = req.headers.get('x-user-id')
-  if (user && /^[\w-]{3,64}$/.test(user)) return `u:${user}`
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('x-real-ip') || 'local'
-  return `ip:${ip}`
+const memoryStore = {
+  consume(subject: string, kind: string, amount: number, limit: number): boolean {
+    const key = memoryKey(subject, kind)
+    const used = memory.get(key) ?? 0
+    if (used + amount > limit) return false
+    memory.set(key, used + amount)
+    return true
+  },
+  refund(subject: string, kind: string, amount: number) {
+    const key = memoryKey(subject, kind)
+    memory.set(key, Math.max(0, (memory.get(key) ?? 0) - amount))
+  },
+  used(subject: string, kind: string): number {
+    return memory.get(memoryKey(subject, kind)) ?? 0
+  },
 }
 
-const counterKey = (req: NextRequest, kind: QuotaKind) => `${kind}:${clientKey(req)}`
+async function consume(subject: string, kind: string, amount: number, limit: number): Promise<boolean> {
+  if (serverSupabaseEnabled) {
+    const { data, error } = await supabaseAdmin().rpc('consume_usage', {
+      p_subject: subject,
+      p_day: today(),
+      p_kind: kind,
+      p_amount: amount,
+      p_limit: limit,
+    })
+    if (!error) return data === true
+    // Still limited (per server instance) while the database is unreachable.
+    console.error('[quota] consume_usage failed, counting in memory:', error.message)
+  }
+  return memoryStore.consume(subject, kind, amount, limit)
+}
 
-export type QuotaResult = { ok: true; remaining: number | null } | { ok: false; limit: number }
+async function refund(subject: string, kind: string, amount: number) {
+  if (serverSupabaseEnabled) {
+    const { error } = await supabaseAdmin().rpc('refund_usage', {
+      p_subject: subject,
+      p_day: today(),
+      p_kind: kind,
+      p_amount: amount,
+    })
+    if (!error) return
+    console.error('[quota] refund_usage failed:', error.message)
+  }
+  memoryStore.refund(subject, kind, amount)
+}
+
+/* ── Plan limits (shown to the user) ── */
+
+export type QuotaResult = { ok: true } | { ok: false; limit: number }
 
 /** Counts one use. Returns ok:false (without counting) once the daily limit is reached. */
-export function consumeQuota(req: NextRequest, kind: QuotaKind): QuotaResult {
-  if (!quotaEnforced()) return { ok: true, remaining: null }
-  rollDay()
-  const limit = quotaLimit(req, kind)
-  const key = counterKey(req, kind)
-  const used = counters.get(key) ?? 0
-  if (used >= limit) return { ok: false, limit }
-  counters.set(key, used + 1)
-  return { ok: true, remaining: limit - used - 1 }
+export async function consumeQuota(req: NextRequest, kind: QuotaKind): Promise<QuotaResult> {
+  if (!quotaEnforced()) return { ok: true }
+  const caller = await getCaller(req)
+  const limit = getPlanById(caller.plan).limits[kind]
+  return (await consume(caller.subject, kind, 1, limit)) ? { ok: true } : { ok: false, limit }
 }
 
 /** Gives a use back (e.g. when the AI call failed and nothing was delivered). */
-export function refundQuota(req: NextRequest, kind: QuotaKind) {
+export async function refundQuota(req: NextRequest, kind: QuotaKind) {
   if (!quotaEnforced()) return
-  const key = counterKey(req, kind)
-  const used = counters.get(key) ?? 0
-  if (used > 0) counters.set(key, used - 1)
+  await refund((await getCaller(req)).subject, kind, 1)
 }
 
-/** Today's usage for the requesting device under its plan. */
-export function usageFor(req: NextRequest) {
-  rollDay()
-  const plan = requestPlan(req)
-  const kinds: QuotaKind[] = ['scoring', 'chat', 'generation']
-  return {
-    plan,
-    enforced: quotaEnforced(),
-    usage: Object.fromEntries(
-      kinds.map((k) => [k, { used: counters.get(counterKey(req, k)) ?? 0, limit: quotaLimit(req, k) }])
-    ) as Record<QuotaKind, { used: number; limit: number }>,
-  }
-}
+/* ── Internal budgets (see PLAN_BUDGETS; not shown to the user) ── */
 
 /**
- * Internal budgets (see PLAN_BUDGETS): like consumeQuota, but an amount per
- * call (e.g. characters) and not shown to the user. Returns false, without
- * counting, when the amount does not fit in what is left today.
+ * Like consumeQuota, but an amount per call (e.g. characters). Returns false,
+ * without counting, when the amount does not fit in what is left today.
  */
-export function consumeBudget(req: NextRequest, kind: BudgetKind, amount = 1): boolean {
+export async function consumeBudget(req: NextRequest, kind: BudgetKind, amount = 1): Promise<boolean> {
   if (!quotaEnforced()) return true
-  rollDay()
-  const limit = PLAN_BUDGETS[requestPlan(req)][kind]
-  const key = `budget:${kind}:${clientKey(req)}`
-  const used = counters.get(key) ?? 0
-  if (used + amount > limit) return false
-  counters.set(key, used + amount)
-  return true
+  const caller = await getCaller(req)
+  return consume(caller.subject, kind, amount, PLAN_BUDGETS[caller.plan][kind])
 }
 
-export function refundBudget(req: NextRequest, kind: BudgetKind, amount = 1) {
+export async function refundBudget(req: NextRequest, kind: BudgetKind, amount = 1) {
   if (!quotaEnforced()) return
-  const key = `budget:${kind}:${clientKey(req)}`
-  counters.set(key, Math.max(0, (counters.get(key) ?? 0) - amount))
+  await refund((await getCaller(req)).subject, kind, amount)
+}
+
+/* ── Usage summary (plans page and home card) ── */
+
+const LIMIT_KINDS: QuotaKind[] = ['scoring', 'chat', 'generation']
+
+export async function usageFor(req: NextRequest) {
+  const caller = await getCaller(req)
+  const plan = getPlanById(caller.plan)
+  const used: Record<string, number> = {}
+
+  if (serverSupabaseEnabled) {
+    const { data, error } = await supabaseAdmin()
+      .from('usage_daily')
+      .select('kind, used')
+      .eq('subject', caller.subject)
+      .eq('day', today())
+    if (error) console.error('[quota] could not read usage:', error.message)
+    for (const row of (data ?? []) as { kind: string; used: number }[]) used[row.kind] = row.used
+  } else {
+    for (const k of LIMIT_KINDS) used[k] = memoryStore.used(caller.subject, k)
+  }
+
+  return {
+    plan: plan.id,
+    signedIn: caller.userId !== null,
+    enforced: quotaEnforced(),
+    usage: Object.fromEntries(
+      LIMIT_KINDS.map((k) => [k, { used: used[k] ?? 0, limit: plan.limits[k] }])
+    ) as Record<QuotaKind, { used: number; limit: number }>,
+  }
 }
 
 export function quotaExceeded(kind: QuotaKind, limit: number) {

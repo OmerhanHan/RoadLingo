@@ -61,7 +61,7 @@ export async function serveContent<T, R>(opts: {
   const unseen = pickUnseen<T>(task, level, seen, filter)
   if (unseen) return respond(unseen.data, 'bank', unseen.id)
 
-  if (liveAiEnabled() && consumeQuota(req, 'generation').ok) {
+  if (liveAiEnabled() && (await consumeQuota(req, 'generation')).ok) {
     try {
       const data = await generate(req.signal)
       let id = contentId(data)
@@ -74,7 +74,7 @@ export async function serveContent<T, R>(opts: {
       }
       return respond(data, 'ai', id)
     } catch (err) {
-      refundQuota(req, 'generation')
+      await refundQuota(req, 'generation')
       console.warn(`[content:${task}] live generation failed:`, err instanceof Error ? err.message : err)
     }
   }

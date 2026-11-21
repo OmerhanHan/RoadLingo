@@ -44,7 +44,7 @@ const poolTopic = () => NextResponse.json({ topic: TOPICS_POOL[Math.floor(Math.r
 
 export async function GET(req: NextRequest) {
   // No API key, or today's AI topic budget is used up → a topic from the fixed pool.
-  if (!process.env.GOOGLE_AI_API_KEY || !consumeBudget(req, 'topics')) return poolTopic()
+  if (!process.env.GOOGLE_AI_API_KEY || !(await consumeBudget(req, 'topics'))) return poolTopic()
 
   try {
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
@@ -60,7 +60,7 @@ The topic should be different from these common ones: ${TOPICS_POOL.slice(0, 5).
     return NextResponse.json({ topic })
   } catch (err) {
     console.error('[topic] Error:', err)
-    refundBudget(req, 'topics')
+    await refundBudget(req, 'topics')
     return poolTopic()
   }
 }

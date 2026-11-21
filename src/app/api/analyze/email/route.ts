@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'GOOGLE_AI_API_KEY is not configured' }, { status: 500 })
     }
 
-    const quota = consumeQuota(req, 'scoring')
+    const quota = await consumeQuota(req, 'scoring')
     if (!quota.ok) return quotaExceeded('scoring', quota.limit)
     charged = true
 
@@ -93,7 +93,7 @@ ${body}`
 
     return NextResponse.json(feedback)
   } catch (err) {
-    if (charged) refundQuota(req, 'scoring')
+    if (charged) await refundQuota(req, 'scoring')
     console.error('[analyze/email] Error:', err)
     return NextResponse.json(
       { error: 'Email analysis failed', detail: err instanceof Error ? err.message : String(err) },

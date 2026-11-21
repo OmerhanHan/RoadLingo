@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/contexts/AuthContext'
 import AuthShowcase from '@/components/AuthShowcase'
+import GoogleButton from '@/components/GoogleButton'
 import styles from '../login/login.module.css'
 
 export default function RegisterPage() {
@@ -13,6 +14,8 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('')
   const [error, setError]       = useState('')
   const [loading, setLoading]   = useState(false)
+  /** Set when the account waits for the email confirmation link. */
+  const [sentTo, setSentTo]     = useState<string | null>(null)
   const { register } = useAuth()
   const router       = useRouter()
 
@@ -21,8 +24,12 @@ export default function RegisterPage() {
     if (!name || !email || !password) { setError('Lütfen tüm alanları doldurun.'); return }
     if (password.length < 6) { setError('Şifre en az 6 karakter olmalı.'); return }
     setLoading(true)
-    try { await register(email, password, name); router.push('/app/home') }
-    catch { setError('Kayıt başarısız.') }
+    try {
+      const { needsConfirmation } = await register(email, password, name.trim())
+      if (needsConfirmation) setSentTo(email)
+      else router.push('/app/home')
+    }
+    catch (err) { setError(err instanceof Error && err.message ? err.message : 'Kayıt başarısız.') }
     finally { setLoading(false) }
   }
 
@@ -35,24 +42,36 @@ export default function RegisterPage() {
           <span className={styles.logoSub}>Hesap Oluştur</span>
         </div>
         <hr className={styles.rule} />
-        <form onSubmit={submit} className={styles.form}>
-          <div className={styles.field}>
-            <label htmlFor="reg-name" className={styles.label}>Ad Soyad</label>
-            <input id="reg-name" type="text" className={styles.input} placeholder="Adınız" value={name} onChange={e => setName(e.target.value)} />
+        {sentTo ? (
+          <div className={styles.center}>
+            <p className={styles.notice}>
+              Doğrulama bağlantısını <strong>{sentTo}</strong> adresine gönderdik. Bağlantıya tıkladığında hesabın açılacak.
+            </p>
+            <button type="button" className={styles.forgot} onClick={() => setSentTo(null)}>Farklı bir e-posta kullan</button>
           </div>
-          <div className={styles.field}>
-            <label htmlFor="reg-email" className={styles.label}>E-posta</label>
-            <input id="reg-email" type="email" className={styles.input} placeholder="ornek@email.com" value={email} onChange={e => setEmail(e.target.value)} />
-          </div>
-          <div className={styles.field}>
-            <label htmlFor="reg-password" className={styles.label}>Şifre</label>
-            <input id="reg-password" type="password" className={styles.input} placeholder="En az 6 karakter" value={password} onChange={e => setPassword(e.target.value)} />
-          </div>
-          {error && <p className={styles.error}>{error}</p>}
-          <button id="register-submit" type="submit" className={styles.submitBtn} disabled={loading}>
-            {loading ? <span className="spinner" /> : '→ Kayıt Ol'}
-          </button>
-        </form>
+        ) : (
+          <>
+            <GoogleButton onError={setError} />
+            <form onSubmit={submit} className={styles.form}>
+              <div className={styles.field}>
+                <label htmlFor="reg-name" className={styles.label}>Ad Soyad</label>
+                <input id="reg-name" type="text" className={styles.input} placeholder="Adınız" value={name} onChange={e => setName(e.target.value)} autoComplete="name" />
+              </div>
+              <div className={styles.field}>
+                <label htmlFor="reg-email" className={styles.label}>E-posta</label>
+                <input id="reg-email" type="email" className={styles.input} placeholder="ornek@email.com" value={email} onChange={e => setEmail(e.target.value)} autoComplete="email" />
+              </div>
+              <div className={styles.field}>
+                <label htmlFor="reg-password" className={styles.label}>Şifre</label>
+                <input id="reg-password" type="password" className={styles.input} placeholder="En az 6 karakter" value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" />
+              </div>
+              {error && <p className={styles.error}>{error}</p>}
+              <button id="register-submit" type="submit" className={styles.submitBtn} disabled={loading}>
+                {loading ? <span className="spinner" /> : '→ Kayıt Ol'}
+              </button>
+            </form>
+          </>
+        )}
         <p className={styles.foot}>Zaten hesabın var mı? <Link href="/auth/login" id="go-login" className={styles.link}>Giriş yap</Link></p>
       </div>
     </div>

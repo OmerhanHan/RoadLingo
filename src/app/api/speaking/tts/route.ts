@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
 
     // Cached audio costs nothing; only new synthesis counts against the daily
     // character budget. Past it the clients fall back to the browser voice.
-    if (!cached && !consumeBudget(req, 'ttsChars', text.length)) {
+    if (!cached && !(await consumeBudget(req, 'ttsChars', text.length))) {
       return NextResponse.json(
         { error: 'Bugünkü sunucu sesi sınırı doldu; tarayıcı sesi kullanılacak.', code: 'tts_limit' },
         { status: 429, headers: { 'Retry-After': '3600' } }
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
           voice,
         }))
     } catch (err) {
-      if (!cached) refundBudget(req, 'ttsChars', text.length)
+      if (!cached) await refundBudget(req, 'ttsChars', text.length)
       throw err
     }
     // Only cache the intended provider's voice, not a lower-quality fallback.

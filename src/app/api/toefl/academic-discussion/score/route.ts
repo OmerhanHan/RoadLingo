@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'prompt required' }, { status: 400 })
   }
 
-  const quota = consumeQuota(req, 'scoring')
+  const quota = await consumeQuota(req, 'scoring')
   if (!quota.ok) return quotaExceeded('scoring', quota.limit)
 
   try {
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
     if (!score) throw new Error('Score failed validation')
     return NextResponse.json(score)
   } catch (err) {
-    refundQuota(req, 'scoring')
+    await refundQuota(req, 'scoring')
     console.error('[toefl/academic-discussion/score]', err)
     return NextResponse.json(
       { error: 'Puanlama yapılamadı', detail: err instanceof Error ? err.message : String(err) },

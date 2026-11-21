@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'messages required' }, { status: 400 })
     }
 
-    const quota = consumeQuota(req, 'chat')
+    const quota = await consumeQuota(req, 'chat')
     if (!quota.ok) return quotaExceeded('chat', quota.limit)
 
     const topic = getTopic(body.topic)
