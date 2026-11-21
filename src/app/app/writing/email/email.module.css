@@ -749,3 +749,26 @@
   border: none;
   border-radius: 0;
 }
+
+/* Compose tab columns: stacked on phones (same flow as before), side by side on desktop. */
+.composeAside, .composeMain { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+
+@media (min-width: 1024px) {
+  .page { max-width: var(--wide-w); padding: 28px 40px 40px; }
+  /* clip (not hidden) so the sticky brief column keeps working */
+  .mailApp { overflow: clip; }
+
+  .mailBody {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr);
+    gap: 20px;
+    align-items: start;
+    padding: 20px;
+  }
+  /* Brief and timer stay in view while writing. */
+  .composeAside { position: sticky; top: 24px; }
+
+  .bodyArea { min-height: 360px; }
+
+  .historyLayout { grid-template-columns: 300px 1fr; min-height: 600px; }
+}

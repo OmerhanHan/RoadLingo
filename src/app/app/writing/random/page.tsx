@@ -128,61 +128,63 @@ export default function RandomPage() {
         </div>
       </header>
 
-      <div className={`anim-fade-up d1`}>
-        <div className={styles.slotSection}>
-          <span className={styles.slotLabel}>🎰 Konu Çekilişi</span>
+      <div className={`${styles.workspace} ${topic && !rolling ? styles.workspaceSplit : ''}`}>
+        <div className={`${styles.drawCol} anim-fade-up d1`}>
+          <div className={styles.slotSection}>
+            <span className={styles.slotLabel}>🎰 Konu Çekilişi</span>
 
-          <div className={styles.slotMachine}>
-            <div className={styles.slotHighlight} />
+            <div className={styles.slotMachine}>
+              <div className={styles.slotHighlight} />
 
-            {slotText ? (
-              <div className={`${styles.slotItem} ${styles.slotItemCenter} ${!rolling ? styles.slotSelected : ''}`}>
-                {slotText}
-              </div>
-            ) : (
-              <div className={styles.slotIdle}>Konu üretmek için butona bas</div>
-            )}
+              {slotText ? (
+                <div className={`${styles.slotItem} ${styles.slotItemCenter} ${!rolling ? styles.slotSelected : ''}`}>
+                  {slotText}
+                </div>
+              ) : (
+                <div className={styles.slotIdle}>Konu üretmek için butona bas</div>
+              )}
+            </div>
+
+            <button id="spin-btn" className={styles.spinBtn} onClick={handleSpin} disabled={rolling}>
+              {rolling ? <><span className="spinner spinner-ink" /> Çekiliyor...</> : topic ? '↺  Yeni Konu Çek' : '▶  Konu Çek'}
+            </button>
           </div>
 
-          <button id="spin-btn" className={styles.spinBtn} onClick={handleSpin} disabled={rolling}>
-            {rolling ? <><span className="spinner spinner-ink" /> Çekiliyor...</> : topic ? '↺  Yeni Konu Çek' : '▶  Konu Çek'}
-          </button>
+          {/* Text = aynı topic değişkeni */}
+          {topic && !rolling && (
+            <div className={styles.topicReveal} id="generated-topic">
+              <p className={styles.topicRevealLabel}>✓ Seçilen Konu</p>
+              <p className={styles.topicRevealText}>{topic}</p>
+            </div>
+          )}
         </div>
 
-        {/* Text = aynı topic değişkeni */}
         {topic && !rolling && (
-          <div className={styles.topicReveal} id="generated-topic">
-            <p className={styles.topicRevealLabel}>✓ Seçilen Konu</p>
-            <p className={styles.topicRevealText}>{topic}</p>
+          <div className={`${styles.body} ${styles.essayCol} anim-fade-up`}>
+            <div>
+              <label htmlFor="random-textarea" className={styles.fieldLabel}>✎ Yazı</label>
+              <div className={styles.editorWrap}>
+                <div className={styles.editorTop}>
+                  <span className={styles.editorLabel}>English Essay</span>
+                  <span className={`${styles.wordCount} ${wordCount >= 250 ? styles.wordCountOk : ''}`}>{wordCount} / 250 words</span>
+                </div>
+                <textarea id="random-textarea" className={styles.textarea}
+                  placeholder="Start writing your essay in English here..."
+                  value={content} onChange={e => setContent(e.target.value)} rows={12} />
+                <div className={styles.progressRow}>
+                  <div className={styles.progressTrack}>
+                    <div className={`${styles.progressFill} ${progress >= 100 ? styles.progressDone : ''}`} style={{ width: `${progress}%` }} />
+                  </div>
+                  {wordCount >= 250 && <p className={styles.progressMsg}>✓ Hedef kelime sayısına ulaştın!</p>}
+                </div>
+              </div>
+            </div>
+            <button id="save-random-btn" className={styles.saveBtn} onClick={handleSave} disabled={saving || analyzing}>
+              {saving ? <><span className="spinner" /> Kaydediliyor...</> : analyzing ? <><span className="spinner" /> AI Analiz Ediyor...</> : '→ Kaydet'}
+            </button>
           </div>
         )}
       </div>
-
-      {topic && !rolling && (
-        <div className={`${styles.body} anim-fade-up`} style={{ marginTop: 24 }}>
-          <div>
-            <label htmlFor="random-textarea" className={styles.fieldLabel}>✎ Yazı</label>
-            <div className={styles.editorWrap}>
-              <div className={styles.editorTop}>
-                <span className={styles.editorLabel}>English Essay</span>
-                <span className={`${styles.wordCount} ${wordCount >= 250 ? styles.wordCountOk : ''}`}>{wordCount} / 250 words</span>
-              </div>
-              <textarea id="random-textarea" className={styles.textarea}
-                placeholder="Start writing your essay in English here..."
-                value={content} onChange={e => setContent(e.target.value)} rows={12} />
-              <div className={styles.progressRow}>
-                <div className={styles.progressTrack}>
-                  <div className={`${styles.progressFill} ${progress >= 100 ? styles.progressDone : ''}`} style={{ width: `${progress}%` }} />
-                </div>
-                {wordCount >= 250 && <p className={styles.progressMsg}>✓ Hedef kelime sayısına ulaştın!</p>}
-              </div>
-            </div>
-          </div>
-          <button id="save-random-btn" className={styles.saveBtn} onClick={handleSave} disabled={saving || analyzing}>
-            {saving ? <><span className="spinner" /> Kaydediliyor...</> : analyzing ? <><span className="spinner" /> AI Analiz Ediyor...</> : '→ Kaydet'}
-          </button>
-        </div>
-      )}
 
       {showModal && (
         <div className={styles.modalOverlay} onClick={() => setShowModal(false)}>

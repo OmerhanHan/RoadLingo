@@ -54,3 +54,11 @@
 .correction { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; padding: 10px 12px; background: var(--warm-white); border: 1.5px solid var(--border); border-radius: var(--radius-xs); font-size: 14px; }
 .corrOld { color: var(--rose-dark); text-decoration: line-through; }
 .corrNew { color: var(--sage-dark); font-weight: 600; }
+
+/* ── Desktop: forum on the left, your post and the score on the right ── */
+@media (min-width: 1024px) {
+  .board { margin-bottom: 0; padding: 20px; gap: 18px; }
+  .postText { font-size: 15px; }
+  .post_prof .postText { font-size: 15.5px; }
+  .textarea { min-height: 340px; }
+}
