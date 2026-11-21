@@ -72,6 +72,11 @@ export default function BottomNav() {
           ))}
         </div>
 
+        <p className={styles.sideHeading}>Pratik</p>
+        <div className={styles.sideGroup}>
+          <SideLink icon="🔍" label="Oyunlar" active={isActive('/app/games')} onClick={() => go('/app/games')} />
+        </div>
+
         <p className={styles.sideHeading}>Hesap</p>
         <div className={styles.sideGroup}>
           <SideLink icon="◷" label="Geçmiş" active={isActive('/app/history')} onClick={() => go('/app/history')} />

@@ -40,6 +40,11 @@ export async function serveContent<T, R>(opts: {
   finalize: (data: T, meta: ServeMeta) => R
   /** Restricts bank picks (e.g. a specific genre). */
   filter?: (data: T) => boolean
+  /**
+   * false: never generate during a user request; only the content script
+   * (`fresh=1`, dev) does, so every item can be reviewed before users see it.
+   */
+  liveAi?: boolean
 }): Promise<NextResponse> {
   const { task, req, level, generate, fallback, finalize, filter } = opts
   const respond = (data: T, source: ContentSource, id = contentId(data)) =>
@@ -61,7 +66,7 @@ export async function serveContent<T, R>(opts: {
   const unseen = pickUnseen<T>(task, level, seen, filter)
   if (unseen) return respond(unseen.data, 'bank', unseen.id)
 
-  if (liveAiEnabled() && (await consumeQuota(req, 'generation')).ok) {
+  if (opts.liveAi !== false && liveAiEnabled() && (await consumeQuota(req, 'generation')).ok) {
     try {
       const data = await generate(req.signal)
       let id = contentId(data)

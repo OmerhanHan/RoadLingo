@@ -77,6 +77,15 @@ export default function HomePage() {
         })}
       </div>
 
+      <button id="home-games" className={`${styles.historyRow} ${styles.gamesRow} anim-fade-up d3`} onClick={() => router.push('/app/games')}>
+        <span className={styles.cardEmoji}>🔍</span>
+        <span className={styles.historyText}>
+          <span className={styles.cardTitle}>Oyunlar</span>
+          <span className={styles.cardDesc}>Hata Avı: 1 dakikada gizli hataları bul · Sınırsız</span>
+        </span>
+        <span className={styles.historyArrow}>→</span>
+      </button>
+
       <button id="home-history" className={`${styles.historyRow} anim-fade-up d3`} onClick={() => router.push('/app/history')}>
         <span className={styles.cardEmoji}>📁</span>
         <span className={styles.historyText}>
