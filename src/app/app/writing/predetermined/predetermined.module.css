@@ -96,3 +96,9 @@
   transition: border-color 0.15s;
 }
 .btnNo:hover { border-color: var(--border-dark); }
+
+/* ── Desktop: a wider writing sheet with a taller editor ── */
+@media (min-width: 1024px) {
+  .page { max-width: 880px; padding: 0 40px 48px; }
+  .textarea { min-height: 440px; }
+}

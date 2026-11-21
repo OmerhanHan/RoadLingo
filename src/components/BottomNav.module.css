@@ -4,6 +4,7 @@
   z-index: 100;
   border-top: 2px solid var(--ink);
   background: var(--warm-white);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 .inner {
@@ -44,4 +45,76 @@
   font-weight: 500;
   letter-spacing: 0.4px;
   text-transform: uppercase;
+}
+
+/* ── Sidebar (wide screens only) ── */
+.sidebar { display: none; }
+
+@media (min-width: 1024px) {
+  .nav { display: none; }
+
+  .sidebar {
+    position: fixed;
+    top: 0; bottom: 0; left: 0;
+    z-index: 100;
+    width: calc(var(--side-w) + var(--sal));
+    padding: calc(24px + var(--sat)) 16px calc(20px + var(--sab)) calc(16px + var(--sal));
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow-y: auto;
+    background: var(--warm-white);
+    border-right: 2px solid var(--ink);
+  }
+
+  .brand { display: block; padding: 0 8px 18px; text-align: left; }
+  .brandLogo { width: 120px; height: auto; display: block; object-fit: contain; }
+
+  .sideHeading {
+    margin: 18px 10px 6px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-4);
+  }
+
+  .sideGroup { display: flex; flex-direction: column; gap: 2px; }
+
+  .sideLink {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid transparent;
+    border-radius: var(--radius-xs);
+    text-align: left;
+    font-size: 14.5px;
+    color: var(--text-2);
+    transition: background 0.12s, color 0.12s, border-color 0.12s;
+  }
+  .sideLink:hover { background: var(--sage-light); color: var(--ink); }
+  .sideLinkActive { background: var(--sage-light); border-color: var(--sage-dark); color: var(--ink); font-weight: 600; }
+  .sideIcon { width: 22px; text-align: center; font-size: 17px; line-height: 1; }
+
+  .planChip {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+    padding: 12px 14px;
+    text-align: left;
+    border: 1.5px solid var(--border-dark);
+    border-radius: var(--radius-xs);
+    background: var(--cream);
+    transition: border-color 0.12s, transform 0.12s;
+  }
+  .planChip:hover { border-color: var(--ink); transform: translateY(-1px); }
+  .planChipFree { background: var(--butter-light); border-color: var(--ink); box-shadow: 3px 3px 0 var(--ink); }
+  .planChipActive { border-color: var(--sage-dark); }
+  .planChipLabel { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-3); }
+  .planChipName { font-size: 15px; font-weight: 600; color: var(--ink); }
+  .planChipCta { font-family: var(--font-mono); font-size: 11.5px; color: var(--ink); margin-top: 4px; }
 }

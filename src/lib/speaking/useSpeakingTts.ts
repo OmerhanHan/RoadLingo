@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { planHeaders } from '@/lib/plans'
 
 type TtsStatus = 'idle' | 'loading' | 'playing' | 'error'
 
@@ -45,7 +46,7 @@ async function fetchServerTts(
 ): Promise<{ blob: Blob; provider: string; model: string }> {
   const res = await fetch('/api/speaking/tts', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...planHeaders() },
     body: JSON.stringify({ text, voice }),
     signal,
   })

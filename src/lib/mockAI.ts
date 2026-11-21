@@ -1,4 +1,5 @@
 import { planHeaders } from '@/lib/plans'
+import { QuotaError, throwIfQuota } from '@/lib/upgrade'
 import type { Feedback, GrammarError } from './supabase'
 
 /* Fallback topic pool — only used by the commented-out generateTopic() below.
@@ -91,6 +92,7 @@ export async function analyzeWriting(content: string, topic: string): Promise<Fe
       body: JSON.stringify({ content, topic }),
     })
 
+    await throwIfQuota(res)
     if (!res.ok) {
       const err = await res.json().catch(() => ({}))
       throw new Error(err.detail || err.error || `HTTP ${res.status}`)
@@ -113,6 +115,8 @@ export async function analyzeWriting(content: string, topic: string): Promise<Fe
 
     return feedback
   } catch (err) {
+    // A daily-limit hit must not be hidden behind made-up feedback.
+    if (err instanceof QuotaError) throw err
     console.warn('[analyzeWriting] Gemini failed, using mock fallback:', err)
     // Wait a moment to simulate thinking time
     await new Promise(r => setTimeout(r, 1500))

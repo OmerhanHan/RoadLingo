@@ -1,5 +1,9 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
-import { NextResponse } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
+import { consumeBudget, refundBudget } from '@/lib/usage/quota'
+
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY!)
 
@@ -36,14 +40,13 @@ const TOPICS_POOL = [
   "The impact of immigration on host countries",
 ]
 
-export async function GET() {
-  try {
-    if (!process.env.GOOGLE_AI_API_KEY) {
-      // Fallback to random from pool if no API key
-      const topic = TOPICS_POOL[Math.floor(Math.random() * TOPICS_POOL.length)]
-      return NextResponse.json({ topic })
-    }
+const poolTopic = () => NextResponse.json({ topic: TOPICS_POOL[Math.floor(Math.random() * TOPICS_POOL.length)] })
 
+export async function GET(req: NextRequest) {
+  // No API key, or today's AI topic budget is used up → a topic from the fixed pool.
+  if (!process.env.GOOGLE_AI_API_KEY || !consumeBudget(req, 'topics')) return poolTopic()
+
+  try {
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
 
     const prompt = `Generate one unique, thought-provoking IELTS Academic Writing Task 2 essay topic.
@@ -57,8 +60,7 @@ The topic should be different from these common ones: ${TOPICS_POOL.slice(0, 5).
     return NextResponse.json({ topic })
   } catch (err) {
     console.error('[topic] Error:', err)
-    // Fallback to pool on error
-    const topic = TOPICS_POOL[Math.floor(Math.random() * TOPICS_POOL.length)]
-    return NextResponse.json({ topic })
+    refundBudget(req, 'topics')
+    return poolTopic()
   }
 }

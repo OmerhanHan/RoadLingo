@@ -1,0 +1,84 @@
+/* Bottom sheet on phones, centered card on wider screens. */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(44, 36, 22, 0.45);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease;
+}
+
+.sheet {
+  width: 100%;
+  max-width: var(--max-w);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  background: var(--warm-white);
+  border: 2px solid var(--ink);
+  border-bottom: none;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  padding: 10px 24px calc(24px + var(--sab));
+  animation: slideInUp 0.28s ease;
+}
+
+.grabber {
+  width: 40px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--border-dark);
+  margin-bottom: 8px;
+}
+
+.icon {
+  font-size: 30px;
+  line-height: 1;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--text);
+}
+
+.body {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text-2);
+  max-width: 400px;
+}
+
+.actions {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+@media (min-width: 640px) {
+  .overlay {
+    align-items: center;
+    padding: 24px;
+  }
+
+  .sheet {
+    max-width: 420px;
+    border-bottom: 2px solid var(--ink);
+    border-radius: var(--radius-sm);
+    box-shadow: 6px 6px 0 var(--ink);
+    padding: 28px;
+    animation: scaleIn 0.25s ease;
+  }
+
+  .grabber {
+    display: none;
+  }
+}

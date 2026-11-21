@@ -117,3 +117,8 @@
   color: var(--text-3);
 }
 .link { color: var(--sage-dark); font-weight: 500; border-bottom: 1px solid var(--sage-dark); }
+
+/* ── Desktop: brand panel on the left, the form card on the right ── */
+@media (min-width: 1024px) {
+  .wrap { gap: 80px; padding: 48px; }
+}

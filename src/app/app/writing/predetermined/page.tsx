@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { saveWriting, updateWritingFeedback } from '@/lib/storage'
 import { analyzeWriting } from '@/lib/mockAI'
+import { QuotaError } from '@/lib/upgrade'
 import styles from './predetermined.module.css'
 
 export default function PredeterminedPage() {
@@ -31,10 +32,15 @@ export default function PredeterminedPage() {
   const handleAnalyze = async () => {
     if (!savedId) return
     setShowModal(false); setAnalyzing(true)
-    const fb = await analyzeWriting(content, topic)
-    updateWritingFeedback(savedId, fb)
-    setAnalyzing(false)
-    router.push(`/app/history/${savedId}`)
+    try {
+      const fb = await analyzeWriting(content, topic)
+      updateWritingFeedback(savedId, fb)
+      setAnalyzing(false)
+      router.push(`/app/history/${savedId}`)
+    } catch (e) {
+      setAnalyzing(false)
+      showToast(e instanceof QuotaError ? 'Yazın kaydedildi. Günlük değerlendirme hakkın doldu.' : '❌ Analiz başarısız')
+    }
   }
 
   const handleSkip = () => {

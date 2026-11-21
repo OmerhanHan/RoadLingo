@@ -165,3 +165,22 @@
 .btnYes:hover { transform:translate(-1px,-1px); box-shadow: 4px 4px 0 var(--ink-light); }
 .btnNo { background: transparent; color: var(--text-2); border: 2px solid var(--border); border-radius: var(--radius-xs); padding:13px; font-family: var(--font-mono); font-size:13px; font-weight:500; text-transform:uppercase; letter-spacing:0.8px; transition: border-color 0.15s; }
 .btnNo:hover { border-color: var(--border-dark); }
+
+/* Topic draw + essay: stacked on phones; side by side on desktop once a topic is drawn. */
+.essayCol { margin-top: 24px; }
+
+@media (min-width: 1024px) {
+  .page { max-width: var(--wide-w); padding: 0 40px 48px; }
+  /* Before a topic is drawn, the slot machine stays centered at reading width. */
+  .workspace { max-width: var(--max-w); margin: 0 auto; }
+  .workspaceSplit {
+    max-width: none;
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr);
+    gap: 32px;
+    align-items: start;
+  }
+  .workspaceSplit .drawCol { position: sticky; top: 24px; }
+  .workspaceSplit .essayCol { margin-top: 0; }
+  .textarea { min-height: 420px; }
+}

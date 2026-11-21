@@ -1,0 +1,66 @@
+/* Hidden on phones and tablets; the auth card stands alone there. */
+.panel { display: none; }
+
+@media (min-width: 1024px) {
+  .panel {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-width: 460px;
+    animation: fadeIn 0.5s ease both;
+  }
+
+  .mascot {
+    width: 104px;
+    height: 104px;
+    image-rendering: pixelated;
+  }
+
+  .title {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 1.12;
+    color: var(--ink);
+  }
+
+  .lead {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-2);
+  }
+
+  .sections { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-xs);
+    box-shadow: 2px 2px 0 var(--ink);
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .chip_reading   { background: var(--slate-light); }
+  .chip_writing   { background: var(--sage-light); }
+  .chip_listening { background: var(--rose-light); }
+  .chip_speaking  { background: var(--butter-light); }
+
+  .points {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 18px;
+    border-top: 1.5px dashed var(--border-dark);
+  }
+  .points li {
+    display: flex;
+    gap: 10px;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--text-2);
+  }
+  .check { color: var(--sage-dark); font-weight: 700; }
+}

@@ -1,5 +1,6 @@
 'use client'
 import { planHeaders } from '@/lib/plans'
+import { reportQuota } from '@/lib/upgrade'
 import { markSeen, seenParam } from '@/lib/content/seen'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -108,6 +109,7 @@ export default function AcademicDiscussionPage() {
       })
       const data = await res.json()
       if (res.status === 429) {
+        reportQuota({ kind: 'scoring', message: data.error || 'Günlük değerlendirme hakkın doldu.' })
         setError(data.error || 'Günlük değerlendirme hakkın doldu.')
         setPhase('writing')
         return
@@ -124,7 +126,7 @@ export default function AcademicDiscussionPage() {
   }, [prompt, text, words])
 
   return (
-    <main className={t.page}>
+    <main className={`${t.page} ${t.pageWide}`}>
       <header className={`${t.header} anim-fade-up`}>
         <button id="back-btn" className={t.back} onClick={() => router.back()} aria-label="Geri">←</button>
         <div>
@@ -173,103 +175,109 @@ export default function AcademicDiscussionPage() {
             )}
           </div>
 
-          <div className={styles.board}>
-            <Post post={prompt.professor} role="Professor" variant="prof" />
-            <div className={styles.replies}>
-              <Post post={prompt.students[0]} role="Student" variant="a" />
-              <Post post={prompt.students[1]} role="Student" variant="b" />
+          <div className={t.split}>
+            <div className={t.splitText}>
+              <div className={styles.board}>
+                <Post post={prompt.professor} role="Professor" variant="prof" />
+                <div className={styles.replies}>
+                  <Post post={prompt.students[0]} role="Student" variant="a" />
+                  <Post post={prompt.students[1]} role="Student" variant="b" />
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div className={styles.editor}>
-            <div className={styles.editorTop}>
-              <span className={t.label} style={{ margin: 0 }}>✎ Senin gönderin</span>
-              <span className={`${styles.wordCount} ${words >= DISCUSSION_MIN_WORDS ? styles.wordOk : ''}`}>
-                {words} / {DISCUSSION_MIN_WORDS}+ kelime
-              </span>
-            </div>
-            <textarea
-              id="discussion-textarea"
-              className={styles.textarea}
-              placeholder="Write your post here. State your opinion clearly and respond to your classmates' ideas…"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              readOnly={phase !== 'writing' || timeUp}
-              spellCheck={false}
-              rows={9}
-            />
-            <div className={styles.progressTrack}>
-              <div className={styles.progressFill} style={{ width: `${Math.min(100, (words / DISCUSSION_MIN_WORDS) * 100)}%` }} />
-            </div>
-          </div>
-
-          {timeUp && <div className={`${t.feedback} ${t.feedbackBad} ${styles.gap}`}>⏰ Süre doldu. Gönderini puanlatabilirsin.</div>}
-          {error && phase === 'writing' && <div className={`${t.feedback} ${t.feedbackBad} ${styles.gap}`}>{error}</div>}
-
-          {phase === 'writing' && (
-            <button id="discussion-submit" className={t.primaryBtn} onClick={submit} disabled={!words}>
-              {words < DISCUSSION_MIN_WORDS && words > 0 ? `Yine de gönder (${words} kelime)` : '✓ Gönder ve Puanla'}
-            </button>
-          )}
-
-          {phase === 'scoring' && (
-            <div className={t.loading}>
-              <span className="spinner spinner-ink" />
-              AI cevabını değerlendiriyor...
-            </div>
-          )}
-
-          {phase === 'result' && result && (
-            <div className={`${styles.result} anim-fade-up`}>
-              <div className={t.summary}>
-                <span className={t.scoreSub}>TOEFL Puanı</span>
-                <span className={t.score}>{result.score} / 5</span>
-                {result.summary && <p className={t.introText}>{result.summary}</p>}
+            <div className={t.splitSide}>
+              <div className={styles.editor}>
+                <div className={styles.editorTop}>
+                  <span className={t.label} style={{ margin: 0 }}>✎ Senin gönderin</span>
+                  <span className={`${styles.wordCount} ${words >= DISCUSSION_MIN_WORDS ? styles.wordOk : ''}`}>
+                    {words} / {DISCUSSION_MIN_WORDS}+ kelime
+                  </span>
+                </div>
+                <textarea
+                  id="discussion-textarea"
+                  className={styles.textarea}
+                  placeholder="Write your post here. State your opinion clearly and respond to your classmates' ideas…"
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  readOnly={phase !== 'writing' || timeUp}
+                  spellCheck={false}
+                  rows={9}
+                />
+                <div className={styles.progressTrack}>
+                  <div className={styles.progressFill} style={{ width: `${Math.min(100, (words / DISCUSSION_MIN_WORDS) * 100)}%` }} />
+                </div>
               </div>
 
-              <div className={styles.criteria}>
-                {(Object.keys(CRITERION_LABEL) as DiscussionCriterion[]).map((c) => (
-                  <div key={c} className={styles.critRow}>
-                    <span className={styles.critLabel}>{CRITERION_LABEL[c]}</span>
-                    <div className={styles.critTrack}>
-                      <div className={styles.critFill} style={{ width: `${(result.criteria[c] / 5) * 100}%` }} />
-                    </div>
-                    <span className={styles.critValue}>{result.criteria[c]}</span>
+              {timeUp && <div className={`${t.feedback} ${t.feedbackBad} ${styles.gap}`}>⏰ Süre doldu. Gönderini puanlatabilirsin.</div>}
+              {error && phase === 'writing' && <div className={`${t.feedback} ${t.feedbackBad} ${styles.gap}`}>{error}</div>}
+
+              {phase === 'writing' && (
+                <button id="discussion-submit" className={t.primaryBtn} onClick={submit} disabled={!words}>
+                  {words < DISCUSSION_MIN_WORDS && words > 0 ? `Yine de gönder (${words} kelime)` : '✓ Gönder ve Puanla'}
+                </button>
+              )}
+
+              {phase === 'scoring' && (
+                <div className={t.loading}>
+                  <span className="spinner spinner-ink" />
+                  AI cevabını değerlendiriyor...
+                </div>
+              )}
+
+              {phase === 'result' && result && (
+                <div className={`${styles.result} anim-fade-up`}>
+                  <div className={t.summary}>
+                    <span className={t.scoreSub}>TOEFL Puanı</span>
+                    <span className={t.score}>{result.score} / 5</span>
+                    {result.summary && <p className={t.introText}>{result.summary}</p>}
                   </div>
-                ))}
-              </div>
 
-              {result.strengths.length > 0 && (
-                <div className={`${t.feedback} ${t.feedbackOk}`}>
-                  <span className={t.feedbackTitle}>✓ Güçlü yönler</span>
-                  <ul className={styles.list}>{result.strengths.map((s, i) => <li key={i}>{s}</li>)}</ul>
-                </div>
-              )}
-              {result.improvements.length > 0 && (
-                <div className={`${t.feedback} ${styles.improve}`}>
-                  <span className={t.feedbackTitle}>↑ Geliştir</span>
-                  <ul className={styles.list}>{result.improvements.map((s, i) => <li key={i}>{s}</li>)}</ul>
-                </div>
-              )}
-              {result.corrections.length > 0 && (
-                <div className={styles.corrections}>
-                  <span className={t.label}>Düzeltmeler</span>
-                  {result.corrections.map((c, i) => (
-                    <div key={i} className={styles.correction}>
-                      <span className={styles.corrOld}>{c.original}</span>
-                      <span aria-hidden>→</span>
-                      <span className={styles.corrNew}>{c.suggestion}</span>
+                  <div className={styles.criteria}>
+                    {(Object.keys(CRITERION_LABEL) as DiscussionCriterion[]).map((c) => (
+                      <div key={c} className={styles.critRow}>
+                        <span className={styles.critLabel}>{CRITERION_LABEL[c]}</span>
+                        <div className={styles.critTrack}>
+                          <div className={styles.critFill} style={{ width: `${(result.criteria[c] / 5) * 100}%` }} />
+                        </div>
+                        <span className={styles.critValue}>{result.criteria[c]}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {result.strengths.length > 0 && (
+                    <div className={`${t.feedback} ${t.feedbackOk}`}>
+                      <span className={t.feedbackTitle}>✓ Güçlü yönler</span>
+                      <ul className={styles.list}>{result.strengths.map((s, i) => <li key={i}>{s}</li>)}</ul>
                     </div>
-                  ))}
+                  )}
+                  {result.improvements.length > 0 && (
+                    <div className={`${t.feedback} ${styles.improve}`}>
+                      <span className={t.feedbackTitle}>↑ Geliştir</span>
+                      <ul className={styles.list}>{result.improvements.map((s, i) => <li key={i}>{s}</li>)}</ul>
+                    </div>
+                  )}
+                  {result.corrections.length > 0 && (
+                    <div className={styles.corrections}>
+                      <span className={t.label}>Düzeltmeler</span>
+                      {result.corrections.map((c, i) => (
+                        <div key={i} className={styles.correction}>
+                          <span className={styles.corrOld}>{c.original}</span>
+                          <span aria-hidden>→</span>
+                          <span className={styles.corrNew}>{c.suggestion}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className={t.btnRow}>
+                    <button className={t.secondaryBtn} onClick={() => setPhase('setup')}>Seviye</button>
+                    <button className={t.primaryBtn} onClick={loadPrompt}>↺ Yeni Konu</button>
+                  </div>
                 </div>
               )}
-
-              <div className={t.btnRow}>
-                <button className={t.secondaryBtn} onClick={() => setPhase('setup')}>Seviye</button>
-                <button className={t.primaryBtn} onClick={loadPrompt}>↺ Yeni Konu</button>
-              </div>
             </div>
-          )}
+          </div>
         </section>
       )}
     </main>

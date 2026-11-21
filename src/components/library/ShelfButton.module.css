@@ -1,0 +1,83 @@
+/* Library entry drawn as two bookshelves: back panel, spines, plank. */
+.button {
+  --wood: #9A7349;
+  --wood-dark: #6E5233;
+  --wood-light: #B88E5E;
+  --back: #4E3B28;
+
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  text-align: left;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-xs);
+  box-shadow: 4px 4px 0 var(--ink);
+  overflow: hidden;
+  background: var(--back);
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+.button:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+.button:active { transform: translate(1px, 1px); box-shadow: 3px 3px 0 var(--ink); }
+.button:focus-visible { outline: 3px solid var(--slate-dark); outline-offset: 3px; }
+
+/* min-width: 0 keeps the long row of spines from widening the button (it is clipped instead). */
+.row, .books { min-width: 0; }
+.row { display: flex; flex-direction: column; }
+
+.books {
+  height: 70px;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 10px 8px 0;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0, rgba(0, 0, 0, 0) 14px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.14) 0 2px, transparent 2px 56px),
+    linear-gradient(180deg, #5A4530, var(--back));
+}
+
+.spine {
+  flex-shrink: 0;
+  border: 1.5px solid var(--ink);
+  border-bottom: none;
+  border-radius: 2px 2px 0 0;
+  box-shadow: inset -3px 0 0 rgba(0, 0, 0, 0.18), inset 2px 0 0 rgba(255, 255, 255, 0.18);
+  transition: transform 0.18s ease;
+}
+.spineBands {
+  background-image: linear-gradient(
+    180deg,
+    transparent 16%,
+    rgba(241, 227, 178, 0.85) 16% 20%,
+    transparent 20% 28%,
+    rgba(241, 227, 178, 0.85) 28% 31%,
+    transparent 31%
+  );
+}
+.spineLean { transform: rotate(-8deg); transform-origin: bottom left; margin-left: 6px; }
+
+/* Books lift a little when the bookcase is hovered */
+.button:hover .spine:not(.spineLean):nth-child(3n + 1) { transform: translateY(-4px); }
+.button:hover .spine:not(.spineLean):nth-child(5n + 2) { transform: translateY(-2px); }
+
+.plank {
+  height: 12px;
+  background: linear-gradient(180deg, var(--wood-light) 0%, var(--wood) 55%, var(--wood-dark) 100%);
+  border-top: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
+}
+
+/* The button's own border closes the bottom shelf. */
+.row:last-child .plank { border-bottom: none; }
+
+@media (min-width: 1024px) {
+  .books { height: 84px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button, .spine { transition: none; }
+  .button:hover .spine:not(.spineLean) { transform: none; }
+}

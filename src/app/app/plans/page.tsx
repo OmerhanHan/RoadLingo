@@ -9,6 +9,7 @@ import {
   formatTRY,
   getPlanById,
   getSubscription,
+  interviewsFor,
   planHeaders,
   saveSubscription,
   type BillingCycle,
@@ -118,6 +119,14 @@ export default function PlansPage() {
     if (processing) return
     setCheckoutPlan(null)
     setPaidSuccess(false)
+  }
+
+  /** After a purchase, go back to the screen that sent the user here (see plansHref). */
+  const finishCheckout = () => {
+    setCheckoutPlan(null)
+    setPaidSuccess(false)
+    const from = new URLSearchParams(window.location.search).get('from')
+    if (from && from.startsWith('/app/') && !from.startsWith('/app/plans')) router.push(from)
   }
 
   const handleApplyPromo = () => {
@@ -288,7 +297,7 @@ export default function PlansPage() {
               )
             })}
             <p className={styles.usageNote}>
-              Haklar her gün gece yarısı (UTC) yenilenir.
+              Haklar her gece 03:00’te (TSİ) yenilenir.
               {!usage.enforced && ' Geliştirme ortamında sınırlar uygulanmıyor.'}
             </p>
           </section>
@@ -372,9 +381,9 @@ export default function PlansPage() {
                 <h2 className={styles.successTitle}>Plan Etkinleştirildi</h2>
                 <p className={styles.successDesc}>
                   <strong>{checkoutPlan.name}</strong> artık aktif. Günlük hakların: {checkoutPlan.limits.scoring} yazı
-                  değerlendirmesi, {Math.floor(checkoutPlan.limits.chat / 8)} canlı mülakat.
+                  değerlendirmesi, {interviewsFor(checkoutPlan.limits.chat)} canlı mülakat.
                 </p>
-                <button id="checkout-done-btn" className={`btn ${styles.payBtn}`} onClick={closeCheckout}>Devam Et →</button>
+                <button id="checkout-done-btn" className={`btn ${styles.payBtn}`} onClick={finishCheckout}>Devam Et →</button>
               </div>
             ) : (
               <>

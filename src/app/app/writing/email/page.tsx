@@ -1,5 +1,6 @@
 'use client'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { QuotaError } from '@/lib/upgrade'
 import { useRouter } from 'next/navigation'
 import {
   EMAIL_CATEGORY_LABELS,
@@ -161,8 +162,8 @@ export default function EmailWritingPage() {
         scenario: `${sc.subject}\n${sc.prompt}`,
       })
       setAnalysis(result)
-    } catch {
-      setAnalyzeError('Analiz tamamlanamadı. Tekrar deneyebilirsin.')
+    } catch (e) {
+      setAnalyzeError(e instanceof QuotaError ? e.message : 'Analiz tamamlanamadı. Tekrar deneyebilirsin.')
     } finally {
       setAnalyzing(false)
     }
@@ -303,152 +304,156 @@ export default function EmailWritingPage() {
         {/* ── Compose tab ── */}
         {tab === 'compose' && (
           <div className={styles.mailBody}>
-            <div className={styles.prompt}>
-              <div className={styles.promptHead}>
-                <span className={styles.promptTag}>{EMAIL_CATEGORY_LABELS[scenario.category]}</span>
-                <button
-                  type="button"
-                  className={styles.shuffleBtn}
-                  onClick={shuffleTopic}
-                  disabled={started || finished}
-                >
-                  Başka konu
-                </button>
-              </div>
-              <p className={styles.promptTitle}>{scenario.title_tr}</p>
-              <p className={styles.promptSubject}>{scenario.subject}</p>
-              <p className={styles.promptText}>{scenario.prompt_tr}</p>
-              <p className={styles.promptEn}>{scenario.prompt}</p>
-            </div>
-
-            <div className={`${styles.timerBar} ${urgent ? styles.timerUrgent : ''} ${finished ? styles.timerDone : ''}`}>
-              <div className={styles.timerLeft}>
-                <span className={styles.timerLabel}>Süre</span>
-                <span className={styles.timerValue} aria-live="polite">{formatTime(secondsLeft)}</span>
-              </div>
-              <div className={styles.timerActions}>
-                {!finished && !running && (
-                  <button type="button" className={styles.btnStart} onClick={start}>
-                    {!started ? 'Başlat' : 'Devam'}
-                  </button>
-                )}
-                {running && (
-                  <button type="button" className={styles.btnStop} onClick={stop}>
-                    Durdur
-                  </button>
-                )}
-                <button
-                  type="button"
-                  className={styles.btnReset}
-                  onClick={reset}
-                  disabled={!started && !finished}
-                >
-                  Sıfırla
-                </button>
-              </div>
-              <div className={styles.timerTrack} aria-hidden>
-                <div className={styles.timerFill} style={{ width: `${progress}%` }} />
-              </div>
-            </div>
-
-            {!started && !finished && (
-              <p className={styles.lockHint}>Yazmaya başlamak için süreyi Başlat.</p>
-            )}
-            {started && !running && !finished && (
-              <p className={styles.lockHint}>Süre duraklatıldı — yazmak için Devam’a bas.</p>
-            )}
-            {finished && (
-              <p className={styles.timeUp}>
-                Süre doldu — metin kilitlendi. Tüm maili kopyalamak için butonu kullan.
-              </p>
-            )}
-
-            <div className={`${styles.compose} ${!canEdit ? styles.composeLocked : ''}`}>
-              <div className={styles.composeChrome}>
-                <span className={styles.dot} data-c="r" />
-                <span className={styles.dot} data-c="y" />
-                <span className={styles.dot} data-c="g" />
-                <span className={styles.composeTitle}>
-                  {finished ? 'Sent · Locked' : canEdit ? 'New Message' : 'Draft · Locked'}
-                </span>
-              </div>
-
-              <div className={styles.fieldRow}>
-                <label htmlFor="email-to" className={styles.fieldKey}>To</label>
-                <input id="email-to" type="text" className={styles.fieldInput} value={to} readOnly disabled />
-              </div>
-              <div className={styles.fieldRow}>
-                <label htmlFor="email-from" className={styles.fieldKey}>From</label>
-                <input
-                  id="email-from"
-                  type="text"
-                  className={styles.fieldInput}
-                  value="you@writeai.student"
-                  readOnly
-                  disabled
-                />
-              </div>
-              <div className={styles.fieldRow}>
-                <label htmlFor="email-subject" className={styles.fieldKey}>Subject</label>
-                <input id="email-subject" type="text" className={styles.fieldInput} value={subject} readOnly disabled />
-              </div>
-
-              <div className={styles.bodyWrap}>
-                <textarea
-                  id="email-body"
-                  className={styles.bodyArea}
-                  placeholder={'Dear …,\n\n…\n\nSincerely,\n[Your Name]'}
-                  value={body}
-                  onChange={e => setBody(e.target.value)}
-                  rows={12}
-                  disabled={!canEdit}
-                  readOnly={!canEdit}
-                />
-                <div className={styles.bodyFooter}>
-                  <span className={styles.wordCount}>{wordCount} words</span>
-                  <span className={styles.hint}>
-                    {canEdit ? 'Süre işlerken yazabilirsin' : finished ? 'Düzenleme kapalı' : 'Başlatılmayı bekliyor'}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {finished && (
-              <>
-                <div className={styles.copyBar}>
+            <div className={styles.composeAside}>
+              <div className={styles.prompt}>
+                <div className={styles.promptHead}>
+                  <span className={styles.promptTag}>{EMAIL_CATEGORY_LABELS[scenario.category]}</span>
                   <button
                     type="button"
-                    className={styles.copyFullBtn}
-                    onClick={() => copyFullEmail(to, subject, body)}
+                    className={styles.shuffleBtn}
+                    onClick={shuffleTopic}
+                    disabled={started || finished}
                   >
-                    {copied ? 'Tüm mail kopyalandı ✓' : 'Tüm maili kopyala'}
+                    Başka konu
                   </button>
                 </div>
+                <p className={styles.promptTitle}>{scenario.title_tr}</p>
+                <p className={styles.promptSubject}>{scenario.subject}</p>
+                <p className={styles.promptText}>{scenario.prompt_tr}</p>
+                <p className={styles.promptEn}>{scenario.prompt}</p>
+              </div>
 
-                <div className={styles.thread}>
-                  <p className={styles.threadLabel}>Thread</p>
-                  <div className={styles.threadMail}>
-                    <div className={styles.threadMeta}>
-                      <span>To: {to}</span>
-                      <span>Subject: {subject}</span>
-                    </div>
-                    <pre className={styles.threadBody}>{body || '(boş)'}</pre>
-                  </div>
-
-                  {analyzing && (
-                    <p className={styles.analyzing}>
-                      <span className="spinner spinner-ink" /> Coach yanıtı hazırlanıyor…
-                    </p>
+              <div className={`${styles.timerBar} ${urgent ? styles.timerUrgent : ''} ${finished ? styles.timerDone : ''}`}>
+                <div className={styles.timerLeft}>
+                  <span className={styles.timerLabel}>Süre</span>
+                  <span className={styles.timerValue} aria-live="polite">{formatTime(secondsLeft)}</span>
+                </div>
+                <div className={styles.timerActions}>
+                  {!finished && !running && (
+                    <button type="button" className={styles.btnStart} onClick={start}>
+                      {!started ? 'Başlat' : 'Devam'}
+                    </button>
                   )}
-                  {analyzeError && <p className={styles.analyzeError}>{analyzeError}</p>}
-                  {analysis && <AnalysisBlock analysis={analysis} />}
+                  {running && (
+                    <button type="button" className={styles.btnStop} onClick={stop}>
+                      Durdur
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    className={styles.btnReset}
+                    onClick={reset}
+                    disabled={!started && !finished}
+                  >
+                    Sıfırla
+                  </button>
+                </div>
+                <div className={styles.timerTrack} aria-hidden>
+                  <div className={styles.timerFill} style={{ width: `${progress}%` }} />
+                </div>
+              </div>
+
+              {!started && !finished && (
+                <p className={styles.lockHint}>Yazmaya başlamak için süreyi Başlat.</p>
+              )}
+              {started && !running && !finished && (
+                <p className={styles.lockHint}>Süre duraklatıldı — yazmak için Devam’a bas.</p>
+              )}
+              {finished && (
+                <p className={styles.timeUp}>
+                  Süre doldu — metin kilitlendi. Tüm maili kopyalamak için butonu kullan.
+                </p>
+              )}
+            </div>
+
+            <div className={styles.composeMain}>
+              <div className={`${styles.compose} ${!canEdit ? styles.composeLocked : ''}`}>
+                <div className={styles.composeChrome}>
+                  <span className={styles.dot} data-c="r" />
+                  <span className={styles.dot} data-c="y" />
+                  <span className={styles.dot} data-c="g" />
+                  <span className={styles.composeTitle}>
+                    {finished ? 'Sent · Locked' : canEdit ? 'New Message' : 'Draft · Locked'}
+                  </span>
                 </div>
 
-                <button type="button" className={styles.gotoHistory} onClick={openHistory}>
-                  Geçmişte gör →
-                </button>
-              </>
-            )}
+                <div className={styles.fieldRow}>
+                  <label htmlFor="email-to" className={styles.fieldKey}>To</label>
+                  <input id="email-to" type="text" className={styles.fieldInput} value={to} readOnly disabled />
+                </div>
+                <div className={styles.fieldRow}>
+                  <label htmlFor="email-from" className={styles.fieldKey}>From</label>
+                  <input
+                    id="email-from"
+                    type="text"
+                    className={styles.fieldInput}
+                    value="you@writeai.student"
+                    readOnly
+                    disabled
+                  />
+                </div>
+                <div className={styles.fieldRow}>
+                  <label htmlFor="email-subject" className={styles.fieldKey}>Subject</label>
+                  <input id="email-subject" type="text" className={styles.fieldInput} value={subject} readOnly disabled />
+                </div>
+
+                <div className={styles.bodyWrap}>
+                  <textarea
+                    id="email-body"
+                    className={styles.bodyArea}
+                    placeholder={'Dear …,\n\n…\n\nSincerely,\n[Your Name]'}
+                    value={body}
+                    onChange={e => setBody(e.target.value)}
+                    rows={12}
+                    disabled={!canEdit}
+                    readOnly={!canEdit}
+                  />
+                  <div className={styles.bodyFooter}>
+                    <span className={styles.wordCount}>{wordCount} words</span>
+                    <span className={styles.hint}>
+                      {canEdit ? 'Süre işlerken yazabilirsin' : finished ? 'Düzenleme kapalı' : 'Başlatılmayı bekliyor'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {finished && (
+                <>
+                  <div className={styles.copyBar}>
+                    <button
+                      type="button"
+                      className={styles.copyFullBtn}
+                      onClick={() => copyFullEmail(to, subject, body)}
+                    >
+                      {copied ? 'Tüm mail kopyalandı ✓' : 'Tüm maili kopyala'}
+                    </button>
+                  </div>
+
+                  <div className={styles.thread}>
+                    <p className={styles.threadLabel}>Thread</p>
+                    <div className={styles.threadMail}>
+                      <div className={styles.threadMeta}>
+                        <span>To: {to}</span>
+                        <span>Subject: {subject}</span>
+                      </div>
+                      <pre className={styles.threadBody}>{body || '(boş)'}</pre>
+                    </div>
+
+                    {analyzing && (
+                      <p className={styles.analyzing}>
+                        <span className="spinner spinner-ink" /> Coach yanıtı hazırlanıyor…
+                      </p>
+                    )}
+                    {analyzeError && <p className={styles.analyzeError}>{analyzeError}</p>}
+                    {analysis && <AnalysisBlock analysis={analysis} />}
+                  </div>
+
+                  <button type="button" className={styles.gotoHistory} onClick={openHistory}>
+                    Geçmişte gör →
+                  </button>
+                </>
+              )}
+            </div>
           </div>
         )}
 

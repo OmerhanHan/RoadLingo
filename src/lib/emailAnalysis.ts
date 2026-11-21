@@ -1,4 +1,5 @@
 import { planHeaders } from '@/lib/plans'
+import { QuotaError, throwIfQuota } from '@/lib/upgrade'
 
 export type EmailScoreKey =
   | 'task_fulfillment'
@@ -422,6 +423,7 @@ export async function analyzeEmail(params: {
       headers: { 'Content-Type': 'application/json', ...planHeaders() },
       body: JSON.stringify(params),
     })
+    await throwIfQuota(res)
     if (!res.ok) {
       const err = await res.json().catch(() => ({}))
       throw new Error(err.detail || err.error || `HTTP ${res.status}`)
@@ -429,6 +431,7 @@ export async function analyzeEmail(params: {
     const data = await res.json()
     return normalizeEmailAnalysis(data)
   } catch (err) {
+    if (err instanceof QuotaError) throw err
     console.warn('[analyzeEmail] Falling back to mock:', err)
     await new Promise(r => setTimeout(r, 1200))
     return mockEmailAnalysis(params.body)

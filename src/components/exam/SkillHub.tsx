@@ -1,6 +1,7 @@
 'use client'
 import { useRouter } from 'next/navigation'
 import { getSection, type SkillId } from '@/lib/exam/structure'
+import ShelfButton from '@/components/library/ShelfButton'
 import styles from './SkillHub.module.css'
 
 export type ExtraMode = {
@@ -10,6 +11,8 @@ export type ExtraMode = {
   desc: string
   emoji: string
   href: string
+  /** 'bookshelf' draws the card as a small bookcase spanning the full row (Library). */
+  variant?: 'bookshelf'
 }
 
 type Props = {
@@ -68,7 +71,11 @@ export default function SkillHub({ skill, extras = [] }: Props) {
         <section className="anim-fade-up d2">
           <p className={styles.sectionLabel}>Serbest Pratik</p>
           <div className={styles.extras}>
-            {extras.map((m) => (
+            {extras.map((m) => m.variant === 'bookshelf' ? (
+              <div key={m.id} className={styles.extraWide}>
+                <ShelfButton id={`extra-${m.id}`} label={`${m.title} — ${m.desc}`} onClick={() => router.push(m.href)} />
+              </div>
+            ) : (
               <button key={m.id} id={`extra-${m.id}`} className={styles.extra} onClick={() => router.push(m.href)}>
                 <span className={styles.extraEmoji} aria-hidden>{m.emoji}</span>
                 <span className={styles.extraTitle}>{m.title}</span>

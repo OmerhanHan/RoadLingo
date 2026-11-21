@@ -59,82 +59,86 @@ export default function DetailPage() {
         </div>
       )}
 
-      {tab === 'essay' && (
-        <p className={`${styles.essayText} anim-fade-in`}>{writing.content}</p>
-      )}
-
-      {tab === 'feedback' && fb && (
-        <div className={`${styles.fbWrap} anim-fade-in`}>
-          {/* Band gauge */}
-          <div className={styles.bandRow}>
-            <div className={styles.gauge}>
-              <svg width="110" height="110" viewBox="0 0 110 110">
-                <circle cx="55" cy="55" r="50" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="8" />
-                <circle cx="55" cy="55" r="50" fill="none" stroke={bc} strokeWidth="8"
-                  strokeDasharray={circ} strokeDashoffset={dash} strokeLinecap="round"
-                  transform="rotate(-90 55 55)" style={{ transition: 'stroke-dashoffset 1s ease' }} />
-              </svg>
-              <div className={styles.gaugeCenter}>
-                <span className={styles.bandNum} style={{ color: bc }}>{fb.band_score}</span>
-                <span className={styles.bandWord} style={{ color: bc }}>{bandLabel(fb.band_score)}</span>
-              </div>
-            </div>
-            <div className={styles.bandMeta}>
-              <h2 className={styles.bandTitle}>Band Score</h2>
-              <p className={styles.bandSub}>IELTS Writing Task 2 tahmini</p>
-            </div>
-          </div>
-
-          {/* Scores */}
-          <div className={styles.section}>
-            <span className={styles.secLabel}>📊 Detaylı Puanlar</span>
-            <div className={styles.scoresBox}>
-              <ScoreRow lbl="Grammar"    val={fb.grammar_score}    color="#7A9E7E" />
-              <ScoreRow lbl="Coherence"  val={fb.coherence_score}  color="#C9A84C" />
-              <ScoreRow lbl="Vocabulary" val={fb.vocabulary_score} color="#8B9BB4" />
-            </div>
-          </div>
-
-          {/* Errors */}
-          {fb.grammar_errors.length > 0 && (
-            <div className={styles.section}>
-              <span className={styles.secLabel}>⚠ Dikkat Edilmesi Gerekenler</span>
-              <div className={styles.errors}>
-                {fb.grammar_errors.map((e, i) => (
-                  <div key={i} className={styles.errCard}>
-                    <div className={styles.errTop}>
-                      <span className={styles.errWord}>&ldquo;{e.word}&rdquo;</span>
-                      <span className={styles.errArrow}>→</span>
-                      <span className={styles.errFix}>&ldquo;{e.suggestion}&rdquo;</span>
-                    </div>
-                    <p className={styles.errExp}>{e.explanation}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Suggestions */}
-          <div className={styles.section}>
-            <span className={styles.secLabel}>💡 Öneriler</span>
-            <ul className={styles.suggList}>
-              {fb.suggestions.map((s, i) => (
-                <li key={i} className={styles.suggItem}>
-                  <span className={styles.suggDot} />{s}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Overall */}
-          <div className={styles.section}>
-            <span className={styles.secLabel}>🎓 Genel Değerlendirme</span>
-            <div className={styles.overall}>
-              <p className={styles.overallText}>{fb.overall_comment}</p>
-            </div>
-          </div>
+      {/* Phones: tabs switch between essay and analysis. Desktop: both side by side. */}
+      <div className={`${styles.detailGrid} ${fb ? styles.detailGridSplit : ''}`}>
+        <div className={`${styles.essayCol} ${fb && tab !== 'essay' ? styles.mobileHidden : ''}`}>
+          <p className={styles.essayLabel}>📝 Yazı</p>
+          <p className={`${styles.essayText} anim-fade-in`}>{writing.content}</p>
         </div>
-      )}
+
+        {fb && (
+          <div className={`${styles.fbWrap} ${tab !== 'feedback' ? styles.mobileHidden : ''} anim-fade-in`}>
+            {/* Band gauge */}
+            <div className={styles.bandRow}>
+              <div className={styles.gauge}>
+                <svg width="110" height="110" viewBox="0 0 110 110">
+                  <circle cx="55" cy="55" r="50" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="8" />
+                  <circle cx="55" cy="55" r="50" fill="none" stroke={bc} strokeWidth="8"
+                    strokeDasharray={circ} strokeDashoffset={dash} strokeLinecap="round"
+                    transform="rotate(-90 55 55)" style={{ transition: 'stroke-dashoffset 1s ease' }} />
+                </svg>
+                <div className={styles.gaugeCenter}>
+                  <span className={styles.bandNum} style={{ color: bc }}>{fb.band_score}</span>
+                  <span className={styles.bandWord} style={{ color: bc }}>{bandLabel(fb.band_score)}</span>
+                </div>
+              </div>
+              <div className={styles.bandMeta}>
+                <h2 className={styles.bandTitle}>Band Score</h2>
+                <p className={styles.bandSub}>IELTS Writing Task 2 tahmini</p>
+              </div>
+            </div>
+
+            {/* Scores */}
+            <div className={styles.section}>
+              <span className={styles.secLabel}>📊 Detaylı Puanlar</span>
+              <div className={styles.scoresBox}>
+                <ScoreRow lbl="Grammar"    val={fb.grammar_score}    color="#7A9E7E" />
+                <ScoreRow lbl="Coherence"  val={fb.coherence_score}  color="#C9A84C" />
+                <ScoreRow lbl="Vocabulary" val={fb.vocabulary_score} color="#8B9BB4" />
+              </div>
+            </div>
+
+            {/* Errors */}
+            {fb.grammar_errors.length > 0 && (
+              <div className={styles.section}>
+                <span className={styles.secLabel}>⚠ Dikkat Edilmesi Gerekenler</span>
+                <div className={styles.errors}>
+                  {fb.grammar_errors.map((e, i) => (
+                    <div key={i} className={styles.errCard}>
+                      <div className={styles.errTop}>
+                        <span className={styles.errWord}>&ldquo;{e.word}&rdquo;</span>
+                        <span className={styles.errArrow}>→</span>
+                        <span className={styles.errFix}>&ldquo;{e.suggestion}&rdquo;</span>
+                      </div>
+                      <p className={styles.errExp}>{e.explanation}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Suggestions */}
+            <div className={styles.section}>
+              <span className={styles.secLabel}>💡 Öneriler</span>
+              <ul className={styles.suggList}>
+                {fb.suggestions.map((s, i) => (
+                  <li key={i} className={styles.suggItem}>
+                    <span className={styles.suggDot} />{s}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Overall */}
+            <div className={styles.section}>
+              <span className={styles.secLabel}>🎓 Genel Değerlendirme</span>
+              <div className={styles.overall}>
+                <p className={styles.overallText}>{fb.overall_comment}</p>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
 
       {!fb && <p className={styles.noFb}>Bu yazı için AI analizi yapılmadı.</p>}
     </main>

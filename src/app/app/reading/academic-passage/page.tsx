@@ -86,7 +86,7 @@ export default function AcademicPassagePage() {
   }
 
   return (
-    <main className={t.page}>
+    <main className={`${t.page} ${t.pageWide}`}>
       <header className={`${t.header} anim-fade-up`}>
         <button id="back-btn" className={t.back} onClick={() => router.back()} aria-label="Geri">←</button>
         <div>
@@ -132,84 +132,90 @@ export default function AcademicPassagePage() {
             <span className={t.timer}>⏱ {formatTime(elapsed)}</span>
           </div>
 
-          <article className={styles.passage}>
-            <h2 className={styles.title}>{set.title}</h2>
-            {set.paragraphs.map((p, i) => (
-              <p key={i} className={styles.paragraph}>{withHighlight(p, q.highlight)}</p>
-            ))}
-          </article>
-
-          {reviewing && (
-            <div className={`${t.summary} ${styles.scoreBox}`}>
-              <span className={t.scoreSub}>Skorun · {formatTime(elapsed)}</span>
-              <span className={t.score}>{score} / {set.questions.length}</span>
+          <div className={t.split}>
+            <div className={t.splitText}>
+              <article className={styles.passage}>
+                <h2 className={styles.title}>{set.title}</h2>
+                {set.paragraphs.map((p, i) => (
+                  <p key={i} className={styles.paragraph}>{withHighlight(p, q.highlight)}</p>
+                ))}
+              </article>
             </div>
-          )}
 
-          <nav className={styles.dots} aria-label="Sorular">
-            {set.questions.map((qq, i) => {
-              const state = reviewing
-                ? answers[i] === qq.answer ? styles.dotOk : styles.dotBad
-                : answers[i] !== null ? styles.dotDone : ''
-              return (
-                <button
-                  key={i}
-                  className={`${styles.dot} ${state} ${i === index ? styles.dotCurrent : ''}`}
-                  onClick={() => setIndex(i)}
-                  aria-label={`Soru ${i + 1}`}
-                >
-                  {i + 1}
-                </button>
-              )
-            })}
-          </nav>
+            <div className={t.splitSide}>
+              {reviewing && (
+                <div className={`${t.summary} ${styles.scoreBox}`}>
+                  <span className={t.scoreSub}>Skorun · {formatTime(elapsed)}</span>
+                  <span className={t.score}>{score} / {set.questions.length}</span>
+                </div>
+              )}
 
-          <div key={index} className={styles.question}>
-            <span className={styles.qType}>{QUESTION_TYPE_LABEL[q.type]}</span>
-            <h3 className={styles.qText}>{q.question}</h3>
-            <div className={styles.options} role="radiogroup">
-              {q.options.map((opt, i) => {
-                const state = reviewing
-                  ? i === q.answer ? styles.optionOk : i === selected ? styles.optionBad : ''
-                  : i === selected ? styles.optionSelected : ''
-                return (
-                  <button
-                    key={i}
-                    role="radio"
-                    aria-checked={selected === i}
-                    className={`${styles.option} ${state}`}
-                    onClick={() => choose(i)}
-                    disabled={reviewing}
-                  >
-                    <span className={styles.optionKey}>{LETTERS[i]}</span>
-                    <span>{opt}</span>
-                  </button>
-                )
-              })}
-            </div>
-            {reviewing && q.explanation && (
-              <div className={`${t.feedback} ${selected === q.answer ? t.feedbackOk : t.feedbackBad} ${styles.explain}`}>
-                <span className={t.feedbackTitle}>{selected === q.answer ? '✓ Doğru' : '✕ Yanlış'}</span>
-                {q.explanation}
+              <nav className={styles.dots} aria-label="Sorular">
+                {set.questions.map((qq, i) => {
+                  const state = reviewing
+                    ? answers[i] === qq.answer ? styles.dotOk : styles.dotBad
+                    : answers[i] !== null ? styles.dotDone : ''
+                  return (
+                    <button
+                      key={i}
+                      className={`${styles.dot} ${state} ${i === index ? styles.dotCurrent : ''}`}
+                      onClick={() => setIndex(i)}
+                      aria-label={`Soru ${i + 1}`}
+                    >
+                      {i + 1}
+                    </button>
+                  )
+                })}
+              </nav>
+
+              <div key={index} className={styles.question}>
+                <span className={styles.qType}>{QUESTION_TYPE_LABEL[q.type]}</span>
+                <h3 className={styles.qText}>{q.question}</h3>
+                <div className={styles.options} role="radiogroup">
+                  {q.options.map((opt, i) => {
+                    const state = reviewing
+                      ? i === q.answer ? styles.optionOk : i === selected ? styles.optionBad : ''
+                      : i === selected ? styles.optionSelected : ''
+                    return (
+                      <button
+                        key={i}
+                        role="radio"
+                        aria-checked={selected === i}
+                        className={`${styles.option} ${state}`}
+                        onClick={() => choose(i)}
+                        disabled={reviewing}
+                      >
+                        <span className={styles.optionKey}>{LETTERS[i]}</span>
+                        <span>{opt}</span>
+                      </button>
+                    )
+                  })}
+                </div>
+                {reviewing && q.explanation && (
+                  <div className={`${t.feedback} ${selected === q.answer ? t.feedbackOk : t.feedbackBad} ${styles.explain}`}>
+                    <span className={t.feedbackTitle}>{selected === q.answer ? '✓ Doğru' : '✕ Yanlış'}</span>
+                    {q.explanation}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
 
-          <div className={t.btnRow}>
-            <button className={t.secondaryBtn} onClick={() => setIndex((i) => i - 1)} disabled={index === 0}>← Önceki</button>
-            {index < set.questions.length - 1 ? (
-              <button className={t.primaryBtn} onClick={() => setIndex((i) => i + 1)}>Sonraki →</button>
-            ) : reviewing ? (
-              <button className={t.primaryBtn} onClick={loadSet}>↺ Yeni Metin</button>
-            ) : (
-              <button id="passage-submit" className={t.primaryBtn} onClick={() => { setPhase('review'); setIndex(0) }} disabled={!allAnswered}>
-                ✓ Bitir
-              </button>
-            )}
+              <div className={t.btnRow}>
+                <button className={t.secondaryBtn} onClick={() => setIndex((i) => i - 1)} disabled={index === 0}>← Önceki</button>
+                {index < set.questions.length - 1 ? (
+                  <button className={t.primaryBtn} onClick={() => setIndex((i) => i + 1)}>Sonraki →</button>
+                ) : reviewing ? (
+                  <button className={t.primaryBtn} onClick={loadSet}>↺ Yeni Metin</button>
+                ) : (
+                  <button id="passage-submit" className={t.primaryBtn} onClick={() => { setPhase('review'); setIndex(0) }} disabled={!allAnswered}>
+                    ✓ Bitir
+                  </button>
+                )}
+              </div>
+              {!reviewing && index === set.questions.length - 1 && !allAnswered && (
+                <p className={styles.hint}>Bitirmek için tüm soruları cevapla.</p>
+              )}
+            </div>
           </div>
-          {!reviewing && index === set.questions.length - 1 && !allAnswered && (
-            <p className={styles.hint}>Bitirmek için tüm soruları cevapla.</p>
-          )}
         </section>
       )}
     </main>

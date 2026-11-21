@@ -1,6 +1,7 @@
 'use client'
 
 import { planHeaders } from '@/lib/plans'
+import { throwIfQuota } from '@/lib/upgrade'
 import { useCallback, useRef, useState } from 'react'
 import type { ChatMessage, StreamChunk } from '@/lib/speaking/types'
 import { SPEAKING_STARTER_PROMPT } from '@/lib/speaking/prompts'
@@ -113,6 +114,7 @@ export function useSpeakingLive(topic: TopicId | null = null) {
         signal: ac.signal,
       })
 
+      await throwIfQuota(res)
       if (!res.ok) {
         const errBody = await res.json().catch(() => ({}))
         throw new Error(errBody.detail || errBody.error || `HTTP ${res.status}`)
@@ -204,6 +206,7 @@ export function useSpeakingLive(topic: TopicId | null = null) {
         signal: ac.signal,
       })
 
+      await throwIfQuota(res)
       if (!res.ok) {
         const errBody = await res.json().catch(() => ({}))
         throw new Error(errBody.detail || errBody.error || `HTTP ${res.status}`)

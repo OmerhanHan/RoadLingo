@@ -12,7 +12,7 @@
  * backend instead.
  */
 import { NextResponse, type NextRequest } from 'next/server'
-import { getPlanById, type LimitKind, type PlanId } from '@/lib/plans'
+import { getPlanById, PLAN_BUDGETS, type BudgetKind, type LimitKind, type PlanId } from '@/lib/plans'
 
 export type QuotaKind = LimitKind
 
@@ -93,9 +93,31 @@ export function usageFor(req: NextRequest) {
   }
 }
 
+/**
+ * Internal budgets (see PLAN_BUDGETS): like consumeQuota, but an amount per
+ * call (e.g. characters) and not shown to the user. Returns false, without
+ * counting, when the amount does not fit in what is left today.
+ */
+export function consumeBudget(req: NextRequest, kind: BudgetKind, amount = 1): boolean {
+  if (!quotaEnforced()) return true
+  rollDay()
+  const limit = PLAN_BUDGETS[requestPlan(req)][kind]
+  const key = `budget:${kind}:${clientKey(req)}`
+  const used = counters.get(key) ?? 0
+  if (used + amount > limit) return false
+  counters.set(key, used + amount)
+  return true
+}
+
+export function refundBudget(req: NextRequest, kind: BudgetKind, amount = 1) {
+  if (!quotaEnforced()) return
+  const key = `budget:${kind}:${clientKey(req)}`
+  counters.set(key, Math.max(0, (counters.get(key) ?? 0) - amount))
+}
+
 export function quotaExceeded(kind: QuotaKind, limit: number) {
   return NextResponse.json(
-    { error: MESSAGE[kind], code: 'quota_exceeded', limit },
+    { error: MESSAGE[kind], code: 'quota_exceeded', kind, limit },
     { status: 429, headers: { 'Retry-After': '3600' } }
   )
 }

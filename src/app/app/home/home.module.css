@@ -164,3 +164,56 @@
   font-size: 12px;
   color: var(--rose-dark);
 }
+
+/* ── Plan card (entry point to /app/plans) ── */
+.planCard {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  margin: -16px 0 28px;
+  text-align: left;
+  background: var(--warm-white);
+  border: 1.5px solid var(--border-dark);
+  border-radius: var(--radius-xs);
+  transition: border-color 0.12s, transform 0.12s;
+}
+.planCard:hover { border-color: var(--ink); transform: translateY(-1px); }
+.planCardFree { background: var(--butter-light); border-color: var(--ink); }
+.planText { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.planKicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-3);
+}
+.planStatus { font-size: 14px; line-height: 1.4; color: var(--text); }
+.planCta {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.planCardFree .planCta {
+  background: var(--ink);
+  color: var(--warm-white);
+  border-radius: var(--radius-xs);
+  padding: 7px 10px;
+}
+
+/* ── Desktop ── */
+@media (min-width: 1024px) {
+  .page { max-width: var(--wide-w); padding: 0 40px 48px; }
+  /* The sidebar already carries the logo. */
+  .brandLogo { display: none; }
+  .header { padding-top: 48px; }
+  .greetName { font-size: 34px; }
+  .stats { grid-template-columns: repeat(3, minmax(0, 220px)); }
+  .mainCards { grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .mainCard { padding: 28px 22px; min-height: 190px; }
+  .cardDesc { margin-top: auto; }
+}

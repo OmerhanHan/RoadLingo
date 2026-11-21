@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/contexts/AuthContext'
+import AuthShowcase from '@/components/AuthShowcase'
 import styles from '../login/login.module.css'
 
 export default function RegisterPage() {
@@ -27,6 +28,7 @@ export default function RegisterPage() {
 
   return (
     <div className={styles.wrap}>
+      <AuthShowcase />
       <div className={styles.card}>
         <div className={styles.logo}>
           <Image src="/logo.png" alt="RoadLingo" width={2304} height={1536} sizes="160px" loading="eager" className={styles.brandLogo} />

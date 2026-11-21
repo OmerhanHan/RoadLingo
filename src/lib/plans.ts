@@ -89,8 +89,29 @@ export function getPlanById(id: unknown): PlanDefinition {
   return PLANS.find((p) => p.id === id) ?? PLANS[0]
 }
 
+/** A full speaking interview uses about this many chat replies (7 answers + closing). */
+export const REPLIES_PER_INTERVIEW = 8
+
+/** Interviews a chat-reply budget covers. */
+export const interviewsFor = (replies: number) => Math.floor(replies / REPLIES_PER_INTERVIEW)
+
 export function planLimit(plan: PlanId, kind: LimitKind): number {
   return getPlanById(plan).limits[kind]
+}
+
+/**
+ * Internal daily budgets that the plans page does not list. They only stop
+ * abuse of endpoints that cost money or CPU; normal use stays well below them.
+ * - ttsChars: characters of server speech (cache hits are free). One listening
+ *   clip is ~1–3k characters, one interview reply ~300.
+ * - topics: AI-generated essay topics (past the budget the fixed pool is used).
+ */
+export type BudgetKind = 'ttsChars' | 'topics'
+
+export const PLAN_BUDGETS: Record<PlanId, Record<BudgetKind, number>> = {
+  free: { ttsChars: 20_000, topics: 5 },
+  pro: { ttsChars: 120_000, topics: 30 },
+  exam: { ttsChars: 180_000, topics: 30 },
 }
 
 export const LIMIT_LABEL: Record<LimitKind, string> = {
@@ -127,6 +148,8 @@ export interface SubscriptionState {
 }
 
 const SUB_KEY = 'writer_subscription'
+/** Fired on window after the subscription changes (e.g. to refresh the sidebar plan chip). */
+export const SUBSCRIPTION_EVENT = 'roadlingo:subscription'
 const DEVICE_KEY = 'roadlingo_device_id'
 
 function defaultSubscription(): SubscriptionState {
@@ -151,6 +174,7 @@ export function saveSubscription(sub: SubscriptionState): void {
   } catch {
     /* storage unavailable */
   }
+  window.dispatchEvent(new Event(SUBSCRIPTION_EVENT))
 }
 
 /** The plan in effect right now (an expired exam pass or canceled Pro falls back to free). */

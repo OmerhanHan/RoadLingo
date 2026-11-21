@@ -41,3 +41,25 @@
 }
 .tLine { font-size: 14px; line-height: 1.6; color: var(--ink); border-radius: 4px; padding: 1px 4px; margin: 0 -4px; transition: background 0.15s; }
 .tLineOn { background: var(--butter-light); }
+
+.reviewQuestions { min-width: 0; }
+
+/* ── Desktop: player / transcript on the left, questions on the right ── */
+@media (min-width: 1024px) {
+  .player { margin-bottom: 0; padding: 28px 24px; gap: 16px; }
+  .playerTitle { font-size: 22px; }
+  .wave { height: 56px; gap: 4px; }
+  .bar { width: 5px; }
+  @keyframes waveLg { 0%, 100% { height: 10px; } 50% { height: 52px; } }
+  .playerOn .bar { animation-name: waveLg; }
+
+  .reviewClip {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+    padding-bottom: 20px;
+  }
+  .transcript { position: sticky; top: 24px; margin-bottom: 0; padding: 16px 18px; }
+  .tLine { font-size: 15px; }
+}

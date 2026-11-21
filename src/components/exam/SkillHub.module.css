@@ -54,6 +54,7 @@
   transition: border-color 0.12s, transform 0.12s;
 }
 .extra:hover { border-color: var(--ink); transform: translateY(-1px); }
+.extraWide { grid-column: 1 / -1; min-width: 0; }
 .extraEmoji { font-size: 22px; }
 .extraTitle { font-family: var(--font-serif); font-size: 16px; color: var(--ink); }
 .extraTag { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-3); }
