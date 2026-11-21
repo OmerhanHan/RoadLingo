@@ -2,6 +2,17 @@
 
 Tamamlananları `[x]` ile işaretle. Sıra kabaca önceliği gösterir.
 
+## 0. Güvenlik (ön analiz, 22.11.2026)
+- [ ] Next.js'i 16.3.5'ten 16.4.6'ya yükselt; `npm audit fix` ile sharp ve source-map-js'i güncelle
+- [ ] Supabase modunda yapay zekâ rotaları girişsiz çağrılamasın (IP başlığı taklit edilip ücretsiz sınır aşılabiliyor)
+- [ ] Canlıda Supabase yoksa tarayıcının plan bilgisine güvenme (herkes Başlangıç planı sayılsın)
+- [ ] Yapay zekâya giden tüm alanlara uzunluk sınırı koy (analyze `topic`; e-posta `to/subject/scenario`; tartışma puanlamada `prompt`)
+- [ ] Güvenlik başlıkları ekle: çerçeveye gömmeyi engelle, `nosniff`, referrer politikası, CSP
+- [ ] Hata cevaplarında iç ayrıntıları (`detail`) canlıda gösterme
+- [ ] Dakikalık istek sınırı (ses ve içerik rotaları için)
+- [ ] `profiles.name` için uzunluk sınırı
+- [ ] Supabase ayarları: güvenli şifre değişimi, sızmış şifre koruması, en az 8 karakter
+
 ## 1. Supabase'i bağla (kod hazır, `feat/supabase`)
 Adımlar: [supabase/README.md](supabase/README.md)
 - [ ] Supabase projesi aç (AB / Frankfurt), üç anahtarı `.env.local`'a yaz
@@ -36,6 +47,13 @@ Adımlar: [supabase/README.md](supabase/README.md)
 - [ ] Giriş kartındaki "English Writing Practice" yazısını "TOEFL Hazırlık" gibi bir ifadeyle değiştir
 - [ ] Gemini model adını güncelle (`gemini-1.5-flash`: analyze, analyze/email, topic)
 - [ ] Konuşma için Gemini sağlayıcısını tamamla (şu an taslak)
+
+## 4b. Oyunlar (yapay zekâ çağırmaz, içerik bankasından gelir, her planda sınırsız)
+- [x] Hata Avı: altyapı, oyun ekranı, oyunlar sayfası, ana sayfa ve kenar çubuğu girişleri
+- [ ] Hata Avı içeriğini çoğalt: seviye başına en az 20 tur (`npm run content:generate -- --tasks error-hunt --target 20`) ve elle gözden geçir
+- [ ] Hata Avı içeriğini daha güçlü bir modelle üretmeyi değerlendir (yerel küçük model bazen doğru ifadeyi hata sayıyor; ikinci kontrol bunu azaltıyor ama sıfırlamıyor)
+- [ ] Kelime Yolculuğu
+- [ ] Günün Bulmacası (Supabase sonrası: herkese aynı tur, seri, sıralama; puan sunucuda doğrulanmalı)
 
 ## 5. Admin paneli
 - [ ] İçerik bankasını (`content/bank/*.json`) tabloya taşı, admin rolü ekle
