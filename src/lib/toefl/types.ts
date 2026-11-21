@@ -6,7 +6,8 @@ export function parseLevel(value: string | null | undefined): ToeflLevel {
   return TOEFL_LEVELS.includes(value as ToeflLevel) ? (value as ToeflLevel) : 'B2'
 }
 
-export type ContentSource = 'ai' | 'fallback'
+/** ai = generated for this request, bank = reused from the content bank, fallback = built-in. */
+export type ContentSource = 'ai' | 'bank' | 'fallback'
 
 /* ── Build a Sentence ── */
 
@@ -29,6 +30,8 @@ export type BuildSentenceItem = {
 
 export type BuildSentenceSet = {
   source: ContentSource
+  /** Content bank id (used to avoid showing the same content twice). */
+  contentId?: string
   level: ToeflLevel
   topic: string
   items: BuildSentenceItem[]
@@ -42,6 +45,8 @@ export type CompleteWordsSegment =
 
 export type CompleteWordsSet = {
   source: ContentSource
+  /** Content bank id (used to avoid showing the same content twice). */
+  contentId?: string
   level: ToeflLevel
   topic: string
   title: string
@@ -66,6 +71,8 @@ export type PassageQuestion = {
 
 export type AcademicPassageSet = {
   source: ContentSource
+  /** Content bank id (used to avoid showing the same content twice). */
+  contentId?: string
   level: ToeflLevel
   topic: string
   title: string
@@ -92,6 +99,8 @@ export type DailyText = {
 
 export type DailyLifeSet = {
   source: ContentSource
+  /** Content bank id (used to avoid showing the same content twice). */
+  contentId?: string
   level: ToeflLevel
   scenario: string
   text: DailyText
@@ -104,6 +113,8 @@ export type DiscussionPost = { name: string; text: string }
 
 export type AcademicDiscussionPrompt = {
   source: ContentSource
+  /** Content bank id (used to avoid showing the same content twice). */
+  contentId?: string
   level: ToeflLevel
   course: string
   professor: DiscussionPost
@@ -154,6 +165,8 @@ export type ListeningClip = {
 
 export type ListeningSet = {
   source: ContentSource
+  /** Content bank id (used to avoid showing the same content twice). */
+  contentId?: string
   level: ToeflLevel
   task: ListeningTaskId
   title: string

@@ -1,4 +1,6 @@
 'use client'
+import { planHeaders } from '@/lib/plans'
+import { markSeen, seenParam } from '@/lib/content/seen'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { QUESTION_TYPE_LABEL } from '@/lib/toefl/academicPassage'
@@ -122,9 +124,10 @@ export default function DailyLifePage() {
     setPhase('loading')
     setError(null)
     try {
-      const res = await fetch(`/api/toefl/daily-life?level=${level}&skip=${skip}`, { signal: ctrl.signal })
+      const res = await fetch(`/api/toefl/daily-life?level=${level}&skip=${skip}${seenParam('daily-life')}`, { signal: ctrl.signal, headers: planHeaders() })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data = (await res.json()) as DailyLifeSet
+      markSeen('daily-life', data.contentId)
       setSet(data)
       setAnswers(Array(data.questions.length).fill(null))
       setPhase('answering')
@@ -193,8 +196,8 @@ export default function DailyLifePage() {
       {(phase === 'answering' || phase === 'review') && set && (
         <section className="anim-fade-up">
           <div className={t.metaRow}>
-            <span className={`${t.badge} ${set.source === 'ai' ? t.badgeAi : ''}`}>
-              {GENRE_LABEL[set.text.genre]} · {set.source === 'ai' ? `AI · ${set.level}` : 'Hazır metin'}
+            <span className={`${t.badge} ${set.source !== 'fallback' ? t.badgeAi : ''}`}>
+              {GENRE_LABEL[set.text.genre]} · {set.source !== 'fallback' ? `AI · ${set.level}` : 'Hazır metin'}
             </span>
             {session.texts > 0 && (
               <span className={t.progressText}>Oturum: {session.correct}/{session.total} · {session.texts} metin</span>

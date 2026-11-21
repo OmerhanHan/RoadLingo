@@ -1,3 +1,5 @@
+import { planHeaders } from '@/lib/plans'
+
 export type EmailScoreKey =
   | 'task_fulfillment'
   | 'organization_flow'
@@ -417,7 +419,7 @@ export async function analyzeEmail(params: {
   try {
     const res = await fetch('/api/analyze/email', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...planHeaders() },
       body: JSON.stringify(params),
     })
     if (!res.ok) {

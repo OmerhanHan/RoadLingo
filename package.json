@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "generate:epubs": "node scripts/generate-sample-epubs.mjs",
-    "tts:pocket": "pocket-tts serve --port 8765 --default-voice marius"
+    "tts:pocket": "pocket-tts serve --port 8765 --default-voice marius",
+    "content:generate": "node scripts/generate-content.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

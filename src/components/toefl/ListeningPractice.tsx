@@ -1,4 +1,6 @@
 'use client'
+import { planHeaders } from '@/lib/plans'
+import { markSeen, seenParam } from '@/lib/content/seen'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { LISTENING_TASK_INFO, QUESTION_KIND_LABEL } from '@/lib/toefl/listening'
@@ -79,9 +81,10 @@ export default function ListeningPractice({ task }: { task: ListeningTaskId }) {
     setPhase('loading')
     setError(null)
     try {
-      const res = await fetch(`/api/toefl/listening?task=${task}&level=${level}`, { signal: ctrl.signal })
+      const res = await fetch(`/api/toefl/listening?task=${task}&level=${level}${seenParam(`listening-${task}`)}`, { signal: ctrl.signal, headers: planHeaders() })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data = (await res.json()) as ListeningSet
+      markSeen(`listening-${task}`, data.contentId)
       setSet(data)
       setClipIndex(0)
       setHeard(data.clips.map(() => false))
@@ -168,8 +171,8 @@ export default function ListeningPractice({ task }: { task: ListeningTaskId }) {
       {phase === 'clip' && set && clip && (
         <section className="anim-fade-up" key={clipIndex}>
           <div className={t.metaRow}>
-            <span className={`${t.badge} ${set.source === 'ai' ? t.badgeAi : ''}`}>
-              {set.source === 'ai' ? `AI · ${set.level}` : 'Hazır içerik'}
+            <span className={`${t.badge} ${set.source !== 'fallback' ? t.badgeAi : ''}`}>
+              {set.source !== 'fallback' ? `AI · ${set.level}` : 'Hazır içerik'}
             </span>
             {set.clips.length > 1 && <span className={t.progressText}>{clipIndex + 1} / {set.clips.length}</span>}
           </div>

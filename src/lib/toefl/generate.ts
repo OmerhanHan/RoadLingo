@@ -7,16 +7,25 @@ const GENERATION_TIMEOUT_MS = 90_000
  * Runs a single non-streaming completion through the configured AI provider
  * (Ollama by default) by collecting the streamed tokens.
  */
+/** Output-token caps per kind of call (generous enough for valid JSON). */
+export const MAX_TOKENS = {
+  content: 2500,
+  scoring: 1200,
+} as const
+
 export async function generateText(
   messages: ChatMessage[],
-  signal?: AbortSignal
+  signal?: AbortSignal,
+  maxTokens: number = MAX_TOKENS.content,
+  /** false skips hidden reasoning so it cannot eat the token cap (used for scoring). */
+  think?: boolean
 ): Promise<string> {
   const timeout = AbortSignal.timeout(GENERATION_TIMEOUT_MS)
   const combined = signal ? AbortSignal.any([signal, timeout]) : timeout
 
   const provider = getSpeakingProvider()
   let text = ''
-  for await (const chunk of provider.streamChat(messages, { signal: combined })) {
+  for await (const chunk of provider.streamChat(messages, { signal: combined, maxTokens, think })) {
     if (chunk.type === 'error') throw new Error(chunk.error)
     if (chunk.type === 'token') text += chunk.content
     if (chunk.type === 'done') break

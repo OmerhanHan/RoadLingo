@@ -1,4 +1,6 @@
 'use client'
+import { planHeaders } from '@/lib/plans'
+import { markSeen, seenParam } from '@/lib/content/seen'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
@@ -70,9 +72,11 @@ export default function AcademicDiscussionPage() {
     setPhase('loading')
     setError(null)
     try {
-      const res = await fetch(`/api/toefl/academic-discussion?level=${level}`, { signal: ctrl.signal })
+      const res = await fetch(`/api/toefl/academic-discussion?level=${level}${seenParam('academic-discussion')}`, { signal: ctrl.signal, headers: planHeaders() })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
-      setPrompt((await res.json()) as AcademicDiscussionPrompt)
+      const data = (await res.json()) as AcademicDiscussionPrompt
+      markSeen('academic-discussion', data.contentId)
+      setPrompt(data)
       setText('')
       setResult(null)
       setRemaining(TOTAL_SEC)
@@ -95,7 +99,7 @@ export default function AcademicDiscussionPage() {
     try {
       const res = await fetch('/api/toefl/academic-discussion/score', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...planHeaders() },
         body: JSON.stringify({
           prompt: { course: prompt.course, professor: prompt.professor, students: prompt.students },
           response: text,
@@ -103,6 +107,11 @@ export default function AcademicDiscussionPage() {
         signal: ctrl.signal,
       })
       const data = await res.json()
+      if (res.status === 429) {
+        setError(data.error || 'Günlük değerlendirme hakkın doldu.')
+        setPhase('writing')
+        return
+      }
       if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`)
       setResult(data as DiscussionScore)
       setPhase('result')
@@ -156,8 +165,8 @@ export default function AcademicDiscussionPage() {
       {prompt && (phase === 'writing' || phase === 'scoring' || phase === 'result') && (
         <section className="anim-fade-up">
           <div className={t.metaRow}>
-            <span className={`${t.badge} ${prompt.source === 'ai' ? t.badgeAi : ''}`}>
-              {prompt.source === 'ai' ? `AI · ${prompt.level}` : 'Hazır konu'} · {prompt.course}
+            <span className={`${t.badge} ${prompt.source !== 'fallback' ? t.badgeAi : ''}`}>
+              {prompt.source !== 'fallback' ? `AI · ${prompt.level}` : 'Hazır konu'} · {prompt.course}
             </span>
             {phase === 'writing' && (
               <span className={`${t.timer} ${remaining <= 60 ? styles.timerLow : ''}`}>⏱ {formatTime(remaining)}</span>

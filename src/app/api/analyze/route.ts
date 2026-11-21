@@ -1,5 +1,9 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { NextRequest, NextResponse } from 'next/server'
+import { consumeQuota, quotaExceeded, refundQuota } from '@/lib/usage/quota'
+
+/** Longer texts are rejected rather than paid for. */
+const MAX_INPUT_CHARS = 6000
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY!)
 
@@ -33,6 +37,7 @@ Scoring guide:
 IMPORTANT: Return raw JSON only. No markdown. No explanation outside the JSON.`
 
 export async function POST(req: NextRequest) {
+  let charged = false
   try {
     const { content, topic } = await req.json()
 
@@ -40,13 +45,21 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'content and topic are required' }, { status: 400 })
     }
 
+    if (String(content).length > MAX_INPUT_CHARS) {
+      return NextResponse.json({ error: 'Metin çok uzun' }, { status: 400 })
+    }
     if (!process.env.GOOGLE_AI_API_KEY) {
       return NextResponse.json({ error: 'GOOGLE_AI_API_KEY is not configured' }, { status: 500 })
     }
 
+    const quota = consumeQuota(req, 'scoring')
+    if (!quota.ok) return quotaExceeded('scoring', quota.limit)
+    charged = true
+
     const model = genAI.getGenerativeModel({
       model: 'gemini-1.5-flash',
       systemInstruction: SYSTEM_PROMPT,
+      generationConfig: { maxOutputTokens: 1200, responseMimeType: 'application/json' },
     })
 
     const prompt = `Topic: "${topic}"
@@ -76,6 +89,7 @@ ${content}`
 
     return NextResponse.json(feedback)
   } catch (err) {
+    if (charged) refundQuota(req, 'scoring')
     console.error('[analyze] Error:', err)
     return NextResponse.json(
       { error: 'Analysis failed', detail: err instanceof Error ? err.message : String(err) },

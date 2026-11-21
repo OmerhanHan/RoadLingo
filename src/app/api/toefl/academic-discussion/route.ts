@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
+import { serveContent } from '@/lib/content/serve'
 import {
   DISCUSSION_COURSES,
   discussionPromptPrompt,
@@ -12,26 +13,29 @@ import { pickRandom } from '@/lib/toefl/utils'
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
+type Content = Pick<AcademicDiscussionPrompt, 'course' | 'professor' | 'students'>
+
 export async function GET(req: NextRequest) {
   const level = parseLevel(req.nextUrl.searchParams.get('level'))
-  const course = pickRandom(DISCUSSION_COURSES)
 
-  try {
-    const raw = await generateText(
-      [
-        { role: 'system', content: 'You are a precise TOEFL writing prompt author. You reply with JSON only.' },
-        { role: 'user', content: discussionPromptPrompt(level, course, LEVEL_GUIDE[level]) },
-      ],
-      req.signal
-    )
-    const prompt = normalizeDiscussionPrompt(extractJson(raw))
-    if (!prompt) throw new Error('Generated discussion failed validation')
-
-    const body: AcademicDiscussionPrompt = { source: 'ai', level, course, ...prompt }
-    return NextResponse.json(body)
-  } catch (err) {
-    console.warn('[toefl/academic-discussion] AI generation failed, using fallback:', err instanceof Error ? err.message : err)
-    const body: AcademicDiscussionPrompt = { source: 'fallback', level, ...pickRandom(FALLBACK_DISCUSSIONS) }
-    return NextResponse.json(body)
-  }
+  return serveContent<Content, AcademicDiscussionPrompt>({
+    task: 'academic-discussion',
+    req,
+    level,
+    async generate(signal) {
+      const course = pickRandom(DISCUSSION_COURSES)
+      const raw = await generateText(
+        [
+          { role: 'system', content: 'You are a precise TOEFL writing prompt author. You reply with JSON only.' },
+          { role: 'user', content: discussionPromptPrompt(level, course, LEVEL_GUIDE[level]) },
+        ],
+        signal
+      )
+      const prompt = normalizeDiscussionPrompt(extractJson(raw))
+      if (!prompt) throw new Error('Generated discussion failed validation')
+      return { course, ...prompt }
+    },
+    fallback: () => pickRandom(FALLBACK_DISCUSSIONS),
+    finalize: (data, meta) => ({ ...meta, level, ...data }),
+  })
 }

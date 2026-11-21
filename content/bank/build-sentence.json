@@ -1,0 +1,899 @@
+[
+ {
+  "id": "070d15f10c",
+  "level": "B1",
+  "createdAt": "2026-11-21T16:02:04.079Z",
+  "data": {
+   "topic": "travel plans for a semester break",
+   "items": [
+    {
+     "context": "How much should we budget for flights if we go to Thailand?",
+     "answer": "We should plan for at least five hundred dollars for flights.",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "michael"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "jane"
+      }
+     }
+    },
+    {
+     "context": "Will we need a train or maybe just a rental car to get around?",
+     "answer": "We will probably take a combination of trains and buses.",
+     "distractor": "busses",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "anna"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "charles"
+      }
+     }
+    },
+    {
+     "context": "Do you know what kind of place we should look for when we travel?",
+     "answer": "We need to find accommodation near the city center.",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "marius"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "mary"
+      }
+     }
+    },
+    {
+     "context": "If we go hiking, what kind of equipment should we bring?",
+     "answer": "You must remember to bring good waterproof boots and jackets.",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "alba"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "george"
+      }
+     }
+    },
+    {
+     "context": "Do you know what the local people eat there for dinner?",
+     "answer": "They usually enjoy fresh seafood and rice dishes.",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "george"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "eve"
+      }
+     }
+    },
+    {
+     "context": "Should we spend most of our time exploring or just relaxing on the beach?",
+     "answer": "We should balance sight seeing with some downtime too.",
+     "distractor": "sightseeing",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "paul"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "eve"
+      }
+     }
+    },
+    {
+     "context": "What is the best way for us to explore the historic old town?",
+     "answer": "Walking through the narrow streets is the most fun way.",
+     "distractor": "street",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "anna"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "charles"
+      }
+     }
+    },
+    {
+     "context": "By the time we arrive, will the last remaining tour tickets be sold out?",
+     "answer": "They will probably have already sold out many tickets.",
+     "distractor": "soldding",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "george"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "alba"
+      }
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "794225bb83",
+  "level": "B1",
+  "createdAt": "2026-11-21T16:02:27.572Z",
+  "data": {
+   "topic": "a science lab assignment",
+   "items": [
+    {
+     "context": "Did you remember to label the test tubes with our group number?",
+     "answer": "Yes we need to label them before we start the procedure.",
+     "distractor": "ourly",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "jane"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "george"
+      }
+     }
+    },
+    {
+     "context": "When do we need to submit the final report on the cell cultures?",
+     "answer": "The report is due by Monday morning at nine oclock.",
+     "distractor": "before",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "paul"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "jane"
+      }
+     }
+    },
+    {
+     "context": "What should we do if the solution turns bright blue?",
+     "answer": "Please dilute it with water and notify the instructor.",
+     "distractor": "diluting",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "vera"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "michael"
+      }
+     }
+    },
+    {
+     "context": "Are there any steps that we might have forgotten in the protocol?",
+     "answer": "Maybe measure the initial sample twice to be safe.",
+     "distractor": "carefully",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "paul"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "jane"
+      }
+     }
+    },
+    {
+     "context": "How does this experiment show the connection between variables?",
+     "answer": "It shows how heat affects the reaction speed greatly.",
+     "distractor": "slower",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "mary"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "marius"
+      }
+     }
+    },
+    {
+     "context": "Can you explain the difference between primary and secondary sources?",
+     "answer": "Secondary sources summarize what someone else already said.",
+     "distractor": "summarizes",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "george"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "eve"
+      }
+     }
+    },
+    {
+     "context": "If we raise the temperature, what might happen to the sample?",
+     "answer": "The sample might change color and lose its structure.",
+     "distractor": "changeable",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "jane"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "charles"
+      }
+     }
+    },
+    {
+     "context": "Do we need to wear goggles while handling the acidic chemicals?",
+     "answer": "Yes you must always wear goggles for chemical safety.",
+     "distractor": "must've",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "marius"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "alba"
+      }
+     }
+    },
+    {
+     "context": "According to the instructions, what comes immediately after mixing A and B?",
+     "answer": "Next you must wait for five minutes before recording results.",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "jane"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "paul"
+      }
+     }
+    },
+    {
+     "context": "Should we calculate the percent yield or the total volume for our conclusion?",
+     "answer": "We should focus on the percent yield since that is the goal.",
+     "distractor": "precentage",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "paul"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "mary"
+      }
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "cdc98dabb4",
+  "level": "B2",
+  "createdAt": "2026-11-21T16:02:47.475Z",
+  "data": {
+   "topic": "talking with a professor during office hours",
+   "items": [
+    {
+     "context": "I was reviewing the syllabus and I couldn't quite understand the grading breakdown for the final project.",
+     "answer": "The final project accounts for twenty percent of your total grade.",
+     "distractor": "besides",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "eve"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "michael"
+      }
+     }
+    },
+    {
+     "context": "Professor, I was hoping I could get some extra feedback on my preliminary thesis statement.",
+     "answer": "I recommend focusing your research on historical policy changes.",
+     "distractor": "however",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "marius"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "mary"
+      }
+     }
+    },
+    {
+     "context": "I've attached my proposal outline. Do you think the methodology is strong enough for this paper?",
+     "answer": "Perhaps you should expand the literature review section first.",
+     "distractor": "already",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "charles"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "jane"
+      }
+     }
+    },
+    {
+     "context": "If I run into difficulty gathering sources for Chapter Three, what should I do?",
+     "answer": "We can meet during the library hours to brainstorm some ideas.",
+     "distractor": "consequently",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "mary"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "charles"
+      }
+     }
+    },
+    {
+     "context": "When is the absolute deadline for the group presentation? I want to make sure we are prepared.",
+     "answer": "It is due next Friday at nine oclock in the morning.",
+     "distractor": "whenever",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "george"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "mary"
+      }
+     }
+    },
+    {
+     "context": "I was hoping to ask if it would be possible to get an extension on the essay.",
+     "answer": "You must submit a valid reason for requesting more time.",
+     "distractor": "except",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "eve"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "marius"
+      }
+     }
+    },
+    {
+     "context": "What key concepts should I prioritize studying if I want to improve my grade substantially?",
+     "answer": "Understanding the core theories is much more important right now.",
+     "distractor": "howevermuch",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "michael"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "anna"
+      }
+     }
+    },
+    {
+     "context": "I found a primary source that contradicts your lecture material. Should I use it?",
+     "answer": "You need to analyze that discrepancy more critically in your paper.",
+     "distractor": "although",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "alba"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "michael"
+      }
+     }
+    },
+    {
+     "context": "Regarding the required reading list, are there specific sections I should focus on for this unit?",
+     "answer": "Focus primarily on the latter chapters concerning economic policy.",
+     "distractor": "howeverever",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "paul"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "alba"
+      }
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "44f100d3bd",
+  "level": "B2",
+  "createdAt": "2026-11-21T16:03:06.802Z",
+  "data": {
+   "topic": "a part-time job on campus",
+   "items": [
+    {
+     "context": "I'm looking for something flexible, ideally only a few hours right after my afternoon classes.",
+     "answer": "The library assistant position requires minimal commitment.",
+     "distractor": "commitments",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "jane"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "paul"
+      }
+     }
+    },
+    {
+     "context": "Do you think working in the campus bookstore would give me good experience?",
+     "answer": "You would gain valuable retail experience and customer service skills.",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "paul"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "jane"
+      }
+     }
+    },
+    {
+     "context": "What kind of administrative tasks are involved in the departmental office?",
+     "answer": "It mostly involves organizing files and scheduling appointments.",
+     "distractor": "scheduled",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "eve"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "charles"
+      }
+     }
+    },
+    {
+     "context": "If I apply for the tutoring role, will I need advanced knowledge in literature?",
+     "answer": "You just need to have a strong academic grasp of the material.",
+     "distractor": "grasps",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "charles"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "alba"
+      }
+     }
+    },
+    {
+     "context": "Is there any chance of getting a discount on textbooks if I work there?",
+     "answer": "Yes we usually receive a small employee discount.",
+     "distractor": "receives",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "eve"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "george"
+      }
+     }
+    },
+    {
+     "context": "I'm interested in working with the student newspaper, but is it too competitive?",
+     "answer": "It is very collaborative so you won't feel overwhelmed.",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "paul"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "eve"
+      }
+     }
+    },
+    {
+     "context": "Do I need to provide my own laptop, or will the university issue one?",
+     "answer": "They provide all the necessary equipment for the role.",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "alba"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "george"
+      }
+     }
+    },
+    {
+     "context": "How difficult is it to balance a job with a full-time academic course load?",
+     "answer": "Most students find it quite manageable with careful planning.",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "marius"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "vera"
+      }
+     }
+    },
+    {
+     "context": "Will the hours I work affect my academic standing or my student benefits?",
+     "answer": "No it won't interfere with your studies or benefits at all.",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "eve"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "marius"
+      }
+     }
+    },
+    {
+     "context": "Could you tell me more about the required training before starting the job?",
+     "answer": "They offer comprehensive training sessions when you begin work.",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "paul"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "vera"
+      }
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "23d589c61c",
+  "level": "C1",
+  "createdAt": "2026-11-21T16:03:30.215Z",
+  "data": {
+   "topic": "a club or student organization event",
+   "items": [
+    {
+     "context": "We need to finalize the schedule for the interdisciplinary workshop. Will the keynote speaker be available on Friday?",
+     "answer": "He is available unless there are unforeseen logistical conflicts.",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "eve"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "paul"
+      }
+     }
+    },
+    {
+     "context": "I am still unsure about the ultimate goal of the film festival. What does the organizing committee hope to achieve?",
+     "answer": "It intends to foster creative collaborations among emerging artists.",
+     "distractor": "fostering",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "paul"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "vera"
+      }
+     }
+    },
+    {
+     "context": "Since many members mentioned feeling overwhelmed, shouldn't we make the commitment levels clearer?",
+     "answer": "We must delineate the expectations for all involved participants.",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "eve"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "michael"
+      }
+     }
+    },
+    {
+     "context": "The previous bake sale was poorly attended. What steps should we take to improve visibility next year?",
+     "answer": "We should distribute flyers to students in adjacent dorms.",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "michael"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "jane"
+      }
+     }
+    },
+    {
+     "context": "For the academic fair, we need several visual aids. Have we ordered enough posters detailing our research?",
+     "answer": "The posters detailing the findings are being printed tomorrow.",
+     "distractor": "details",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "eve"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "charles"
+      }
+     }
+    },
+    {
+     "context": "If the funding committee approves the proposal, what steps should the club take next month?",
+     "answer": "We can then start coordinating with the publicity department.",
+     "distractor": "coordinat",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "george"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "jane"
+      }
+     }
+    },
+    {
+     "context": "Comparing this year's poetry reading to the last one, was the selection of authors more diverse?",
+     "answer": "The roster appears significantly more varied than previously expected.",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "vera"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "charles"
+      }
+     }
+    },
+    {
+     "context": "The preparation for the charity drive is daunting. What specific aspects require immediate attention?",
+     "answer": "Collecting the donated items and cataloging them should be prioritized.",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "george"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "alba"
+      }
+     }
+    },
+    {
+     "context": "Considering the budget constraints, is it necessary for everyone to purchase advanced training materials?",
+     "answer": "I suggest everyone needing training attends the seminar.",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "mary"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "paul"
+      }
+     }
+    },
+    {
+     "context": "Overall, how do you feel about the successful conclusion of the annual symposium this year?",
+     "answer": "It was a beneficial platform for networking and scholarly discussion.",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "marius"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "alba"
+      }
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "81c584a57f",
+  "level": "C1",
+  "createdAt": "2026-11-21T16:03:53.586Z",
+  "data": {
+   "topic": "a group project for a class",
+   "items": [
+    {
+     "context": "I'm concerned that we haven't assigned anyone to write the introductory section.",
+     "answer": "Perhaps we could divide the writing among the three of us.",
+     "distractor": "because",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "michael"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "mary"
+      }
+     }
+    },
+    {
+     "context": "If our professor changes the project scope, what should we do?",
+     "answer": "We should adapt quickly to whatever new requirements are issued.",
+     "distractor": "modify",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "jane"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "michael"
+      }
+     }
+    },
+    {
+     "context": "Did anyone look into alternative sources for the historical data?",
+     "answer": "I found a specialized journal which provides more robust evidence.",
+     "distractor": "consequently",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "charles"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "vera"
+      }
+     }
+    },
+    {
+     "context": "It seems like one person is doing most of the heavy lifting on this project.",
+     "answer": "We need to ensure that the workload is distributed more fairly among everyone.",
+     "distractor": "allocation",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "mary"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "marius"
+      }
+     }
+    },
+    {
+     "context": "When is the absolute deadline for submitting the final drafts?",
+     "answer": "It is due exactly two weeks from today's meeting.",
+     "distractor": "remaining",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "charles"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "mary"
+      }
+     }
+    },
+    {
+     "context": "I feel like the conclusion is weak and lacks sufficient argumentative support.",
+     "answer": "We ought to integrate several supplementary findings for better depth.",
+     "distractor": "inadequate",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "mary"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "michael"
+      }
+     }
+    },
+    {
+     "context": "Do you think presenting the findings visually would improve our grade?",
+     "answer": "Visual aids would certainly make our complex material more engaging.",
+     "distractor": "definitively",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "charles"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "anna"
+      }
+     }
+    },
+    {
+     "context": "Our initial outline was too simple; we need to make it more comprehensive.",
+     "answer": "We should revise the sections to include detailed comparative analyses.",
+     "distractor": "superficial",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "vera"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "paul"
+      }
+     }
+    },
+    {
+     "context": "Whose responsibility is it to coordinate the group meeting times?",
+     "answer": "I think Sarah should take charge of coordinating our next meeting.",
+     "distractor": "assigned",
+     "speakers": {
+      "a": {
+       "gender": "male",
+       "voice": "michael"
+      },
+      "b": {
+       "gender": "female",
+       "voice": "mary"
+      }
+     }
+    },
+    {
+     "context": "I'm unsure how to synthesize all these disparate pieces of information.",
+     "answer": "Try structuring the information based on thematic connections across the chapters.",
+     "distractor": "connection",
+     "speakers": {
+      "a": {
+       "gender": "female",
+       "voice": "jane"
+      },
+      "b": {
+       "gender": "male",
+       "voice": "charles"
+      }
+     }
+    }
+   ]
+  }
+ }
+]

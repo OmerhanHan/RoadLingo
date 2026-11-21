@@ -1,5 +1,6 @@
 'use client'
 
+import { planHeaders } from '@/lib/plans'
 import { useCallback, useRef, useState } from 'react'
 import type { ChatMessage, StreamChunk } from '@/lib/speaking/types'
 import { SPEAKING_STARTER_PROMPT } from '@/lib/speaking/prompts'
@@ -107,7 +108,7 @@ export function useSpeakingLive(topic: TopicId | null = null) {
     try {
       const res = await fetch('/api/speaking/chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...planHeaders() },
         body: JSON.stringify({ messages: historyRef.current, topic, step: countAnswers(historyRef.current) }),
         signal: ac.signal,
       })
@@ -198,7 +199,7 @@ export function useSpeakingLive(topic: TopicId | null = null) {
     try {
       const res = await fetch('/api/speaking/chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...planHeaders() },
         body: JSON.stringify({ messages: seed, topic, step: 0 }),
         signal: ac.signal,
       })

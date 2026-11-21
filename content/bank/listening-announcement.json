@@ -1,0 +1,434 @@
+[
+ {
+  "id": "2f488eeabd",
+  "level": "B1",
+  "createdAt": "2026-11-21T16:18:23.045Z",
+  "data": {
+   "title": "Museum Announcement",
+   "clips": [
+    {
+     "context": "An announcement in a museum lobby",
+     "lines": [
+      {
+       "speaker": "Announcer",
+       "gender": "female",
+       "voice": "jane",
+       "text": "Excuse me, everyone. I just wanted to give a quick announcement. So, we've got a private art fair happening in the East Wing today, and 'well,' because of that, we're closing up a little bit earlier than usual. We're actually closing the museum today at three o'clock sharp."
+      },
+      {
+       "speaker": "Announcer",
+       "gender": "female",
+       "voice": "jane",
+       "text": "If you're planning to see the West Gallery or the Renaissance section, please make sure you wrap up by 2:45 PM. Also, if you're leaving, please head out through the main North Exit doors; we need to keep the courtyard clear for the setup crew."
+      },
+      {
+       "speaker": "Announcer",
+       "gender": "female",
+       "voice": "jane",
+       "text": "We appreciate your cooperation, and we look forward to seeing you all tomorrow! Thanks."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "purpose",
+       "question": "What is the main reason the museum is closing early today?",
+       "options": [
+        "To accommodate a private art fair in the East Wing.",
+        "Because the building is undergoing unexpected temporary maintenance.",
+        "To conduct staff training and clean the entire facility.",
+        "Due to a sudden shift in the museum's operating schedule."
+       ],
+       "answer": 0,
+       "explanation": "The speaker mentions the early closure is due to a private art fair."
+      },
+      {
+       "kind": "detail",
+       "question": "According to the announcement, what time should visitors plan to leave the museum?",
+       "options": [
+        "The museum will close entirely at two o'clock.",
+        "Visitors must depart by 2:45 PM to clear the West Gallery.",
+        "All guests should be gone by three o'clock sharp.",
+        "They can stay until the main event finishes in the evening."
+       ],
+       "answer": 1,
+       "explanation": "The announcement specifies that visitors should wrap up by 2:45 PM."
+      },
+      {
+       "kind": "action",
+       "question": "What is the required instruction for guests leaving the building?",
+       "options": [
+        "Using the main North Exit doors.",
+        "Avoiding the central courtyard area.",
+        "Meeting at the gift shop on the ground floor.",
+        "Waiting until the following day for instructions."
+       ],
+       "answer": 0,
+       "explanation": "The speaker explicitly advises guests to head out through the main North Exit."
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "f5bdb5eda7",
+  "level": "B1",
+  "createdAt": "2026-11-21T16:18:50.364Z",
+  "data": {
+   "title": "Library Equipment Update Announcement",
+   "clips": [
+    {
+     "context": "An announcement in the main library lobby",
+     "lines": [
+      {
+       "speaker": "Library Staff Member",
+       "gender": "female",
+       "voice": "vera",
+       "text": "Good morning, everyone. So, we wanted to let you know about some really exciting changes here at the library. We’ve finally installed several brand new self-checkout kiosks. Well, these are designed to make checking out and returning materials super quick and simple for all of you."
+      },
+      {
+       "speaker": "Library Staff Member",
+       "gender": "female",
+       "voice": "vera",
+       "text": "They'll be located right over by the circulation desk, starting today. Just remember, you’ll need an active library card to use the machines. Also, these kiosks can print up your receipts and even reserve the books for you, which is a huge convenience. We highly recommend giving them a try!"
+      },
+      {
+       "speaker": "Library Staff Member",
+       "gender": "female",
+       "voice": "vera",
+       "text": "There’s a small tutorial video station near the machines if you need a refresher. If you run into any trouble at all, please don't hesitate to ask one of us, but otherwise, feel free to just start scanning those items."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "purpose",
+       "question": "What is the main reason the library is announcing the new machines?",
+       "options": [
+        "To make the process of checking out books easier and faster.",
+        "To inform patrons about the closure of the main circulation desk.",
+        "To encourage people to use the new catalog search software.",
+        "To save money by reducing the need for staff members."
+       ],
+       "answer": 0,
+       "explanation": "The speaker mentions the kiosks are designed to make checking out materials 'super quick and simple'."
+      },
+      {
+       "kind": "detail",
+       "question": "According to the announcement, what specific services can the new kiosks perform?",
+       "options": [
+        "They can manage the renewal of accounts and process payments.",
+        "They allow patrons to print receipts and reserve items.",
+        "They are limited to scanning only fiction and non-fiction books.",
+        "They are designed exclusively for students who have special memberships."
+       ],
+       "answer": 1,
+       "explanation": "The speaker specifically mentions the kiosks can 'print up your receipts and even reserve the books for you'."
+      },
+      {
+       "kind": "action",
+       "question": "If a visitor has trouble using the new self-checkout kiosks, what should they do?",
+       "options": [
+        "They can watch the available tutorial video.",
+        "They should write down their issues and leave them with a staff member.",
+        "They should wait until the following week for staff support.",
+        "They should try to use the old manual counter service instead."
+       ],
+       "answer": 0,
+       "explanation": "The speaker advises that 'There’s a small tutorial video station near the machines if you need a refresher'."
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "d57741c6c2",
+  "level": "B2",
+  "createdAt": "2026-11-21T16:19:17.071Z",
+  "data": {
+   "title": "Campus Recreation Center Announcement",
+   "clips": [
+    {
+     "context": "A loudspeaker announcement in a large facility",
+     "lines": [
+      {
+       "speaker": "Marcus",
+       "gender": "male",
+       "voice": "michael",
+       "text": "Attention everyone. This is a quick announcement regarding the recreation center's main pool. We need to close the pool temporarily next week because of some critical structural maintenance."
+      },
+      {
+       "speaker": "Marcus",
+       "gender": "male",
+       "voice": "michael",
+       "text": "The facilities team needs to upgrade the filtration system, and it’s really important that we get this done to ensure safety and optimal operating conditions. So, the pool will be completely inaccessible from Monday, October 14th, through Friday, October 18th."
+      },
+      {
+       "speaker": "Marcus",
+       "gender": "male",
+       "voice": "michael",
+       "text": "Please note that this closure affects the entire week, not just certain times. For your swimming needs, we highly recommend utilizing the auxiliary pool located down in the Student Union complex. They've got plenty of space and it's equipped with everything you need."
+      },
+      {
+       "speaker": "Marcus",
+       "gender": "male",
+       "voice": "michael",
+       "text": "We apologize for any inconvenience this may cause, and we appreciate your understanding while we make these necessary improvements."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "purpose",
+       "question": "What is the main reason for the pool's temporary closure?",
+       "options": [
+        "To allow staff time to organize the annual campus clean-up event.",
+        "Because the campus is preparing for a major structural upgrade to the filtration system.",
+        "For a mandatory training session scheduled for the recreation center employees.",
+        "Due to limited availability of cleaning crews for the following week."
+       ],
+       "answer": 1,
+       "explanation": "The speaker states the closure is for critical maintenance on the filtration system."
+      },
+      {
+       "kind": "detail",
+       "question": "According to the announcement, for how long will the pool be closed?",
+       "options": [
+        "Only during the morning hours, from Monday through Wednesday.",
+        "From Monday, October 14th, through Friday, October 18th.",
+        "All week, except for Thursday afternoon.",
+        "From Monday through Wednesday, but it will reopen Thursday evening."
+       ],
+       "answer": 1,
+       "explanation": "The announcement explicitly specifies the closure dates from Monday the 14th to Friday the 18th."
+      },
+      {
+       "kind": "action",
+       "question": "What does the speaker advise people to do while the pool is closed?",
+       "options": [
+        "Wait until next month when the full system upgrade is complete.",
+        "Use the auxiliary pool located within the Student Union complex.",
+        "Practice swimming at the outdoor student facility across campus.",
+        "Simply hold off on swimming until the main filtration system is functional."
+       ],
+       "answer": 1,
+       "explanation": "The speaker advises utilizing the auxiliary pool located in the Student Union complex."
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "6e3bfac891",
+  "level": "B2",
+  "createdAt": "2026-11-21T16:19:43.869Z",
+  "data": {
+   "title": "Student Club Fair Announcement",
+   "clips": [
+    {
+     "context": "An announcement over the school's speaker system",
+     "lines": [
+      {
+       "speaker": "Announcer",
+       "gender": "female",
+       "voice": "vera",
+       "text": "Attention all students. Well, we know starting a new semester can feel a little overwhelming, but we’ve put together something to help! We’re hosting our annual Student Club Fair in the Main Hall. It’s the perfect opportunity to check out all the groups on campus—from debate teams and art clubs to intramural sports."
+      },
+      {
+       "speaker": "Announcer",
+       "gender": "female",
+       "voice": "vera",
+       "text": "This isn't just a browsing session; it's highly interactive. So, mark your calendars for Friday, September 15th, running from ten AM until two PM. You’ll find every club curated and ready to talk to you about what they offer and how you can get involved."
+      },
+      {
+       "speaker": "Announcer",
+       "gender": "female",
+       "voice": "vera",
+       "text": "Remember, visiting a booth is the first step, but speaking with the representatives is key to finding something that genuinely interests you. We really encourage everyone to come by and explore."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "purpose",
+       "question": "What is the main goal of the club fair?",
+       "options": [
+        "To help students discover campus groups and get involved.",
+        "To inform students about job openings outside of the university.",
+        "To allow the student activities office to recruit new volunteers.",
+        "To showcase the academic achievements of different majors."
+       ],
+       "answer": 0,
+       "explanation": "The announcer states the fair is to help students check out campus groups and get involved."
+      },
+      {
+       "kind": "detail",
+       "question": "When exactly is the club fair taking place?",
+       "options": [
+        "Friday, September 15th, from ten AM until two PM.",
+        "The whole week, starting on Monday morning.",
+        "Anytime in the Main Hall after lunch.",
+        "Next Saturday afternoon in the student union."
+       ],
+       "answer": 0,
+       "explanation": "The announcement specifies the date and time: Friday, September 15th, from ten AM until two PM."
+      },
+      {
+       "kind": "action",
+       "question": "What does the announcer recommend students do at the fair?",
+       "options": [
+        "Simply walk through the area and browse all the available posters.",
+        "Talk directly to the club representatives to learn more about membership.",
+        "Attend a formal presentation to choose the perfect club for them.",
+        "Sign up for club emails before the fair even begins."
+       ],
+       "answer": 1,
+       "explanation": "The announcer emphasizes that speaking with the representatives is key to getting involved."
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "b22c8e4b4c",
+  "level": "C1",
+  "createdAt": "2026-11-21T16:20:14.782Z",
+  "data": {
+   "title": "Train Platform Advisory",
+   "clips": [
+    {
+     "context": "An announcement at a busy train station",
+     "lines": [
+      {
+       "speaker": "Station Announcer",
+       "gender": "male",
+       "voice": "michael",
+       "text": "Attention commuters. Due to unexpected signal maintenance, we're implementing a temporary change for all express services heading toward the Westlake district. Originally, the 3:15 PM and 3:45 PM trains were scheduled for Platform Seven."
+      },
+      {
+       "speaker": "Station Announcer",
+       "gender": "male",
+       "voice": "michael",
+       "text": "However, those services will now be diverted to the temporary loading zone on Platform Three. This deviation affects all departing services until 6:00 PM today. Passengers must make sure they read the updated signage immediately visible throughout the concourse."
+      },
+      {
+       "speaker": "Station Announcer",
+       "gender": "male",
+       "voice": "michael",
+       "text": "Also, if you have connecting services to the North Line, please allow extra time for your journey, as there might be localized congestion. We apologize for this considerable inconvenience, and we appreciate your adherence to these temporary revised routes."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "purpose",
+       "question": "What is the main reason for the sudden change in train routes?",
+       "options": [
+        "Signal maintenance requires the rerouting of express trains.",
+        "Construction work is ongoing on the main track line.",
+        "The North Line connection needs to be repaired immediately.",
+        "A scheduling conflict necessitated the route adjustment."
+       ],
+       "answer": 0,
+       "explanation": "The announcer explicitly states the change is due to unexpected signal maintenance."
+      },
+      {
+       "kind": "detail",
+       "question": "According to the announcement, where will the affected trains be located instead of Platform Seven?",
+       "options": [
+        "They will now arrive at the temporary loading zone on Platform Three.",
+        "They must wait at the main ticket counter until 6:00 PM.",
+        "They are routed toward the North Line connecting platforms.",
+        "They will follow an alternate track through the concourse."
+       ],
+       "answer": 0,
+       "explanation": "The text specifies the services will be diverted to the temporary loading zone on Platform Three."
+      },
+      {
+       "kind": "action",
+       "question": "What key advice should passengers take into account for their journey today?",
+       "options": [
+        "They should check the signs and budget extra travel time.",
+        "They are advised to purchase a new ticket before departing.",
+        "They should meet at the main ticket counter for assistance.",
+        "They must report to the Platform Seven station attendant."
+       ],
+       "answer": 0,
+       "explanation": "The announcer asks passengers to read the signage and allows for extra time due to congestion."
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "995eb6d87f",
+  "level": "C1",
+  "createdAt": "2026-11-21T16:20:31.643Z",
+  "data": {
+   "title": "Museum Closing Announcement",
+   "clips": [
+    {
+     "context": "An announcement over a public address system",
+     "lines": [
+      {
+       "speaker": "Announcer",
+       "gender": "female",
+       "voice": "jane",
+       "text": "Good afternoon, everyone. We apologize for any inconvenience, but we need to make an announcement regarding our closing time today. Due to a private organizational gala scheduled for the East Wing, the museum will unfortunately be closing significantly earlier than our usual five o'clock departure."
+      },
+      {
+       "speaker": "Announcer",
+       "gender": "female",
+       "voice": "jane",
+       "text": "We anticipate locking the main galleries and the café area around 3:45 p. m. So, if you haven't already started, we strongly recommend that you make your way to the main atrium and the gift shop, as those areas will remain accessible for the next thirty minutes."
+      },
+      {
+       "speaker": "Announcer",
+       "gender": "female",
+       "voice": "jane",
+       "text": "We appreciate your understanding and we hope you still have a wonderful time exploring the exhibits before we have to vacate the premises. Thank you."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "purpose",
+       "question": "What is the main reason the museum is ending its day early?",
+       "options": [
+        "The facility needs to accommodate a private event in the East Wing.",
+        "Staff members are leaving early due to increased operational costs.",
+        "A maintenance crew requires access to the main galleries for repairs.",
+        "The museum is implementing new, earlier hours starting next month."
+       ],
+       "answer": 0,
+       "explanation": "The announcement states the closure is due to a private organizational gala in the East Wing."
+      },
+      {
+       "kind": "detail",
+       "question": "At what specific time will visitors lose access to the exhibit areas?",
+       "options": [
+        "Five o'clock, the usual closing time.",
+        "Three forty-five p.m.",
+        "Around four o'clock.",
+        "Sometime after the main atrium closes."
+       ],
+       "answer": 1,
+       "explanation": "The announcement mentions the galleries will be locked around 3:45 p.m."
+      },
+      {
+       "kind": "action",
+       "question": "What are visitors advised to do before the museum closes?",
+       "options": [
+        "Proceed immediately to the main atrium and the gift shop.",
+        "Head directly for the East Wing to observe the gala setup.",
+        "Check out their tickets at the central ticket booth.",
+        "Gather their personal belongings and exit through the West Entrance."
+       ],
+       "answer": 0,
+       "explanation": "The speaker specifically recommends moving to the main atrium and the gift shop."
+      }
+     ]
+    }
+   ]
+  }
+ }
+]

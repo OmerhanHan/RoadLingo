@@ -1,4 +1,6 @@
 'use client'
+import { planHeaders } from '@/lib/plans'
+import { markSeen, seenParam } from '@/lib/content/seen'
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
 import { QUESTION_TYPE_LABEL } from '@/lib/toefl/academicPassage'
@@ -55,9 +57,10 @@ export default function AcademicPassagePage() {
     setPhase('loading')
     setError(null)
     try {
-      const res = await fetch(`/api/toefl/academic-passage?level=${level}`, { signal: ctrl.signal })
+      const res = await fetch(`/api/toefl/academic-passage?level=${level}${seenParam('academic-passage')}`, { signal: ctrl.signal, headers: planHeaders() })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data = (await res.json()) as AcademicPassageSet
+      markSeen('academic-passage', data.contentId)
       setSet(data)
       setAnswers(Array(data.questions.length).fill(null))
       setIndex(0)
@@ -123,8 +126,8 @@ export default function AcademicPassagePage() {
       {(phase === 'reading' || phase === 'review') && set && q && (
         <section className="anim-fade-up">
           <div className={t.metaRow}>
-            <span className={`${t.badge} ${set.source === 'ai' ? t.badgeAi : ''}`}>
-              {set.source === 'ai' ? `AI · ${set.level}` : 'Hazır metin'}
+            <span className={`${t.badge} ${set.source !== 'fallback' ? t.badgeAi : ''}`}>
+              {set.source !== 'fallback' ? `AI · ${set.level}` : 'Hazır metin'}
             </span>
             <span className={t.timer}>⏱ {formatTime(elapsed)}</span>
           </div>

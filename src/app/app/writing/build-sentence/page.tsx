@@ -1,4 +1,6 @@
 'use client'
+import { planHeaders } from '@/lib/plans'
+import { markSeen, seenParam } from '@/lib/content/seen'
 import { useCallback, useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSpeakingTts } from '@/lib/speaking/useSpeakingTts'
@@ -75,10 +77,11 @@ export default function BuildSentencePage() {
     setPhase('loading')
     setError(null)
     try {
-      const res = await fetch(`/api/toefl/build-sentence?level=${level}`, { signal: ctrl.signal })
+      const res = await fetch(`/api/toefl/build-sentence?level=${level}${seenParam('build-sentence')}`, { signal: ctrl.signal, headers: planHeaders() })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data = (await res.json()) as BuildSentenceSet
       if (!data.items?.length) throw new Error('Boş set')
+      markSeen('build-sentence', data.contentId)
       setSet(data)
       setResults([])
       startRound(data, 0)
@@ -248,8 +251,8 @@ export default function BuildSentencePage() {
         <section className="anim-fade-up">
           <div className={t.metaRow}>
             <span className={t.progressText}>Soru {index + 1} / {set.items.length}</span>
-            <span className={`${t.badge} ${set.source === 'ai' ? t.badgeAi : ''}`}>
-              {set.source === 'ai' ? `AI · ${set.level}` : 'Hazır set'}
+            <span className={`${t.badge} ${set.source !== 'fallback' ? t.badgeAi : ''}`}>
+              {set.source !== 'fallback' ? `AI · ${set.level}` : 'Hazır set'}
             </span>
           </div>
 

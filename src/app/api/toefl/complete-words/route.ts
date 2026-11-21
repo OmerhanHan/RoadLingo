@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
+import { serveContent } from '@/lib/content/serve'
 import {
   COMPLETE_WORDS_GAPS,
   COMPLETE_WORDS_TOPICS,
@@ -14,39 +15,33 @@ import { pickRandom } from '@/lib/toefl/utils'
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
+type Content = { topic: string; title: string; paragraph: string }
+
 export async function GET(req: NextRequest) {
   const level = parseLevel(req.nextUrl.searchParams.get('level'))
-  const topic = pickRandom(COMPLETE_WORDS_TOPICS)
 
-  try {
-    const raw = await generateText(
-      [
-        { role: 'system', content: 'You are a precise TOEFL reading passage writer. You reply with JSON only.' },
-        { role: 'user', content: completeWordsPrompt(level, topic, LEVEL_GUIDE[level]) },
-      ],
-      req.signal
-    )
-    const passage = normalizeParagraph(extractJson(raw))
-    if (!passage) throw new Error('Generated paragraph failed validation')
-
-    const { segments, gapCount } = damageParagraph(passage.paragraph)
-    if (gapCount < COMPLETE_WORDS_GAPS) throw new Error(`Only ${gapCount} gaps could be created`)
-
-    const body: CompleteWordsSet = { source: 'ai', level, topic, ...passage, segments, gapCount }
-    return NextResponse.json(body)
-  } catch (err) {
-    console.warn('[toefl/complete-words] AI generation failed, using fallback:', err instanceof Error ? err.message : err)
-    const fb = pickRandom(FALLBACK_PARAGRAPHS)
-    const { segments, gapCount } = damageParagraph(fb.paragraph)
-    const body: CompleteWordsSet = {
-      source: 'fallback',
-      level,
-      topic: fb.topic,
-      title: fb.title,
-      paragraph: fb.paragraph,
-      segments,
-      gapCount,
-    }
-    return NextResponse.json(body)
-  }
+  return serveContent<Content, CompleteWordsSet>({
+    task: 'complete-words',
+    req,
+    level,
+    async generate(signal) {
+      const topic = pickRandom(COMPLETE_WORDS_TOPICS)
+      const raw = await generateText(
+        [
+          { role: 'system', content: 'You are a precise TOEFL reading passage writer. You reply with JSON only.' },
+          { role: 'user', content: completeWordsPrompt(level, topic, LEVEL_GUIDE[level]) },
+        ],
+        signal
+      )
+      const passage = normalizeParagraph(extractJson(raw))
+      if (!passage) throw new Error('Generated paragraph failed validation')
+      if (damageParagraph(passage.paragraph).gapCount < COMPLETE_WORDS_GAPS) throw new Error('Not enough gaps')
+      return { topic, title: passage.title, paragraph: passage.paragraph }
+    },
+    fallback: () => {
+      const fb = pickRandom(FALLBACK_PARAGRAPHS)
+      return { topic: fb.topic, title: fb.title, paragraph: fb.paragraph }
+    },
+    finalize: (data, meta) => ({ ...meta, level, ...data, ...damageParagraph(data.paragraph) }),
+  })
 }

@@ -5,9 +5,17 @@ import { getSpeakingProvider } from '@/lib/speaking/providers'
 import { buildTopicSystemPrompt, getTopic, TOPIC_TOTAL_ANSWERS } from '@/lib/speaking/topics'
 import { SSE_HEADERS, streamChunksToSse } from '@/lib/speaking/sse'
 import type { ChatMessage } from '@/lib/speaking/types'
+import { consumeQuota, quotaExceeded } from '@/lib/usage/quota'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
+
+/** Only the most recent turns are sent to the model (the stage plan lives in the system prompt). */
+const HISTORY_MESSAGES = 8
+/** Caps one learner message (a long dictation should not blow up the prompt). */
+const MAX_MESSAGE_CHARS = 1500
+/** Replies are meant to be 2–4 spoken sentences. */
+const MAX_REPLY_TOKENS = 260
 
 type Body = {
   messages?: Array<{ role?: string; content?: string }>
@@ -30,12 +38,15 @@ export async function POST(req: NextRequest) {
       .filter((m) => isRole(m.role) && typeof m.content === 'string' && m.content.trim())
       .map((m) => ({
         role: m.role as ChatMessage['role'],
-        content: (m.content as string).trim(),
+        content: (m.content as string).trim().slice(0, MAX_MESSAGE_CHARS),
       }))
 
     if (messages.length === 0) {
       return NextResponse.json({ error: 'messages required' }, { status: 400 })
     }
+
+    const quota = consumeQuota(req, 'chat')
+    if (!quota.ok) return quotaExceeded('chat', quota.limit)
 
     const topic = getTopic(body.topic)
     const step = Math.max(0, Math.min(TOPIC_TOTAL_ANSWERS, Math.floor(Number(body.step) || 0)))
@@ -44,13 +55,13 @@ export async function POST(req: NextRequest) {
     // The system prompt is always decided server-side.
     const withSystem: ChatMessage[] = [
       { role: 'system', content: systemPrompt },
-      ...messages.filter((m) => m.role !== 'system'),
+      ...messages.filter((m) => m.role !== 'system').slice(-HISTORY_MESSAGES),
     ]
 
     const config = getSpeakingConfig()
     const provider = getSpeakingProvider()
     const stream = streamChunksToSse(
-      provider.streamChat(withSystem, { signal: req.signal }),
+      provider.streamChat(withSystem, { signal: req.signal, maxTokens: MAX_REPLY_TOKENS, think: false }),
       req.signal
     )
 

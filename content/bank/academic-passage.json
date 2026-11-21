@@ -1,0 +1,461 @@
+[
+ {
+  "id": "bf2d1827aa",
+  "level": "B1",
+  "createdAt": "2026-11-21T16:07:03.571Z",
+  "data": {
+   "topic": "the domestication of the horse",
+   "title": "The Domestication of the Horse",
+   "paragraphs": [
+    "The domestication of the horse was a monumental event in human history. Before this time, horses roamed freely as wild animals, and humans were largely at the mercy of their limited physical strength. The transition from merely observing wild horses to actively managing them changed many aspects of human society. This process did not happen instantly; rather, it took many centuries and involved gradual adaptations by early human communities.",
+    "The initial uses were likely simple. People first realized the potential for horses as sources of food and labor. Over time, they began selectively breeding animals with desired traits, such as size, endurance, and temperament. These early domestication efforts were crucial because they allowed humans to travel much greater distances and carry heavier loads than before. This newfound mobility fundamentally reshaped human civilization.",
+    "The impact continued to grow as societies became more advanced. The horse changed warfare, enabling faster movement of soldiers and supplies. It also transformed trade, allowing merchants to traverse vast, previously difficult terrains. Because of these adaptations, the horse became far more than just a source of transport; it was a key element in establishing organized empires and facilitating cultural exchange across continents."
+   ],
+   "questions": [
+    {
+     "type": "main_idea",
+     "question": "Which of the following best describes the main idea of the passage?",
+     "options": [
+      "The horse was originally used mainly for hunting and combat purposes.",
+      "The domestication of the horse was a gradual process that dramatically changed many aspects of human life.",
+      "Early societies were limited in their ability to build large empires without advanced technologies.",
+      "The process of breeding horses was simpler than the techniques used for breeding other large animals."
+     ],
+     "answer": 1,
+     "explanation": "The passage emphasizes that the domestication was a gradual process that fundamentally reshaped human civilization, which is the core idea."
+    },
+    {
+     "type": "detail",
+     "question": "According to the passage, what was one of the initial potential uses of horses for early communities?",
+     "options": [
+      "The construction of large, durable shelters for populations.",
+      "The function as sources of food and heavy loads.",
+      "The specialized development of advanced weaponry.",
+      "The establishment of maritime trade routes."
+     ],
+     "answer": 1,
+     "explanation": "The passage states that people first realized the potential for horses as 'sources of food and labor.'"
+    },
+    {
+     "type": "vocabulary",
+     "question": "In the passage, what does the word 'crucial' most nearly mean?",
+     "options": [
+      "difficult to acquire",
+      "secondary in importance",
+      "extremely important",
+      "slow to adapt"
+     ],
+     "answer": 2,
+     "explanation": "The text implies that the early domestication efforts were 'crucial' because they allowed humans to travel greater distances, meaning they were extremely important.",
+     "highlight": "crucial"
+    },
+    {
+     "type": "inference",
+     "question": "The author includes the discussion of trade to suggest that:",
+     "options": [
+      "Merchants were more important to civilization than soldiers.",
+      "The horse’s role in trade was solely limited to carrying goods.",
+      "The horse significantly expanded the scope of human commerce and communication.",
+      "Trade began developing only after organized empires were established."
+     ],
+     "answer": 2,
+     "explanation": "By mentioning that the horse transformed trade and allowed merchants to traverse vast terrains, the author implies it expanded commerce."
+    },
+    {
+     "type": "purpose",
+     "question": "The author mentions the horse's impact on warfare in order to:",
+     "options": [
+      "provide specific details about the techniques used in ancient battles.",
+      "show how horses were the main focus of all historical conflict.",
+      "support the idea that the horse's influence was vast and deeply integrated into different aspects of society.",
+      "argue that horses were primarily used for combat rather than transport."
+     ],
+     "answer": 2,
+     "explanation": "Mentioning warfare alongside trade supports the overarching theme that the horse's influence was vast, impacting travel, economy, and military might."
+    }
+   ]
+  }
+ },
+ {
+  "id": "925b5d26e8",
+  "level": "B1",
+  "createdAt": "2026-11-21T16:07:33.066Z",
+  "data": {
+   "topic": "the psychology of habit formation",
+   "title": "The Psychology of Habit Formation",
+   "paragraphs": [
+    "Habits are repetitive actions that often occur automatically, requiring little conscious effort. Psychologists suggest that forming a new habit is not about willpower alone, but about understanding the mental processes that drive repetition. A common model for habit formation is the 'Cue-Routine-Reward' loop. A cue is a trigger—it could be a specific time of day, a location, or even a feeling—that signals the brain to begin a pattern. Following the cue is the routine, which is the physical action itself. Finally, the reward is the positive feeling or benefit the brain receives, which tells the system that this action is worth repeating.",
+    "To build a strong habit, the process requires significant consistency. If a person attempts a new activity, like exercising, only sometimes, the neural pathways associated with that action will remain weak. The brain expects a dependable pattern. Therefore, experts recommend making the initial routine very simple and highly predictable. Small, consistent efforts are much more effective than large, sporadic efforts. By repeatedly linking the cue to the desired routine and ensuring a clear reward, individuals can gradually reinforce the habit, making it feel natural and automatic over time."
+   ],
+   "questions": [
+    {
+     "type": "main_idea",
+     "question": "What is the main idea of the passage?",
+     "options": [
+      "Habits are complex and require advanced intellectual strategies to build successfully.",
+      "Successful habit formation depends on understanding the mental cycle that links triggers to rewards.",
+      "The most important part of habit formation is ensuring that the initial effort is large enough to overcome procrastination.",
+      "People should always start new routines in a new location to prevent forming bad habits."
+     ],
+     "answer": 1,
+     "explanation": "The passage explains that forming habits involves understanding the 'Cue-Routine-Reward' loop and the need for repetition."
+    },
+    {
+     "type": "detail",
+     "question": "According to the passage, what happens if an individual attempts a new routine only occasionally?",
+     "options": [
+      "The positive reward will be insufficient, causing the person to quit the habit immediately.",
+      "The brain will automatically adjust the routine to make it easier to perform in the future.",
+      "The neural pathways associated with that action will remain weak.",
+      "The initial cue will become too confusing, preventing the person from continuing the habit."
+     ],
+     "answer": 2,
+     "explanation": "The second paragraph states that if an activity is done only sometimes, 'the neural pathways associated with that action will remain weak.'"
+    },
+    {
+     "type": "vocabulary",
+     "question": "In the second paragraph, what does the word \"consistency\" most closely mean?",
+     "options": [
+      "The ability to generate creative ideas when attempting something new.",
+      "The quality of remaining firm and unchanging in action or effort.",
+      "The speed with which a new routine can be implemented.",
+      "The required energy output needed for physical activity."
+     ],
+     "answer": 1,
+     "explanation": "The context suggests that 'consistency' refers to stable, predictable effort, not just occasional bursts of activity.",
+     "highlight": "consistency"
+    },
+    {
+     "type": "inference",
+     "question": "Which of the following can be inferred from the passage about the purpose of the reward in habit formation?",
+     "options": [
+      "The reward acts as a motivational tool that makes the initial routine seem more enjoyable.",
+      "A reward guarantees that the habit will become permanent and require no effort ever again.",
+      "The brain only registers a habit as useful if there is a clear, immediate physical reward.",
+      "The reward is simply a pleasant feeling that distracts the brain from doing difficult tasks."
+     ],
+     "answer": 0,
+     "explanation": "The passage says the reward 'tells the system that this action is worth repeating,' implying motivation and reinforcement."
+    },
+    {
+     "type": "purpose",
+     "question": "The author includes the 'Cue-Routine-Reward' loop to:",
+     "options": [
+      "Limit the scope of the passage and provide a simple framework for understanding habits.",
+      "Convince the reader that psychological study is more valuable than practical advice.",
+      "Detail the complex scientific mechanisms that first trigger all human actions.",
+      "Warn the reader that professional help is required whenever a bad habit forms."
+     ],
+     "answer": 0,
+     "explanation": "The author introduces the model early on to provide a structured, foundational concept for understanding how habits operate."
+    }
+   ]
+  }
+ },
+ {
+  "id": "1e2e3a9f9d",
+  "level": "B2",
+  "createdAt": "2026-11-21T16:07:56.880Z",
+  "data": {
+   "topic": "plate tectonics and earthquakes",
+   "title": "Plate Tectonics and Seismic Activity",
+   "paragraphs": [
+    "The Earth's lithosphere is not a single, continuous shell; rather, it is broken into several massive segments called tectonic plates. These plates, composed of rigid crustal and upper mantle material, float and interact with one another atop the semi-fluid layer known as the asthenosphere. Plate motion is the primary driver of global geological activity, dictating where mountain ranges form, where trenches deepen, and where earthquakes occur. The relative movement between plates is categorized into three main types: divergent, where plates pull apart; convergent, where plates collide; and transform, where plates slide laterally past each other. These interactions generate tremendous stresses within the Earth's crust, leading to seismic events.",
+    "Earthquakes are the sudden releases of accumulated energy stored in strained rock. They typically occur at plate boundaries, but can also happen within the plates themselves. When stress exceeds the frictional strength of the rocks, fault lines rupture, releasing seismic waves. The most severe earthquakes often occur at convergent boundaries, such as subduction zones, where one plate slides beneath another. This process, known as subduction, generates intense friction and can trigger mega-thrust earthquakes. Understanding these mechanics is crucial because it allows scientists to map geological hazards and develop effective warning systems for densely populated areas."
+   ],
+   "questions": [
+    {
+     "type": "main_idea",
+     "question": "What is the primary focus of the passage?",
+     "options": [
+      "To describe the difference between crustal and mantle material.",
+      "To explain the mechanical processes and consequences of plate movement and seismic activity.",
+      "To detail how scientists measure and predict the timing of major earthquakes.",
+      "To compare the types of rock found at convergent versus divergent boundaries."
+     ],
+     "answer": 1,
+     "explanation": "The passage discusses the structure of the lithosphere, the types of plate interactions, and how these interactions cause earthquakes, summarizing the overall process of plate tectonics and seismic activity."
+    },
+    {
+     "type": "detail",
+     "question": "According to the passage, what process describes one plate moving beneath another plate?",
+     "options": [
+      "Divergent motion",
+      "Lateral sliding",
+      "Subduction",
+      "Frictional rupture"
+     ],
+     "answer": 2,
+     "explanation": "The second paragraph explicitly states, 'This process, known as subduction, generates intense friction and can trigger mega-thrust earthquakes.'"
+    },
+    {
+     "type": "vocabulary",
+     "question": "In the first paragraph, the word \"tremendous\" most nearly means:",
+     "options": [
+      "Minor",
+      "Extreme",
+      "Sudden",
+      "Constant"
+     ],
+     "answer": 1,
+     "explanation": "The passage mentions that interactions generate 'tremendous stresses,' indicating that the stresses are of an extreme magnitude.",
+     "highlight": "tremendous"
+    },
+    {
+     "type": "inference",
+     "question": "What can be inferred about the asthenosphere from the passage?",
+     "options": [
+      "It is solid enough to support the weight of the tectonic plates.",
+      "It is located entirely within the Earth's upper mantle.",
+      "It is a boundary region where intense friction commonly builds up.",
+      "It is a layer that acts as a fluid medium supporting the plates."
+     ],
+     "answer": 3,
+     "explanation": "The passage describes the plates floating 'atop the semi-fluid layer known as the asthenosphere,' suggesting its role as a fluid support medium."
+    },
+    {
+     "type": "purpose",
+     "question": "Why does the author mention that the most severe earthquakes occur at subduction zones?",
+     "options": [
+      "To differentiate between the causes of different types of geological boundaries.",
+      "To explain that these boundaries are the most seismically active regions on Earth.",
+      "To show that subduction zones are the primary source of deep oceanic trenches.",
+      "To warn readers that these zones are always highly unstable and unpredictable."
+     ],
+     "answer": 0,
+     "explanation": "The author first introduces the three types of boundaries, and mentioning subduction zones highlights how that specific boundary interaction is particularly prone to generating severe seismic events."
+    }
+   ]
+  }
+ },
+ {
+  "id": "9ba2f4bb9b",
+  "level": "B2",
+  "createdAt": "2026-11-21T16:08:23.489Z",
+  "data": {
+   "topic": "desert adaptations in animals",
+   "title": "Biological Adaptations to Arid Environments",
+   "paragraphs": [
+    "Survival in arid environments presents extreme challenges, primarily related to water scarcity and drastic temperature fluctuations. Desert fauna have evolved a remarkable array of physiological and behavioral adaptations to cope with these harsh conditions. One of the most critical adaptations is efficient water conservation. Many desert animals, such as the camel and certain rodents, possess kidneys that produce highly concentrated urine, minimizing water loss. Furthermore, some species have behavioral mechanisms, such as becoming nocturnal, to avoid the intense heat of midday. By limiting activity during the hottest hours, they significantly reduce evaporative cooling needs.",
+    "Another crucial adaptation relates to heat regulation. Species like the desert fox often utilize specialized vascular systems and reflective fur coats. These features help dissipate excess body heat or reflect intense solar radiation, respectively. Some reptiles, for instance, exhibit thermal sapping, where they bask briefly on rocks warmed by the sun to raise their core temperature, a process vital for initiating movement and digestion. These adaptations are not merely isolated traits; rather, they represent complex, integrated strategies that allow the organisms to maintain homeostasis while utilizing limited resources. The success of desert life fundamentally relies on this intricate balance between physical structure and daily behavior.",
+    "In summary, the ability of desert animals to thrive is a testament to evolutionary ingenuity. Adaptations range from sophisticated physiological tools, like highly efficient urine concentration, to behavioral shifts, such as altered activity cycles. These collective strategies ensure that even in the most resource-deprived habitats, life can sustain itself by managing temperature extremes and preserving precious bodily fluids."
+   ],
+   "questions": [
+    {
+     "type": "main_idea",
+     "question": "Which of the following best describes the central theme of the passage?",
+     "options": [
+      "Desert animals have developed complex strategies to manage temperature and water scarcity.",
+      "The camel is the most successful mammal because of its ability to survive in arid environments.",
+      "High concentrations of urine are the single most important feature for life in deserts.",
+      "Nocturnal behavior is the only way animals can avoid the extreme heat of desert midday."
+     ],
+     "answer": 0,
+     "explanation": "The passage consistently discusses various physiological and behavioral methods animals use to cope with the challenges of arid environments."
+    },
+    {
+     "type": "detail",
+     "question": "According to the passage, how do some desert animals minimize water loss?",
+     "options": [
+      "By using reflective fur coats that deflect heat.",
+      "By having specialized systems that produce concentrated urine.",
+      "By remaining inactive throughout the entire day cycle.",
+      "By migrating to areas with higher rainfall."
+     ],
+     "answer": 1,
+     "explanation": "The text states that some rodents possess kidneys that produce highly concentrated urine, thereby minimizing water loss."
+    },
+    {
+     "type": "vocabulary",
+     "question": "In the first paragraph, the word \"evaporative\" most nearly means:",
+     "options": [
+      "related to underground water sources",
+      "resulting from high levels of internal heat",
+      "caused by the turning into vapor",
+      "dependent upon external environmental factors"
+     ],
+     "answer": 2,
+     "explanation": "The passage uses 'evaporative cooling' to describe reducing water loss through moisture turning into vapor.",
+     "highlight": "evaporative"
+    },
+    {
+     "type": "inference",
+     "question": "The discussion of thermal sapping suggests that:",
+     "options": [
+      "All desert animals rely heavily on basking to survive the day.",
+      "Reptiles must actively manage their body temperature to perform basic functions.",
+      "Basking is primarily a method used by animals lacking adequate insulating fur.",
+      "Warm rocks are the only effective sources of heat energy in desert habitats."
+     ],
+     "answer": 1,
+     "explanation": "The passage mentions that thermal sapping is 'vital for initiating movement and digestion,' implying that temperature control is necessary for these functions."
+    },
+    {
+     "type": "purpose",
+     "question": "Why does the author include the example of the desert fox's reflective fur?",
+     "options": [
+      "To provide a secondary example of heat dissipation strategies.",
+      "To distract the reader from the primary discussion of water conservation.",
+      "To prove that fur is the most effective adaptation against solar radiation.",
+      "To compare the fox's biology to that of the camel."
+     ],
+     "answer": 0,
+     "explanation": "It is included alongside the camel and the vascular systems to illustrate various ways animals manage heat and temperature."
+    }
+   ]
+  }
+ },
+ {
+  "id": "7052008e2a",
+  "level": "C1",
+  "createdAt": "2026-11-21T16:08:52.792Z",
+  "data": {
+   "topic": "how coral reefs form",
+   "title": "The Biogenic Nature of Coral Reefs",
+   "paragraphs": [
+    "Coral reefs are among the most biodiverse ecosystems on Earth, yet they are constructed through a complex, slow-motion geological and biological process. Reef formation is fundamentally biogenic, meaning it is built by living organisms rather than purely mineral deposition. The primary builders are hard corals, which secrete calcium carbonate skeletons. These skeletons provide a structural foundation, but the reef structure itself is not merely a collection of isolated skeletons; it involves the interwoven matrices of various fauna, including coralline algae and sponges. This synergistic relationship between the framework-builders and other organisms allows the reef to accrete upward, creating massive, stable structures that withstand powerful oceanic forces.",
+    "The sustainability of these enormous reef systems is contingent upon several delicate environmental parameters. Optimal growth requires a consistent supply of sunlight for the photosynthetic zooxanthellae, the symbiotic algae living within the coral polyps. Furthermore, water temperature and salinity must remain within narrow, stable ranges. Changes in these parameters, such as those induced by rising ocean temperatures or increased acidification, can trigger coral bleaching or inhibit skeletal growth. The rate of reef calcification—the process of building the calcium carbonate structure—is therefore highly sensitive to anthropogenic climate shifts and localized pollution, making these structures ecological linchpins acutely vulnerable to human activity."
+   ],
+   "questions": [
+    {
+     "type": "main_idea",
+     "question": "What is the central point the passage makes about coral reefs?",
+     "options": [
+      "Coral reefs are purely biological structures whose formation relies on complex symbiotic relationships.",
+      "Coral reefs are primarily composed of calcium carbonate secreted by coral polyps.",
+      "The sustainability of coral reefs is dependent on stable environmental conditions, making them highly vulnerable to change.",
+      "Coral reefs are considered the most biodiverse ecosystems on Earth, regardless of their formation method."
+     ],
+     "answer": 2,
+     "explanation": "The passage emphasizes the vulnerability of reef systems to environmental changes, stating that 'The sustainability of these enormous reef systems is contingent upon several delicate environmental parameters.'"
+    },
+    {
+     "type": "detail",
+     "question": "According to the passage, what contributes to the stability of the reef structure?",
+     "options": [
+      "The sheer thickness of the calcium carbonate skeletons secreted by hard corals.",
+      "The rapid growth rate of the coral polyps in ideal conditions.",
+      "The interwoven matrices provided by diverse life forms like sponges and algae.",
+      "The immense pressure exerted by the surrounding oceanic forces."
+     ],
+     "answer": 2,
+     "explanation": "The text notes that the structure 'involves the interwoven matrices of various fauna, including coralline algae and sponges,' which allows the reef to accrete and withstand forces."
+    },
+    {
+     "type": "vocabulary",
+     "question": "In the passage, the word 'biogenic' most nearly means:",
+     "options": [
+      "related to marine life",
+      "caused by mineral deposits",
+      "originating from living organisms",
+      "stable and durable in composition"
+     ],
+     "answer": 2,
+     "explanation": "The passage defines the process as 'fundamentally biogenic, meaning it is built by living organisms rather than purely mineral deposition.'",
+     "highlight": "biogenic"
+    },
+    {
+     "type": "inference",
+     "question": "Which of the following can be inferred about the relationship between coral bleaching and water temperature?",
+     "options": [
+      "Coral bleaching only occurs if water temperatures drop significantly below normal levels.",
+      "High water temperatures disrupt the symbiotic relationship necessary for coral survival.",
+      "The zooxanthellae algae thrive equally well across a wide range of ocean temperatures.",
+      "Rising temperatures do not affect the ability of corals to build skeletons."
+     ],
+     "answer": 1,
+     "explanation": "The passage links temperature changes to bleaching by stating that 'Changes in these parameters, such as those induced by rising ocean temperatures... can trigger coral bleaching.'"
+    },
+    {
+     "type": "purpose",
+     "question": "Why does the author mention the requirement for sunlight for the zooxanthellae?",
+     "options": [
+      "To emphasize that light is the most critical limiting factor for all reef life.",
+      "To explain the source of energy that sustains the coral polyps' growth.",
+      "To prove that coral reefs cannot exist far from the surface layer of the ocean.",
+      "To contrast coral dependence with other ecosystems that rely on chemical processes."
+     ],
+     "answer": 1,
+     "explanation": "The passage mentions sunlight because it is required for the photosynthetic zooxanthellae, thereby explaining the primary energy source for the coral."
+    }
+   ]
+  }
+ },
+ {
+  "id": "239e714b10",
+  "level": "C1",
+  "createdAt": "2026-11-21T16:09:33.372Z",
+  "data": {
+   "topic": "the sociology of social media communities",
+   "title": "The Digital Constitution: Community Formation on Social Media",
+   "paragraphs": [
+    "The sociology of social media has necessitated a re-examination of traditional notions of community. Online platforms act as complex digital architectures, facilitating the formation of highly specialized groups bound by shared interests or marginalized identities. Unlike geographical communities, these digital enclaves often operate without physical boundaries, relying instead on algorithmic curation and user-generated content to maintain internal cohesion. This structural shift implies that belonging is less dependent on proximity and more tied to continuous digital participation. Researchers note that this system can foster synergistic self-discovery, allowing individuals to find validation and intellectual exchange previously unavailable in their immediate surroundings.",
+    "However, the mechanisms that build these groups are inherently double-edged. The necessity for platform algorithms to maximize user engagement often leads to the segregation of viewpoints, creating 'echo chambers.' These enclosed informational ecosystems reinforce existing biases and can dramatically accelerate the polarization of discourse. Furthermore, the fluid and ephemeral nature of online identity means that community boundaries are constantly being tested. The tension between the perceived intimacy of a curated online self and the reality of algorithmic mediation presents a critical theoretical challenge to scholars studying modern social bonding.",
+    "Ultimately, these digital communities are engaged in a continuous, often unconscious, negotiation of belonging. They are sites where social capital is accrued, ideological norms are established, and the very definition of 'reality' is negotiated. Understanding this digital constitution requires moving beyond simply counting users and instead focusing on the nuanced dynamics of participation, exclusion, and shared digital labor."
+   ],
+   "questions": [
+    {
+     "type": "main_idea",
+     "question": "The passage primarily discusses:",
+     "options": [
+      "the historical shift from physical neighborhoods to digital communities.",
+      "how social media algorithms always lead to increased political polarization.",
+      "the complex structural factors that govern the formation and maintenance of online communities.",
+      "the difficulties users face in balancing their online identities with their real lives."
+     ],
+     "answer": 2,
+     "explanation": "The passage analyzes how online platforms create specialized groups and discusses the structural mechanisms (like algorithms and digital labor) that govern their existence."
+    },
+    {
+     "type": "detail",
+     "question": "According to the passage, what mechanism allows online groups to sustain themselves without physical borders?",
+     "options": [
+      "a government-mandated registration process for all members.",
+      "the establishment of shared physical meeting locations.",
+      "algorithmic curation and user-generated content.",
+      "the requirement for all participants to share the same economic background."
+     ],
+     "answer": 2,
+     "explanation": "The passage states that these enclaves rely on 'algorithmic curation and user-generated content to maintain internal cohesion.'"
+    },
+    {
+     "type": "vocabulary",
+     "question": "The word \"cohesion\" in paragraph 1 is closest in meaning to:",
+     "options": [
+      "individualism; the desire to remain separate.",
+      "disagreement; the inability to reach a consensus.",
+      "unity; the state of sticking together.",
+      "fluctuation; a periodic change in emotional state."
+     ],
+     "answer": 2,
+     "explanation": "In the context of communities, cohesion refers to the bonds or sense of unity that hold the group together.",
+     "highlight": "cohesion"
+    },
+    {
+     "type": "inference",
+     "question": "The author implies that the tension between curated online identity and algorithmic mediation primarily challenges:",
+     "options": [
+      "the financial stability of social media companies.",
+      "the reliability of photographic evidence of events.",
+      "traditional sociological definitions of belonging and self.",
+      "the ease with which users can communicate across time zones."
+     ],
+     "answer": 2,
+     "explanation": "The passage links this tension to 'a critical theoretical challenge to scholars studying modern social bonding,' indicating a challenge to established definitions of belonging."
+    },
+    {
+     "type": "purpose",
+     "question": "The author includes the discussion of 'echo chambers' in paragraph 2 primarily to:",
+     "options": [
+      "provide examples of political disagreements that must be avoided.",
+      "warn readers about the dangers of excessive screen time.",
+      "explain the trade-off between community formation and viewpoint diversity.",
+      "argue that technology fundamentally prevents people from having differing opinions."
+     ],
+     "answer": 2,
+     "explanation": "The mention of echo chambers illustrates how the mechanism for building groups simultaneously risks reinforcing biases and limiting viewpoint diversity."
+    }
+   ]
+  }
+ }
+]

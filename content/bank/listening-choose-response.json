@@ -1,0 +1,812 @@
+[
+ {
+  "id": "ea8a02a0f3",
+  "level": "B1",
+  "createdAt": "2026-11-21T16:11:38.138Z",
+  "data": {
+   "title": "Choose a Response",
+   "clips": [
+    {
+     "context": "Tour guide at a museum",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "female",
+       "voice": "eve",
+       "text": "If you look closely, you can see the subtle differences in the paintwork here."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "So, are those pigments from the nineteenth century?",
+        "I think the paintwork on the table is chipping off.",
+        "The Louvre opened up many new wings last spring.",
+        "We were going to visit the national gallery yesterday afternoon."
+       ],
+       "answer": 0,
+       "explanation": "The speaker asks a relevant, knowledgeable follow-up question about the art's history."
+      }
+     ]
+    },
+    {
+     "context": "Neighbors passing by",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "male",
+       "voice": "charles",
+       "text": "Hey, sorry, did you remember to take out the recycling bins today?"
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "Nah, I totally forgot. I'll grab them right now.",
+        "The flower bins look lovely with those yellow petunias.",
+        "Because the truck was scheduled for Tuesday morning.",
+        "You should wait until next week to buy new soap."
+       ],
+       "answer": 0,
+       "explanation": "The speaker directly accepts the reminder and commits to fixing the mistake immediately."
+      }
+     ]
+    },
+    {
+     "context": "Friends at the bus stop",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "female",
+       "voice": "mary",
+       "text": "Well, the 8:15 bus is probably going to be running pretty late today."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "Oh no. Should we maybe just walk the rest of the way?",
+        "I know, I hate being late for my important meeting.",
+        "The schedule says the next one comes around 8:30.",
+        "I think I need to check the train schedule online instead."
+       ],
+       "answer": 0,
+       "explanation": "The speaker offers a practical alternative plan to deal with the unexpected delay."
+      }
+     ]
+    },
+    {
+     "context": "Shop assistant in a bookstore",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "male",
+       "voice": "michael",
+       "text": "Are you looking for any books on 18th-century European political history?"
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "Actually, I'm looking for something a bit more modern, maybe about the war.",
+        "These fiction books are actually way too expensive for me.",
+        "They are right down the hall, near the biography section.",
+        "I already checked the sci-fi section earlier this morning."
+       ],
+       "answer": 0,
+       "explanation": "The customer responds by narrowing down the topic and shifting the focus from the suggested time period."
+      }
+     ]
+    },
+    {
+     "context": "Coworker at a café job",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "female",
+       "voice": "mary",
+       "text": "Man, this morning rush is much tougher than I expected it to be."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "Tell me about it. I think we need to order another barista.",
+        "We need to make the coffee crema taste much tougher.",
+        "Are you going to be able to leave work by four o'clock?",
+        "They were running out of milk late last night, too."
+       ],
+       "answer": 0,
+       "explanation": "The coworker agrees with the complaint and offers a constructive solution to the current workload."
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "bd95ee85bc",
+  "level": "B1",
+  "createdAt": "2026-11-21T16:12:18.949Z",
+  "data": {
+   "title": "Choose a Response",
+   "clips": [
+    {
+     "context": "A classmate before a lecture",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "female",
+       "voice": "anna",
+       "text": "So, did the reading mention that Newton's theories were totally different from those of Galileo?"
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "I think they were based on similar scientific ideas.",
+        "We should probably study some historical math instead.",
+        "I'm not sure; I thought it was about the local museum.",
+        "Yeah, you should take some notes next time."
+       ],
+       "answer": 0,
+       "explanation": "The response directly addresses the comparison between the two theories mentioned."
+      }
+     ]
+    },
+    {
+     "context": "A professor after class",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "male",
+       "voice": "paul",
+       "text": "Now that we covered macroeconomics, where should you focus for your final paper?"
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "Maybe I should look into the history of international trade law.",
+        "You should probably take some extra general statistics courses.",
+        "The office is open until three today, if you want to chat.",
+        "It was a really good class, Professor!"
+       ],
+       "answer": 0,
+       "explanation": "The professor asks for a focus area, and the student proposes a relevant academic topic."
+      }
+     ]
+    },
+    {
+     "context": "A coworker at a café job",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "female",
+       "voice": "jane",
+       "text": "Oh man, we are running really low on oat milk. Do you know when the delivery is coming?"
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "They said it should be coming sometime early tomorrow morning.",
+        "I bet we should try making some sweet, creamy dessert.",
+        "The new syrup flavors are really expensive, though.",
+        "Did you remember to lock up the cash register?"
+       ],
+       "answer": 0,
+       "explanation": "The coworker asks about the delivery time, and the other coworker provides a time estimate."
+      }
+     ]
+    },
+    {
+     "context": "A neighbor in the hallway",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "male",
+       "voice": "paul",
+       "text": "Wow, your new gardening setup looks amazing! What kind of seeds did you use?"
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "Oh, they were pretty cheap little grocery store items.",
+        "I was hoping you might want to take a walk with my dog later.",
+        "The local nursery carried some lovely heirloom tomato seeds.",
+        "I definitely went to the hardware store yesterday."
+       ],
+       "answer": 2,
+       "explanation": "The question asks about seeds, and the answer specifies the source of those seeds."
+      }
+     ]
+    },
+    {
+     "context": "A teammate after practice",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "female",
+       "voice": "vera",
+       "text": "You were really slow on that last defensive rotation. We need better communication."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "I thought the drills were kind of confusing today, honestly.",
+        "We should totally go grab some pizza and talk more about it.",
+        "Next time, let's focus only on improving our individual speed.",
+        "I need to check my phone; what time is it right now?"
+       ],
+       "answer": 1,
+       "explanation": "The teammate offers advice, and the reply suggests a supportive way to continue the discussion."
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "e0e91c5b6f",
+  "level": "B2",
+  "createdAt": "2026-11-21T16:12:51.587Z",
+  "data": {
+   "title": "Choose a Response",
+   "clips": [
+    {
+     "context": "Shop assistant in a bookstore",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "female",
+       "voice": "eve",
+       "text": "Are you looking for anything on medieval European history, or are you more into something else?"
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "Oh, actually, I'm looking for something about Renaissance art.",
+        "It was published last year, right by the coffee counter.",
+        "Those are books for advanced Spanish speakers, I think.",
+        "You can find those journals in the children's section."
+       ],
+       "answer": 0,
+       "explanation": "The speaker redirects the focus from medieval history to Renaissance art."
+      }
+     ]
+    },
+    {
+     "context": "A classmate before a lecture",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "male",
+       "voice": "paul",
+       "text": "Hey, did Professor Allen say if we need to bring our laptops or if we can just use paper notes?"
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "Yeah, he said the midterm is going to be really comprehensive.",
+        "He told us we need to pre-read Chapter 7 before class.",
+        "I think we just need to bring our IDs next time we go.",
+        "Well, he mentioned the syllabus was uploaded to the portal."
+       ],
+       "answer": 3,
+       "explanation": "The classmate correctly recalls the specific information about the required preparation."
+      }
+     ]
+    },
+    {
+     "context": "A friend at the bus stop",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "female",
+       "voice": "jane",
+       "text": "I really hate how unpredictable the weather is; I swear, I left my umbrella at home again."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "You should really consider taking the subway instead next time.",
+        "Oh, yeah, the bus should arrive in about ten minutes.",
+        "I heard that the museum downtown is having a big sale.",
+        "I love that yellow coat you're wearing today."
+       ],
+       "answer": 0,
+       "explanation": "The friend offers a suggestion directly related to the speaker's complaint about the weather/rain."
+      }
+     ]
+    },
+    {
+     "context": "A neighbor in the hallway",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "male",
+       "voice": "marius",
+       "text": "Hey, did you happen to notice that the leak under the sink in apartment 2B is getting worse?"
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "Yeah, my car is parked right near the electrical panel.",
+        "Well, I saw a bunch of packages delivered to the main lobby.",
+        "I think it might be something we can fix this afternoon.",
+        "Oh yeah, I noticed it; it looks like it needs a plumber."
+       ],
+       "answer": 3,
+       "explanation": "The neighbor confirms the observation and suggests the appropriate professional needed."
+      }
+     ]
+    },
+    {
+     "context": "A roommate in the kitchen",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "female",
+       "voice": "alba",
+       "text": "So, instead of me doing the trash every night, could you take care of the recycling duty starting today?"
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "Sure, I can definitely take care of the kitchen cleaning every Monday.",
+        "Honestly, I don't really want to touch the trash at all.",
+        "Okay, I'll pick up all the dry goods when I go shopping.",
+        "Yeah, I guess I can deal with the dirty dishes after dinner."
+       ],
+       "answer": 0,
+       "explanation": "The roommate accepts the request and offers an alternative commitment, showing agreement."
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "0caed73e99",
+  "level": "B2",
+  "createdAt": "2026-11-21T16:13:17.249Z",
+  "data": {
+   "title": "Choose a Response",
+   "clips": [
+    {
+     "context": "A shop assistant in a bookstore",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "female",
+       "voice": "mary",
+       "text": "We just got a new shipment of literary non-fiction, if you're interested in history."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "Oh, that sounds really interesting; what kind of historical period?",
+        "I need to find some books about gardening and botany.",
+        "The checkout counter is over there, please take your purchase.",
+        "History classes usually cover ancient Greek mythology."
+       ],
+       "answer": 0,
+       "explanation": "The customer correctly responds to the suggestion of new non-fiction books."
+      }
+     ]
+    },
+    {
+     "context": "A classmate before a lecture",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "male",
+       "voice": "marius",
+       "text": "Hey, did you happen to catch the reading assignment due for next Tuesday?"
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "Yeah, I found out they canceled the whole lecture today.",
+        "I thought it was supposed to be submitted electronically online.",
+        "Actually, I'm feeling pretty ill, so I gotta head out.",
+        "Don't worry about it; we can discuss the main concept instead."
+       ],
+       "answer": 1,
+       "explanation": "The classmate provides accurate information about the assignment's submission method."
+      }
+     ]
+    },
+    {
+     "context": "A receptionist at a dentist office",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "female",
+       "voice": "anna",
+       "text": "We have an opening tomorrow afternoon, but you'll need to reschedule your cleaning."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "Tomorrow afternoon? I'm available until about four o'clock.",
+        "So, do I need to wear these rubber gloves for the examination?",
+        "You can send me a text message with your insurance information.",
+        "When is the best time to get my follow-up appointment scheduled?"
+       ],
+       "answer": 0,
+       "explanation": "The patient confirms the specific time slot being offered for the rescheduling."
+      }
+     ]
+    },
+    {
+     "context": "A tour guide at a museum",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "male",
+       "voice": "george",
+       "text": "These Roman mosaics give us a fascinating glimpse into daily domestic life back then."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "Could you explain how they figured out the color palette of this exhibit?",
+        "Wow, they really were experts at building these structures, weren't they?",
+        "I prefer viewing ancient artifacts, like pottery or statues.",
+        "We should definitely move over to the Mesozoic era section next."
+       ],
+       "answer": 1,
+       "explanation": "The visitor makes a relevant, general comment about the exhibit's craftsmanship."
+      }
+     ]
+    },
+    {
+     "context": "A lab partner during an experiment",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "male",
+       "voice": "michael",
+       "text": "Actually, I think we need to adjust the variable rates before we proceed with the final test."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "Do you know what kind of specialized glassware we should acquire?",
+        "What temperature should we be setting the water bath to, exactly?",
+        "You know, I was wondering if we could start the test tomorrow.",
+        "Well, the initial data suggests we need to document the observations."
+       ],
+       "answer": 1,
+       "explanation": "The lab partner asks for specific procedural details necessary for the experiment."
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "dde0105269",
+  "level": "C1",
+  "createdAt": "2026-11-21T16:14:02.358Z",
+  "data": {
+   "title": "Choose a Response",
+   "clips": [
+    {
+     "context": "A coworker at a café job",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "male",
+       "voice": "michael",
+       "text": "Hey, so we gotta reorganize the pastry case before the lunch rush, okay?"
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "Should we start with the Danish items first?",
+        "I think we should just wait until the afternoon.",
+        "The whole counter needs cleaning before we start that.",
+        "Are we running out of napkins, by the way?"
+       ],
+       "answer": 0,
+       "explanation": "The correct response asks for a specific logistical detail regarding the pastry reorganization."
+      }
+     ]
+    },
+    {
+     "context": "A receptionist at a dentist office",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "female",
+       "voice": "alba",
+       "text": "We just need you to fill out the updated medical history questionnaire, please."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "Do I need a physician's signature on that, actually?",
+        "I paid my co-pay when I scheduled this appointment.",
+        "Oh, I just had an issue with my blood pressure last month.",
+        "I'll be sure to get those updated forms right away."
+       ],
+       "answer": 0,
+       "explanation": "The most appropriate response seeks clarification about the required paperwork, not payment or unrelated medical facts."
+      }
+     ]
+    },
+    {
+     "context": "A shop assistant in a bookstore",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "female",
+       "voice": "mary",
+       "text": "Since you enjoyed that historical fiction, I'd recommend looking into the Tudor period."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "Are there any biographies concerning the Elizabethan era?",
+        "Those genres usually involve a lot of very long novels.",
+        "Where is the self-help section located, exactly?",
+        "I saw a collection on modern world history nearby."
+       ],
+       "answer": 0,
+       "explanation": "The correct response asks for a specific type of recommendation within the suggested genre, maintaining the topic of historical literature."
+      }
+     ]
+    },
+    {
+     "context": "A classmate before a lecture",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "male",
+       "voice": "george",
+       "text": "I was really confused about the correlation between Kant’s metaphysics and utilitarian thought."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "Maybe you should study the chapter on ethics first.",
+        "Wait, did the professor mention the Neo-Stoics connection?",
+        "You gotta check the reading on Chapter Four, really.",
+        "Those two concepts are completely unrelated to the lecture."
+       ],
+       "answer": 1,
+       "explanation": "The correct reply attempts to clarify the academic concept by suggesting a related philosophical link."
+      }
+     ]
+    },
+    {
+     "context": "A friend at the bus stop",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "female",
+       "voice": "alba",
+       "text": "Are you sure that bus route is reliable given the construction on Elm Street?"
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "We could probably take the train instead, it’s quicker.",
+        "Yeah, I definitely left my charger at home today.",
+        "I'm thinking maybe we should grab coffee for a bit.",
+        "It leaves right at the corner, you know?"
+       ],
+       "answer": 0,
+       "explanation": "The correct reply offers an alternative travel solution in response to a concern about transportation reliability."
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "c6a57fa07d",
+  "level": "C1",
+  "createdAt": "2026-11-21T16:14:46.997Z",
+  "data": {
+   "title": "Choose a Response",
+   "clips": [
+    {
+     "context": "A teammate after practice",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "male",
+       "voice": "charles",
+       "text": "Man, I feel like we really dropped off after the third quarter, especially our lateral passing."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "We should work on some specific quick-passing drills next session.",
+        "Did you remember to bring your weights for the cool-down routine?",
+        "When did you even start working on your cardiovascular endurance?",
+        "Are you going to eat the whole pizza tonight, then?"
+       ],
+       "answer": 0,
+       "explanation": "The response suggests a drill, which directly addresses the passing weakness mentioned."
+      }
+     ]
+    },
+    {
+     "context": "A classmate before a lecture",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "female",
+       "voice": "jane",
+       "text": "So, did Professor Reynolds cover the implications of the Enlightenment in this week's reading?"
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "Oh yeah, I think he mentioned it in the second section, around page fifty.",
+        "I think we’re supposed to check out the section on early agricultural techniques.",
+        "Did you read the footnotes that explain the Latin translations?",
+        "We should definitely grab coffee sometime this afternoon, okay?"
+       ],
+       "answer": 0,
+       "explanation": "The classmate confirms the specific content requested regarding the lecture material."
+      }
+     ]
+    },
+    {
+     "context": "A shop assistant in a bookstore",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "female",
+       "voice": "alba",
+       "text": "We have this collection of obscure historical texts in the non-fiction annex, on the second floor."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "You’ll need to take the main staircase up to the non-fiction section.",
+        "We also sell a wonderful selection of modern poetry on the ground floor.",
+        "Actually, the Renaissance era material is actually kept in the special archive.",
+        "The genre is mostly focused on maritime exploration and trade routes."
+       ],
+       "answer": 2,
+       "explanation": "The correct reply confirms the specific location of the historical texts."
+      }
+     ]
+    },
+    {
+     "context": "A tour guide at a museum",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "male",
+       "voice": "george",
+       "text": "These intricate frescoes really showcase the cultural exchange between the Roman Empire and the Hellenistic world."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "It suggests a shared appreciation for classical mythology and art forms.",
+        "I wonder if they recreated these exact pigments using modern compounds?",
+        "Are you going to recommend some good souvenir items to buy?",
+        "The gallery closes precisely at five o'clock this evening."
+       ],
+       "answer": 0,
+       "explanation": "The guide expands on the meaning of the cultural exchange demonstrated by the art."
+      }
+     ]
+    },
+    {
+     "context": "A neighbor in the hallway",
+     "lines": [
+      {
+       "speaker": "Speaker",
+       "gender": "female",
+       "voice": "eve",
+       "text": "Excuse me, but the constant hammering coming from your apartment is making it impossible for me to concentrate."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "response",
+       "question": "Choose the best response.",
+       "options": [
+        "I'm sorry; we should wrap up this renovation by the end of the day.",
+        "Well, you need to move to a different apartment if it's so noisy.",
+        "Could you maybe leave your tools outside instead, just temporarily?",
+        "What exactly is it you need me to stop doing right now?"
+       ],
+       "answer": 0,
+       "explanation": "The neighbor apologizes and provides a clear timeline for resolving the disturbance."
+      }
+     ]
+    }
+   ]
+  }
+ }
+]

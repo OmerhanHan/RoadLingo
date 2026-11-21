@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { discussionScoringPrompt, normalizeDiscussionScore } from '@/lib/toefl/academicDiscussion'
-import { extractJson, generateText } from '@/lib/toefl/generate'
+import { extractJson, generateText, MAX_TOKENS } from '@/lib/toefl/generate'
 import type { AcademicDiscussionPrompt } from '@/lib/toefl/types'
+import { consumeQuota, quotaExceeded, refundQuota } from '@/lib/usage/quota'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -33,18 +34,24 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'prompt required' }, { status: 400 })
   }
 
+  const quota = consumeQuota(req, 'scoring')
+  if (!quota.ok) return quotaExceeded('scoring', quota.limit)
+
   try {
     const raw = await generateText(
       [
         { role: 'system', content: 'You are a strict but fair TOEFL writing rater. You reply with JSON only.' },
         { role: 'user', content: discussionScoringPrompt({ course: p.course, professor: p.professor, students: [p.students[0], p.students[1]] }, response) },
       ],
-      req.signal
+      req.signal,
+      MAX_TOKENS.scoring,
+      false
     )
     const score = normalizeDiscussionScore(extractJson(raw), response)
     if (!score) throw new Error('Score failed validation')
     return NextResponse.json(score)
   } catch (err) {
+    refundQuota(req, 'scoring')
     console.error('[toefl/academic-discussion/score]', err)
     return NextResponse.json(
       { error: 'Puanlama yapılamadı', detail: err instanceof Error ? err.message : String(err) },

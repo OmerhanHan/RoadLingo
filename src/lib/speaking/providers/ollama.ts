@@ -1,5 +1,5 @@
 import type { ChatMessage, StreamChunk } from '../types'
-import type { SpeakingProvider } from './types'
+import type { SpeakingProvider, StreamOptions } from './types'
 
 type OllamaChatChunk = {
   message?: { content?: string }
@@ -18,7 +18,7 @@ export function createOllamaProvider(opts: {
 
     async *streamChat(
       messages: ChatMessage[],
-      options?: { signal?: AbortSignal }
+      options?: StreamOptions
     ): AsyncGenerator<StreamChunk, void, unknown> {
       let res: Response
       try {
@@ -29,6 +29,8 @@ export function createOllamaProvider(opts: {
             model: opts.model,
             messages,
             stream: true,
+            ...(options?.think === false ? { think: false } : {}),
+            ...(options?.maxTokens ? { options: { num_predict: options.maxTokens } } : {}),
           }),
           signal: options?.signal,
         })

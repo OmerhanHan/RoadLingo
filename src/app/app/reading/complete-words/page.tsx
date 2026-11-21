@@ -1,4 +1,6 @@
 'use client'
+import { planHeaders } from '@/lib/plans'
+import { markSeen, seenParam } from '@/lib/content/seen'
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { TOEFL_LEVELS, type CompleteWordsSet, type ToeflLevel } from '@/lib/toefl/types'
@@ -39,9 +41,10 @@ export default function CompleteWordsPage() {
     setPhase('loading')
     setError(null)
     try {
-      const res = await fetch(`/api/toefl/complete-words?level=${level}`, { signal: ctrl.signal })
+      const res = await fetch(`/api/toefl/complete-words?level=${level}${seenParam('complete-words')}`, { signal: ctrl.signal, headers: planHeaders() })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data = (await res.json()) as CompleteWordsSet
+      markSeen('complete-words', data.contentId)
       setSet(data)
       setAnswers(
         data.segments.filter((s): s is Gap => s.type === 'gap').map((g) => Array(g.missing.length).fill(''))
@@ -139,8 +142,8 @@ export default function CompleteWordsPage() {
         <section className="anim-fade-up">
           <div className={t.metaRow}>
             <span className={t.progressText}>{set.gapCount} boşluk</span>
-            <span className={`${t.badge} ${set.source === 'ai' ? t.badgeAi : ''}`}>
-              {set.source === 'ai' ? `AI · ${set.level}` : 'Hazır paragraf'}
+            <span className={`${t.badge} ${set.source !== 'fallback' ? t.badgeAi : ''}`}>
+              {set.source !== 'fallback' ? `AI · ${set.level}` : 'Hazır paragraf'}
             </span>
           </div>
 
