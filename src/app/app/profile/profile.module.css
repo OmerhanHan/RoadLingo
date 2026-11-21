@@ -3,18 +3,59 @@
 .heroCard {
   background: var(--ink); border-radius: var(--radius-xs);
   padding: 32px 24px; text-align: center; margin: 36px 0 24px;
-  position: relative; overflow: hidden;
-}
-.heroCard::before {
-  content: ''; position: absolute; top: -40px; right: -40px;
-  width: 120px; height: 120px; border-radius: 50%;
-  background: rgba(255,255,255,0.03);
+  position: relative; z-index: 2;
+  background-image: radial-gradient(circle at calc(100% + 0px) 0, rgba(255,255,255,0.03) 0 80px, transparent 81px);
 }
 
 .avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--sage-light); border: 3px solid var(--sage-dark); display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-size: 26px; color: var(--sage-dark); margin: 0 auto 14px; }
 .name { font-family: var(--font-serif); font-size: 22px; color: var(--cream); margin-bottom: 4px; }
 .email { font-family: var(--font-mono); font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 14px; }
-.levelBadge { display: inline-block; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; padding: 5px 14px; border: 1.5px solid var(--sage-dark); border-radius: var(--radius-xs); color: var(--sage-dark); }
+.levelBadge {
+  display: inline-flex; align-items: stretch; overflow: hidden;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase;
+  border: 1.5px solid var(--sage-dark); border-radius: var(--radius-xs); background: transparent;
+  transition: box-shadow 0.15s;
+}
+.badgeLevel { padding: 5px 12px; color: var(--sage-dark); display: flex; align-items: center; }
+.badgePlan {
+  padding: 5px 12px; display: flex; align-items: center; gap: 6px;
+  border-left: 1.5px solid var(--sage-dark); color: var(--cream); background: rgba(255,255,255,0.06);
+  transition: background 0.15s, color 0.15s;
+}
+.badgePlanPaid { background: var(--butter); color: var(--ink); }
+
+.levelBadge:hover, .levelBadge[aria-expanded="true"] { box-shadow: 0 0 0 3px rgba(122,158,126,0.25); }
+.levelBadge:hover .badgePlan, .levelBadge[aria-expanded="true"] .badgePlan { background: var(--sage-dark); color: var(--cream); }
+.badgeCaret { font-size: 9px; }
+
+/* ── Plans card under the level badge ── */
+.badgeWrap { position: relative; display: inline-block; }
+.plansCard {
+  position: absolute; top: calc(100% + 10px); left: 50%; transform: translateX(-50%);
+  width: min(300px, calc(100vw - 48px)); z-index: 50;
+  background: var(--warm-white); border: 2px solid var(--ink); border-radius: var(--radius-sm);
+  box-shadow: 5px 5px 0 var(--ink); padding: 14px; text-align: left;
+  animation: fadeIn 0.15s ease;
+}
+/* Invisible bridge so the pointer can cross the gap without closing the card. */
+.plansCard::before { content: ''; position: absolute; left: 0; right: 0; top: -12px; height: 12px; }
+.plansCardTitle { font-family: var(--font-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-3); margin-bottom: 8px; }
+.plansCardList { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.plansCardRow {
+  width: 100%; display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; text-align: left;
+  padding: 10px 12px; border: 1.5px solid var(--border); border-radius: var(--radius-xs); background: var(--cream);
+  transition: border-color 0.12s;
+}
+.plansCardRow:hover { border-color: var(--ink); }
+.plansCardRowCurrent { border-color: var(--sage-dark); background: var(--sage-light); }
+.plansCardName { font-size: 14px; font-weight: 600; color: var(--ink); display: flex; align-items: center; gap: 6px; }
+.plansCardTag { font-family: var(--font-mono); font-size: 9.5px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.6px; padding: 2px 6px; border-radius: var(--radius-xs); background: var(--sage-dark); color: var(--cream); }
+.plansCardPrice { font-family: var(--font-mono); font-size: 12px; color: var(--ink); align-self: center; }
+.plansCardMeta { grid-column: 1 / -1; font-size: 12px; color: var(--text-3); }
+.plansCardCta {
+  width: 100%; padding: 11px; border-radius: var(--radius-xs); background: var(--ink); color: var(--cream);
+  font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.8px;
+}
 
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
 .statCard { background: var(--warm-white); border: 1.5px solid var(--border); border-radius: var(--radius-xs); padding: 14px 8px; text-align: center; display: flex; flex-direction: column; gap: 4px; }

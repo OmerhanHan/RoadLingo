@@ -1,5 +1,6 @@
 'use client'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { QuotaError } from '@/lib/upgrade'
 import { useRouter } from 'next/navigation'
 import {
   EMAIL_CATEGORY_LABELS,
@@ -161,8 +162,8 @@ export default function EmailWritingPage() {
         scenario: `${sc.subject}\n${sc.prompt}`,
       })
       setAnalysis(result)
-    } catch {
-      setAnalyzeError('Analiz tamamlanamadı. Tekrar deneyebilirsin.')
+    } catch (e) {
+      setAnalyzeError(e instanceof QuotaError ? e.message : 'Analiz tamamlanamadı. Tekrar deneyebilirsin.')
     } finally {
       setAnalyzing(false)
     }

@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import BottomNav from '@/components/BottomNav'
+import UpgradePrompt from '@/components/UpgradePrompt'
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth()
@@ -26,6 +27,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <>
       {children}
       <BottomNav />
+      <UpgradePrompt />
     </>
   )
 }

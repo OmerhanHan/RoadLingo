@@ -5,6 +5,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import { getStats } from '@/lib/storage'
 import { activePlanId, getPlanById, getSubscription } from '@/lib/plans'
 import styles from './profile.module.css'
+import PlanBadge from './PlanBadge'
 
 function level(n: number) {
   if (n >= 20) return '🥇 Advanced'
@@ -44,7 +45,7 @@ export default function ProfilePage() {
         <div className={styles.avatar}>{firstName.charAt(0).toUpperCase()}</div>
         <h1 className={styles.name}>{user?.name}</h1>
         <p className={styles.email}>{user?.email}</p>
-        <span className={styles.levelBadge}>{level(stats.totalWritings)}</span>
+        <PlanBadge label={level(stats.totalWritings)} />
       </div>
 
       {/* Stats */}

@@ -1,5 +1,6 @@
 'use client'
 import { planHeaders } from '@/lib/plans'
+import { reportQuota } from '@/lib/upgrade'
 import { markSeen, seenParam } from '@/lib/content/seen'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -108,6 +109,7 @@ export default function AcademicDiscussionPage() {
       })
       const data = await res.json()
       if (res.status === 429) {
+        reportQuota({ kind: 'scoring', message: data.error || 'Günlük değerlendirme hakkın doldu.' })
         setError(data.error || 'Günlük değerlendirme hakkın doldu.')
         setPhase('writing')
         return

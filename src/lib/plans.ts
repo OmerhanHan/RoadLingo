@@ -89,6 +89,12 @@ export function getPlanById(id: unknown): PlanDefinition {
   return PLANS.find((p) => p.id === id) ?? PLANS[0]
 }
 
+/** A full speaking interview uses about this many chat replies (7 answers + closing). */
+export const REPLIES_PER_INTERVIEW = 8
+
+/** Interviews a chat-reply budget covers. */
+export const interviewsFor = (replies: number) => Math.floor(replies / REPLIES_PER_INTERVIEW)
+
 export function planLimit(plan: PlanId, kind: LimitKind): number {
   return getPlanById(plan).limits[kind]
 }

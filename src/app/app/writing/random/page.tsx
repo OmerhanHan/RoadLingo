@@ -3,6 +3,7 @@ import { useState, useCallback, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { saveWriting, updateWritingFeedback } from '@/lib/storage'
 import { analyzeWriting } from '@/lib/mockAI'
+import { QuotaError } from '@/lib/upgrade'
 import styles from './random.module.css'
 
 const ALL_TOPICS = [
@@ -101,7 +102,11 @@ export default function RandomPage() {
       updateWritingFeedback(savedId, fb)
       setAnalyzing(false)
       router.push(`/app/history/${savedId}`)
-    } catch (e) { console.error(e); setAnalyzing(false); showToast('❌ Analiz başarısız') }
+    } catch (e) {
+      setAnalyzing(false)
+      if (e instanceof QuotaError) return showToast('Yazın kaydedildi. Günlük değerlendirme hakkın doldu.')
+      console.error(e); showToast('❌ Analiz başarısız')
+    }
   }, [savedId, topic, content, showToast, router])
 
   const handleSkip = useCallback(() => {

@@ -95,7 +95,7 @@ export function usageFor(req: NextRequest) {
 
 export function quotaExceeded(kind: QuotaKind, limit: number) {
   return NextResponse.json(
-    { error: MESSAGE[kind], code: 'quota_exceeded', limit },
+    { error: MESSAGE[kind], code: 'quota_exceeded', kind, limit },
     { status: 429, headers: { 'Retry-After': '3600' } }
   )
 }

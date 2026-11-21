@@ -6,6 +6,7 @@ import { getStats } from '@/lib/storage'
 import { TOEFL_SECTIONS } from '@/lib/exam/structure'
 import { useState } from 'react'
 import styles from './home.module.css'
+import PlanCard from './PlanCard'
 
 function greeting(name: string) {
   const h = new Date().getHours()
@@ -52,6 +53,8 @@ export default function HomePage() {
           </div>
         ))}
       </div>
+
+      <PlanCard />
 
       {/* Skill sections */}
       <p className={`${styles.sectionTitle} anim-fade-up d2`}>TOEFL Bölümleri</p>
