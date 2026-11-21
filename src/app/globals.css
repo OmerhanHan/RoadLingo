@@ -60,6 +60,9 @@
 
   --nav-h: 64px;
   --max-w: 680px;
+  /* Wide pages (home, plans) on desktop, and the desktop sidebar width. */
+  --wide-w: 1080px;
+  --side-w: 0px;
 
   /* Safe-area insets (iOS notch / Android edge-to-edge) */
   --sat: env(safe-area-inset-top, 0px);
@@ -152,6 +155,17 @@ input, textarea { font-family: inherit; }
 }
 
 .page-pad { padding: 0 24px; }
+
+/* ─── Desktop shell (≥1024px): sidebar instead of the bottom tab bar ─── */
+@media (min-width: 1024px) {
+  :root {
+    --nav-h: 0px;
+    --side-w: 232px;
+  }
+  .app-shell { padding-left: var(--side-w); }
+  /* Keep toasts centered over the content, not the whole window. */
+  .app-shell .toast { left: calc(50% + var(--side-w) / 2); }
+}
 
 /* ─── Toast ─── */
 .toast {

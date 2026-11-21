@@ -55,3 +55,11 @@
 
 .explain { margin-top: 12px; }
 .hint { margin-top: 10px; text-align: center; font-family: var(--font-mono); font-size: 11px; color: var(--text-3); }
+
+/* ── Desktop: the passage fills the left column instead of a short scroll box ── */
+@media (min-width: 1024px) {
+  .passage { max-height: none; overflow: visible; margin-bottom: 0; padding: 28px 30px; }
+  .title { font-size: 24px; margin-bottom: 16px; }
+  .paragraph { font-size: 16px; line-height: 1.8; }
+  .paragraph + .paragraph { margin-top: 14px; }
+}

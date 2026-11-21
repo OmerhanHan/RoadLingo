@@ -1,4 +1,5 @@
 export { default as Book } from './Book'
 export { default as Bookshelf } from './Bookshelf'
 export { default as LibraryShelves } from './LibraryShelves'
+export { default as ShelfButton } from './ShelfButton'
 export type { BookProps, BookTone } from './Book'

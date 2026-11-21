@@ -155,7 +155,7 @@ export default function DailyLifePage() {
   }
 
   return (
-    <main className={t.page}>
+    <main className={`${t.page} ${t.pageWide}`}>
       <header className={`${t.header} anim-fade-up`}>
         <button id="back-btn" className={t.back} onClick={() => router.back()} aria-label="Geri">←</button>
         <div>
@@ -204,62 +204,68 @@ export default function DailyLifePage() {
             )}
           </div>
 
-          <DailyTextCard text={set.text} />
-
-          {reviewing && (
-            <div className={`${t.summary} ${q.scoreBox}`}>
-              <span className={t.scoreSub}>Bu metin</span>
-              <span className={t.score}>{correct} / {set.questions.length}</span>
+          <div className={t.split}>
+            <div className={t.splitText}>
+              <DailyTextCard text={set.text} />
             </div>
-          )}
 
-          {set.questions.map((qq, qi) => {
-            const selected = answers[qi]
-            return (
-              <div key={qi} className={q.question}>
-                <span className={q.qType}>{qi + 1} · {QUESTION_TYPE_LABEL[qq.type]}</span>
-                <h3 className={q.qText}>{qq.question}</h3>
-                <div className={q.options} role="radiogroup">
-                  {qq.options.map((opt, i) => {
-                    const state = reviewing
-                      ? i === qq.answer ? q.optionOk : i === selected ? q.optionBad : ''
-                      : i === selected ? q.optionSelected : ''
-                    return (
-                      <button
-                        key={i}
-                        role="radio"
-                        aria-checked={selected === i}
-                        className={`${q.option} ${state}`}
-                        onClick={() => choose(qi, i)}
-                        disabled={reviewing}
-                      >
-                        <span className={q.optionKey}>{LETTERS[i]}</span>
-                        <span>{opt}</span>
-                      </button>
-                    )
-                  })}
+            <div className={t.splitSide}>
+              {reviewing && (
+                <div className={`${t.summary} ${q.scoreBox}`}>
+                  <span className={t.scoreSub}>Bu metin</span>
+                  <span className={t.score}>{correct} / {set.questions.length}</span>
                 </div>
-                {reviewing && qq.explanation && (
-                  <div className={`${t.feedback} ${selected === qq.answer ? t.feedbackOk : t.feedbackBad} ${q.explain}`}>
-                    <span className={t.feedbackTitle}>{selected === qq.answer ? '✓ Doğru' : '✕ Yanlış'}</span>
-                    {qq.explanation}
-                  </div>
-                )}
-              </div>
-            )
-          })}
+              )}
 
-          {reviewing ? (
-            <div className={t.btnRow}>
-              <button className={t.secondaryBtn} onClick={() => setPhase('setup')}>Seviye</button>
-              <button className={t.primaryBtn} onClick={loadSet}>Sonraki Metin →</button>
+              {set.questions.map((qq, qi) => {
+                const selected = answers[qi]
+                return (
+                  <div key={qi} className={q.question}>
+                    <span className={q.qType}>{qi + 1} · {QUESTION_TYPE_LABEL[qq.type]}</span>
+                    <h3 className={q.qText}>{qq.question}</h3>
+                    <div className={q.options} role="radiogroup">
+                      {qq.options.map((opt, i) => {
+                        const state = reviewing
+                          ? i === qq.answer ? q.optionOk : i === selected ? q.optionBad : ''
+                          : i === selected ? q.optionSelected : ''
+                        return (
+                          <button
+                            key={i}
+                            role="radio"
+                            aria-checked={selected === i}
+                            className={`${q.option} ${state}`}
+                            onClick={() => choose(qi, i)}
+                            disabled={reviewing}
+                          >
+                            <span className={q.optionKey}>{LETTERS[i]}</span>
+                            <span>{opt}</span>
+                          </button>
+                        )
+                      })}
+                    </div>
+                    {reviewing && qq.explanation && (
+                      <div className={`${t.feedback} ${selected === qq.answer ? t.feedbackOk : t.feedbackBad} ${q.explain}`}>
+                        <span className={t.feedbackTitle}>{selected === qq.answer ? '✓ Doğru' : '✕ Yanlış'}</span>
+                        {qq.explanation}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+
+              {reviewing ? (
+                <div className={t.btnRow}>
+                  <button className={t.secondaryBtn} onClick={() => setPhase('setup')}>Seviye</button>
+                  <button className={t.primaryBtn} onClick={loadSet}>Sonraki Metin →</button>
+                </div>
+              ) : (
+                <>
+                  <button id="daily-check" className={t.primaryBtn} onClick={check} disabled={!allAnswered}>✓ Kontrol Et</button>
+                  {!allAnswered && <p className={q.hint}>Kontrol etmek için tüm soruları cevapla.</p>}
+                </>
+              )}
             </div>
-          ) : (
-            <>
-              <button id="daily-check" className={t.primaryBtn} onClick={check} disabled={!allAnswered}>✓ Kontrol Et</button>
-              {!allAnswered && <p className={q.hint}>Kontrol etmek için tüm soruları cevapla.</p>}
-            </>
-          )}
+          </div>
         </section>
       )}
     </main>

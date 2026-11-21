@@ -204,3 +204,16 @@
   border-radius: var(--radius-xs);
   padding: 7px 10px;
 }
+
+/* ── Desktop ── */
+@media (min-width: 1024px) {
+  .page { max-width: var(--wide-w); padding: 0 40px 48px; }
+  /* The sidebar already carries the logo. */
+  .brandLogo { display: none; }
+  .header { padding-top: 48px; }
+  .greetName { font-size: 34px; }
+  .stats { grid-template-columns: repeat(3, minmax(0, 220px)); }
+  .mainCards { grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .mainCard { padding: 28px 22px; min-height: 190px; }
+  .cardDesc { margin-top: auto; }
+}

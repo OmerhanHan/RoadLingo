@@ -297,7 +297,7 @@ export default function PlansPage() {
               )
             })}
             <p className={styles.usageNote}>
-              Haklar her gün gece yarısı (UTC) yenilenir.
+              Haklar her gece 03:00’te (TSİ) yenilenir.
               {!usage.enforced && ' Geliştirme ortamında sınırlar uygulanmıyor.'}
             </p>
           </section>

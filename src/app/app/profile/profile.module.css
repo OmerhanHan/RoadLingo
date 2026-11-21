@@ -85,3 +85,8 @@
 .btnDanger:hover { background: var(--dusty-rose); }
 .btnCancel { background: transparent; color: var(--text-2); border: 1.5px solid var(--border); border-radius: var(--radius-xs); padding:13px; font-family:var(--font-mono); font-size:13px; text-transform:uppercase; transition: border-color 0.15s; }
 .btnCancel:hover { border-color: var(--border-dark); }
+
+/* ── Desktop ── */
+@media (min-width: 1024px) {
+  .stats { grid-template-columns: repeat(5, 1fr); }
+}

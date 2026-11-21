@@ -133,6 +133,8 @@ export interface SubscriptionState {
 }
 
 const SUB_KEY = 'writer_subscription'
+/** Fired on window after the subscription changes (e.g. to refresh the sidebar plan chip). */
+export const SUBSCRIPTION_EVENT = 'roadlingo:subscription'
 const DEVICE_KEY = 'roadlingo_device_id'
 
 function defaultSubscription(): SubscriptionState {
@@ -157,6 +159,7 @@ export function saveSubscription(sub: SubscriptionState): void {
   } catch {
     /* storage unavailable */
   }
+  window.dispatchEvent(new Event(SUBSCRIPTION_EVENT))
 }
 
 /** The plan in effect right now (an expired exam pass or canceled Pro falls back to free). */

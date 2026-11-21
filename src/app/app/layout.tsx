@@ -25,7 +25,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      {children}
+      <div className="app-shell">{children}</div>
       <BottomNav />
       <UpgradePrompt />
     </>

@@ -49,3 +49,27 @@
 .summary { background: var(--warm-white); border: 2px solid var(--ink); border-radius: var(--radius-xs); box-shadow: 4px 4px 0 var(--ink); padding: 28px 20px; text-align: center; display: flex; flex-direction: column; gap: 14px; }
 .score { font-family: var(--font-serif); font-size: 48px; color: var(--ink); line-height: 1; }
 .scoreSub { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-3); }
+
+/* ── Desktop: text on the left (stays in view), questions on the right ──
+   On phones .split / .splitText / .splitSide are plain blocks (normal flow). */
+@media (min-width: 1024px) {
+  .pageWide { max-width: var(--wide-w); padding: 0 40px 48px; }
+  /* Setup and loading states stay at a comfortable reading width. */
+  .pageWide .intro, .pageWide .loading { max-width: var(--max-w); margin-left: auto; margin-right: auto; }
+
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+  }
+  .splitText {
+    position: sticky;
+    top: 24px;
+    max-height: calc(100dvh - 48px);
+    overflow-y: auto;
+    /* room for the card's offset shadow inside the scroll box */
+    padding: 0 6px 6px 0;
+  }
+  .splitSide { min-width: 0; }
+}

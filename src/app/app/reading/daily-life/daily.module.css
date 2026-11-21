@@ -46,3 +46,8 @@
 .g_notice .noticeSender, .g_notice .noticeTitle { text-align: center; }
 .g_menu .noticeTitle, .g_menu .noticeSender { text-align: center; }
 .g_schedule .noticeTitle { margin-bottom: 2px; }
+
+/* ── Desktop: the card sits in the left column of the split layout ── */
+@media (min-width: 1024px) {
+  .card { margin-bottom: 0; font-size: 15.5px; }
+}

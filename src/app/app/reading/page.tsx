@@ -4,6 +4,7 @@ const EXTRAS: ExtraMode[] = [
   {
     id: 'library', title: 'Kütüphane', tag: 'Library', emoji: '📚', href: '/app/reading/library',
     desc: 'Raflardaki metinlerden birini seçip oku.',
+    variant: 'bookshelf',
   },
 ]
 

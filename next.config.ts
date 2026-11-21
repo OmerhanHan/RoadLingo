@@ -7,6 +7,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  // Dev-only badge; bottom-left would cover the sidebar's plan card on desktop.
+  devIndicators: { position: "bottom-right" },
   // The content bank is read from disk at runtime by the TOEFL content routes.
   outputFileTracingIncludes: {
     "/api/toefl/**": ["./content/bank/**/*.json"],

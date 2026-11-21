@@ -712,3 +712,26 @@
   padding: 8px 10px;
   margin: 0 0 14px;
 }
+
+/* ── Desktop: plans side by side, details in a readable column ── */
+@media (min-width: 1024px) {
+  .page { max-width: var(--wide-w); padding: 40px 40px 48px; }
+  .header, .cycleWrap { max-width: 760px; }
+  .title { font-size: 34px; }
+
+  .planGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: stretch;
+    gap: 18px;
+    margin-bottom: 40px;
+  }
+  .planCard { display: flex; flex-direction: column; padding: 24px; }
+  .planCard:hover { transform: translateY(-2px); }
+  .planTop { flex-direction: column; gap: 14px; }
+  .priceBlock { text-align: left; }
+  .featureList { flex: 1; }
+
+  .planGrid ~ .sectionTitle,
+  .planGrid ~ section { max-width: 760px; }
+}
