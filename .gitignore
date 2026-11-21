@@ -64,3 +64,6 @@ next-env.d.ts
 /models/tts/*.mp3
 !/models/tts/README.md
 !/models/tts/*.onnx.json
+
+# local caches (synthesized speech)
+/.cache/

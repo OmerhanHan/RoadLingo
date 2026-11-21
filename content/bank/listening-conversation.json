@@ -1,0 +1,626 @@
+[
+ {
+  "id": "e895987ab9",
+  "level": "B1",
+  "createdAt": "2026-11-21T16:15:14.960Z",
+  "data": {
+   "title": "Bike Repair Consultation",
+   "clips": [
+    {
+     "context": "Customer at a bike shop discussing a flat tire",
+     "lines": [
+      {
+       "speaker": "Jessica",
+       "gender": "female",
+       "voice": "mary",
+       "text": "Hi there. I was wondering if you could help me out. I've got a flat tire on my bike."
+      },
+      {
+       "speaker": "Mark",
+       "gender": "male",
+       "voice": "paul",
+       "text": "Sure, absolutely. What kind of bike is it? And how bad is the flat?"
+      },
+      {
+       "speaker": "Jessica",
+       "gender": "female",
+       "voice": "mary",
+       "text": "Well, it's a mountain bike, and I think it's just a simple puncture. I rode over some glass, I think."
+      },
+      {
+       "speaker": "Mark",
+       "gender": "male",
+       "voice": "paul",
+       "text": "Okay. Hmm. Let me take a look at it. Yep, that's a pretty clear puncture. We'll need to replace the inner tube."
+      },
+      {
+       "speaker": "Jessica",
+       "gender": "female",
+       "voice": "mary",
+       "text": "Oh, okay. And how long do you think this is going to take? I'm kind of running late."
+      },
+      {
+       "speaker": "Mark",
+       "gender": "male",
+       "voice": "paul",
+       "text": "It shouldn't take too long. We'll probably need about fifteen minutes. We also need to check the tire itself to make sure there's no glass still sticking out."
+      },
+      {
+       "speaker": "Jessica",
+       "gender": "female",
+       "voice": "mary",
+       "text": "Fifteen minutes, alright. And what should I expect to pay for the repair?"
+      },
+      {
+       "speaker": "Mark",
+       "gender": "male",
+       "voice": "paul",
+       "text": "Just for the tube and the labor, it'll be about eighteen dollars. We'll get you rolling again quickly."
+      },
+      {
+       "speaker": "Jessica",
+       "gender": "female",
+       "voice": "mary",
+       "text": "Eighteen dollars. That sounds fair. Could you get started now?"
+      },
+      {
+       "speaker": "Mark",
+       "gender": "male",
+       "voice": "paul",
+       "text": "Yeah, let's get you set up on the repair stand. Give me just a moment."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "main_idea",
+       "question": "What is the main topic of the conversation?",
+       "options": [
+        "Jessica needs assistance repairing a flat bicycle tire.",
+        "Mark is suggesting that Jessica buy a new bike.",
+        "They are debating the best route to ride the mountain bike.",
+        "Jessica is complaining about the price of bike parts."
+       ],
+       "answer": 0,
+       "explanation": "The conversation revolves entirely around diagnosing and fixing a punctured inner tube."
+      },
+      {
+       "kind": "detail",
+       "question": "According to Mark, what is necessary besides replacing the tube?",
+       "options": [
+        "The wheel needs to be adjusted because it's squeaking.",
+        "Jessica needs to check her own bike pump at home.",
+        "They must examine the tire to remove any remaining foreign objects.",
+        "The bike requires an oiling of the chains before departure."
+       ],
+       "answer": 2,
+       "explanation": "Mark mentions checking the tire to make sure there's no glass still sticking out."
+      },
+      {
+       "kind": "action",
+       "question": "What is the most likely next action?",
+       "options": [
+        "Mark will start working on the bike immediately.",
+        "Jessica will pay the repair cost to a cashier.",
+        "They will discuss which other bike accessories she needs.",
+        "Jessica will ask for a detailed warranty on the repair."
+       ],
+       "answer": 0,
+       "explanation": "The conversation ends with Mark saying, 'Let's get you set up on the repair stand.'"
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "ca6de01161",
+  "level": "B1",
+  "createdAt": "2026-11-21T16:15:40.580Z",
+  "data": {
+   "title": "Office Hours Discussion",
+   "clips": [
+    {
+     "context": "A student discusses a paper topic with a professor",
+     "lines": [
+      {
+       "speaker": "Chloe",
+       "gender": "female",
+       "voice": "mary",
+       "text": "Hi Dr. Evans. Thanks for meeting with me. I was hoping to get some advice on my paper topic for History."
+      },
+      {
+       "speaker": "Dr. Evans",
+       "gender": "male",
+       "voice": "paul",
+       "text": "No problem, Chloe. Come on in. What area were you thinking of focusing on? Do you have any ideas already?"
+      },
+      {
+       "speaker": "Chloe",
+       "gender": "female",
+       "voice": "mary",
+       "text": "Well, I was interested in the early American reform movements, specifically women's rights during that period. But I feel like it's really too broad."
+      },
+      {
+       "speaker": "Dr. Evans",
+       "gender": "male",
+       "voice": "paul",
+       "text": "You're right, it is. It’s a huge subject. Maybe you could narrow it down. How about focusing just on the role of newspapers in disseminating these ideas?"
+      },
+      {
+       "speaker": "Chloe",
+       "gender": "female",
+       "voice": "mary",
+       "text": "Oh, that makes sense. So, I wouldn't cover the whole movement, but just the media's impact? Like pamphlets or local papers?"
+      },
+      {
+       "speaker": "Dr. Evans",
+       "gender": "male",
+       "voice": "paul",
+       "text": "Exactly. And you should look into primary sources, particularly the collection of letters from key figures. It will give you a really deep perspective."
+      },
+      {
+       "speaker": "Chloe",
+       "gender": "female",
+       "voice": "mary",
+       "text": "I haven't looked at that collection yet. I think I can find it in the library archives. Should I read anything specific before we meet next week?"
+      },
+      {
+       "speaker": "Dr. Evans",
+       "gender": "male",
+       "voice": "paul",
+       "text": "Yes, absolutely. Just read the introductory chapter on early periodicals. That should get you started, and we can refine the thesis after that."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "main_idea",
+       "question": "What is the primary purpose of Chloe's visit to Dr. Evans?",
+       "options": [
+        "To find a more manageable focus for her history research paper.",
+        "To ask for help locating primary source documents in the archives.",
+        "To discuss the general history of American reform movements.",
+        "To schedule a meeting about her grade on a previous assignment."
+       ],
+       "answer": 0,
+       "explanation": "Chloe seeks advice on narrowing down the large topic of her paper."
+      },
+      {
+       "kind": "detail",
+       "question": "What specific element did Dr. Evans suggest Chloe include to provide a deeper perspective?",
+       "options": [
+        "A thorough analysis of local newspapers.",
+        "A comparison between different reform movements.",
+        "Letters from important historical figures.",
+        "A focus on the role of political pamphleteering."
+       ],
+       "answer": 2,
+       "explanation": "Dr. Evans suggests looking into the collection of letters from key figures."
+      },
+      {
+       "kind": "action",
+       "question": "What is the expected next action for Chloe?",
+       "options": [
+        "She should schedule a follow-up meeting to review her sources.",
+        "She needs to read the introductory chapter on early periodicals.",
+        "She should visit the library to gather local newspaper samples.",
+        "She must finalize her thesis statement before next week's meeting."
+       ],
+       "answer": 1,
+       "explanation": "Dr. Evans tells Chloe to read the introductory chapter on early periodicals."
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "ca55c0e147",
+  "level": "B2",
+  "createdAt": "2026-11-21T16:16:07.226Z",
+  "data": {
+   "title": "Research Paper Consultation",
+   "clips": [
+    {
+     "context": "A student meets a professor during office hours",
+     "lines": [
+      {
+       "speaker": "Sarah",
+       "gender": "female",
+       "voice": "jane",
+       "text": "Hi Dr. Evans. Thanks for meeting with me. I'm stuck on the topic for my history research paper."
+      },
+      {
+       "speaker": "Dr. Evans",
+       "gender": "male",
+       "voice": "george",
+       "text": "No problem, Sarah. Pull up a chair. What direction were you thinking of going in? Are you leaning toward 19th-century social reform?"
+      },
+      {
+       "speaker": "Sarah",
+       "gender": "female",
+       "voice": "jane",
+       "text": "Yeah, that's the general idea, but I'm overwhelmed by the scope. Should I focus on, say, sanitation reform, or maybe labor laws? I don't know how narrow I need to be."
+      },
+      {
+       "speaker": "Dr. Evans",
+       "gender": "male",
+       "voice": "george",
+       "text": "Well, 'labor laws' is really broad. You might want to consider a specific industry or a regional focus. For instance, perhaps focusing solely on the textile workers' rights in Massachusetts during the 1880s."
+      },
+      {
+       "speaker": "Sarah",
+       "gender": "female",
+       "voice": "jane",
+       "text": "Oh, like that? That makes it feel much more manageable. So, I could use primary sources, right? Government records, newspaper clippings?"
+      },
+      {
+       "speaker": "Dr. Evans",
+       "gender": "male",
+       "voice": "george",
+       "text": "Absolutely. And definitely try to include some oral histories if you can find them. It adds a lot of depth beyond just official documents."
+      },
+      {
+       "speaker": "Sarah",
+       "gender": "female",
+       "voice": "jane",
+       "text": "Okay. So, I'll draft a potential thesis statement covering the textile workers' rights in that time frame. When should I send it to you?"
+      },
+      {
+       "speaker": "Dr. Evans",
+       "gender": "male",
+       "voice": "george",
+       "text": "Send it by the end of the week. That gives me enough time to look over it and offer some feedback before your outline is due next week."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "main_idea",
+       "question": "What is the main purpose of Sarah's visit to Dr. Evans?",
+       "options": [
+        "To request suggestions for a manageable and focused topic for her research paper.",
+        "To receive help locating rare primary source documents for her bibliography.",
+        "To ask for an extension on her upcoming paper outline deadline.",
+        "To discuss her current struggle with writing a strong thesis statement."
+       ],
+       "answer": 0,
+       "explanation": "The conversation revolves around narrowing down the scope of her historical paper topic."
+      },
+      {
+       "kind": "detail",
+       "question": "What specific area did Dr. Evans suggest Sarah narrow down for her paper?",
+       "options": [
+        "The general topic of 19th-century social reform.",
+        "The role of sanitation efforts in major American cities.",
+        "Textile workers' rights in Massachusetts during the 1880s.",
+        "The legal framework surrounding all labor unions."
+       ],
+       "answer": 2,
+       "explanation": "Dr. Evans suggested focusing on textile workers' rights in Massachusetts during the 1880s."
+      },
+      {
+       "kind": "action",
+       "question": "What will Sarah do immediately after this conversation?",
+       "options": [
+        "Begin researching oral histories from the 19th century.",
+        "Draft a potential thesis statement about the suggested topic and send it to Dr. Evans.",
+        "Review the legal documents concerning sanitation reform.",
+        "Prepare a presentation about the scope of labor laws."
+       ],
+       "answer": 1,
+       "explanation": "Sarah states she will draft a potential thesis statement and send it to Dr. Evans by the end of the week."
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "5a9f433287",
+  "level": "B2",
+  "createdAt": "2026-11-21T16:16:34.153Z",
+  "data": {
+   "title": "Weekend Trip Planning",
+   "clips": [
+    {
+     "context": "Two roommates planning a trip",
+     "lines": [
+      {
+       "speaker": "Olivia",
+       "gender": "female",
+       "voice": "jane",
+       "text": "So, about this weekend trip. I've been looking at some hotels in Asheville, and they look amazing. We should definitely go."
+      },
+      {
+       "speaker": "Liam",
+       "gender": "male",
+       "voice": "george",
+       "text": "Asheville, huh? Yeah, I like the sound of that. But we need to talk about the budget first. Remember we agreed to keep it pretty cheap?"
+      },
+      {
+       "speaker": "Olivia",
+       "gender": "female",
+       "voice": "jane",
+       "text": "Well, I know, but I found this spot—it's cute, and it has a little hot tub. It’s a bit more, though. Like, almost $300 for two nights."
+      },
+      {
+       "speaker": "Liam",
+       "gender": "male",
+       "voice": "george",
+       "text": "Whoa. $300? Olivia, that's way over the $200 maximum we set. Maybe we look at a hostel or something less fancy?"
+      },
+      {
+       "speaker": "Olivia",
+       "gender": "female",
+       "voice": "jane",
+       "text": "But if we go super cheap, it won't feel like a getaway. I was hoping for something that feels nice, you know? Not just sleeping on a cot."
+      },
+      {
+       "speaker": "Liam",
+       "gender": "male",
+       "voice": "george",
+       "text": "I get that, but we have to be realistic. If we splurge on the hotel, we won't be able to afford that nice dinner downtown we wanted."
+      },
+      {
+       "speaker": "Olivia",
+       "gender": "female",
+       "voice": "jane",
+       "text": "Okay, okay. So how about this? I can look for a place that's maybe in the $250 range, and we prioritize the restaurant budget when we make reservations?"
+      },
+      {
+       "speaker": "Liam",
+       "gender": "male",
+       "voice": "george",
+       "text": "Hmm. $250 is better than $300. Let's look at your links for the cheaper options and we can compare them before committing."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "main_idea",
+       "question": "What is the main reason for this conversation?",
+       "options": [
+        "The roommates are discussing which destination to visit for the weekend.",
+        "Olivia wants to change the weekend plans to a more expensive location.",
+        "Liam and Olivia are struggling to agree on the budget for their trip.",
+        "They are comparing different accommodations to find the best deal."
+       ],
+       "answer": 2,
+       "explanation": "The core disagreement centers on whether the trip should be expensive or budget-friendly."
+      },
+      {
+       "kind": "detail",
+       "question": "According to Liam, what was the agreed-upon maximum spending limit?",
+       "options": [
+        "Around $300 for the total stay.",
+        "Less than $200 for the entire trip.",
+        "A little more than $250.",
+        "Enough to cover dinner downtown."
+       ],
+       "answer": 1,
+       "explanation": "Liam reminds Olivia that the group had agreed to keep the spending below $200."
+      },
+      {
+       "kind": "action",
+       "question": "What will Liam probably do next?",
+       "options": [
+        "Book the hotel instantly to secure the best rates.",
+        "Suggest visiting a more rural destination, like the mountains.",
+        "Review the cheaper hotel options that Olivia sends him.",
+        "Insist that Olivia finds the reservation for the nice dinner."
+       ],
+       "answer": 2,
+       "explanation": "Liam asks Olivia to send him links so they can compare the cheaper options together."
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "934756cacf",
+  "level": "C1",
+  "createdAt": "2026-11-21T16:17:15.892Z",
+  "data": {
+   "title": "Overdue Book and Fine Inquiry",
+   "clips": [
+    {
+     "context": "A student asks a librarian about a library fine.",
+     "lines": [
+      {
+       "speaker": "Leo",
+       "gender": "male",
+       "voice": "michael",
+       "text": "Hi, I was hoping you could help me with something. I realized I have a few books that are substantially overdue, and I'm seeing a cumulative fine on my account."
+      },
+      {
+       "speaker": "Sarah",
+       "gender": "female",
+       "voice": "jane",
+       "text": "Of course. Let's take a look. It seems you have three titles here. The late penalty fee is accrued based on a daily rate, which is typically $0.50 per item."
+      },
+      {
+       "speaker": "Leo",
+       "gender": "male",
+       "voice": "michael",
+       "text": "Oh, gosh. I totally forgot about the extended return window. My research kept me busy, and I should have kept better track of the dates."
+      },
+      {
+       "speaker": "Sarah",
+       "gender": "female",
+       "voice": "jane",
+       "text": "I understand; academic life can be demanding. However, the policy stipulates that fees are required to cover the administrative overhead, even when you genuinely need the materials."
+      },
+      {
+       "speaker": "Leo",
+       "gender": "male",
+       "voice": "michael",
+       "text": "Is there any possibility of a waiver, maybe since the delay wasn't intentional? I’ve returned them all now, actually."
+      },
+      {
+       "speaker": "Sarah",
+       "gender": "female",
+       "voice": "jane",
+       "text": "Well, generally, a waiver is reserved for specific circumstances, like a documented illness. But, since you're a diligent student, I can perhaps reduce the fine by 25% if you sign an agreement that you won't let it happen again."
+      },
+      {
+       "speaker": "Leo",
+       "gender": "male",
+       "voice": "michael",
+       "text": "Twenty-five percent? That sounds much more manageable. I appreciate your flexibility. Thank you so much for adjusting the penalty."
+      },
+      {
+       "speaker": "Sarah",
+       "gender": "female",
+       "voice": "jane",
+       "text": "You're welcome, Leo. Please just make sure you keep the books in good condition, as that's always part of the obligation."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "main_idea",
+       "question": "What is the primary purpose of this conversation?",
+       "options": [
+        "To get advice on managing academic deadlines and library policies.",
+        "To arrange a special exception and reduction for overdue book fines.",
+        "To determine if Leo can borrow additional research materials for his studies.",
+        "To understand the process for renewing a user's library membership."
+       ],
+       "answer": 1,
+       "explanation": "The conversation focuses on Leo trying to reduce the amount of money he owes for late returns."
+      },
+      {
+       "kind": "detail",
+       "question": "What specific requirement did Sarah mention regarding the fine reduction?",
+       "options": [
+        "Leo needed to show proof of a documented illness.",
+        "He had to sign an agreement promising to manage future returns better.",
+        "He was required to pay the original fine amount to waive the fee.",
+        "He needed to wait until the next academic semester to qualify for a waiver."
+       ],
+       "answer": 1,
+       "explanation": "Sarah stated he needed to sign an agreement acknowledging his responsibility moving forward."
+      },
+      {
+       "kind": "action",
+       "question": "What will Leo probably do next?",
+       "options": [
+        "Proceed to a different department to register for a new library card.",
+        "Sign the necessary paperwork and pay the reduced fine.",
+        "Ask Sarah if he can pay the outstanding fees over several weeks.",
+        "Accept the policy and refrain from asking the librarian any more questions."
+       ],
+       "answer": 1,
+       "explanation": "Since Sarah offered a solution, Leo's next logical step is to accept the terms and resolve the debt."
+      }
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "id": "098b8535b6",
+  "level": "C1",
+  "createdAt": "2026-11-21T16:17:54.968Z",
+  "data": {
+   "title": "Weekend Trip Planning Disagreement",
+   "clips": [
+    {
+     "context": "Two roommates discussing a trip budget",
+     "lines": [
+      {
+       "speaker": "Sarah",
+       "gender": "female",
+       "voice": "eve",
+       "text": "So, for the weekend, I was thinking we should go to the Blue Ridge Mountains. It would be incredibly scenic, and we could rent a cabin with a hot tub, you know?"
+      },
+      {
+       "speaker": "Ben",
+       "gender": "male",
+       "voice": "michael",
+       "text": "Oh, that sounds lovely, honestly. But we need to be really mindful of our overall expenditure, right? Are we even sure about the timing for reservations?"
+      },
+      {
+       "speaker": "Sarah",
+       "gender": "female",
+       "voice": "eve",
+       "text": "I found this little spot; it's fantastic, and it has this incredible view. It might be a tad expensive, but I think it's worth splurging a bit for."
+      },
+      {
+       "speaker": "Ben",
+       "gender": "male",
+       "voice": "michael",
+       "text": "Well, actually, 'splurging' needs to be relative. We agreed we needed a trip that was mostly affordable. We can't just book something extravagant."
+      },
+      {
+       "speaker": "Sarah",
+       "gender": "female",
+       "voice": "eve",
+       "text": "But Ben, I want a proper getaway! If we don't aim high, we'll just end up doing something mundane. I mean, we deserve a little luxury."
+      },
+      {
+       "speaker": "Ben",
+       "gender": "male",
+       "voice": "michael",
+       "text": "I get the sentiment, but if we stick to the city outskirts, we can compromise on the lodging while still getting some amazing scenery. How about camping near the lake instead of a cabin?"
+      },
+      {
+       "speaker": "Sarah",
+       "gender": "female",
+       "voice": "eve",
+       "text": "Camping... I don't know. Because the specific site I was looking at was really pricey, and I'm not sure how financially feasible this 'camping' compromise really is for us."
+      },
+      {
+       "speaker": "Ben",
+       "gender": "male",
+       "voice": "michael",
+       "text": "Look, we just talked about this. Our budget is quite restrictive. If we want to keep the trip fun, we absolutely have to stay under the four hundred dollar mark total."
+      },
+      {
+       "speaker": "Sarah",
+       "gender": "female",
+       "voice": "eve",
+       "text": "You're right. Okay. Alright, how about this: let me check out some campground options near the lake, and I'll prioritize the ones that are significantly less expensive."
+      }
+     ],
+     "questions": [
+      {
+       "kind": "main_idea",
+       "question": "What is the main point of the conversation?",
+       "options": [
+        "The roommates must find a weekend destination that fits their limited budget.",
+        "They are debating whether a hot tub is essential for a proper getaway.",
+        "Sarah wants to change the trip location from mountains to a lakeside area.",
+        "Ben is worried that the trip dates might conflict with their work schedules."
+       ],
+       "answer": 0,
+       "explanation": "The conversation primarily revolves around negotiating a trip plan that respects their shared financial limits."
+      },
+      {
+       "kind": "detail",
+       "question": "What specific financial detail did Ben remind Sarah of?",
+       "options": [
+        "They should not exceed $500 for accommodation and activities.",
+        "They should avoid renting anything that requires a security deposit.",
+        "They must stay within a four hundred dollar total budget.",
+        "The total spending on gas cannot be more than $80."
+       ],
+       "answer": 2,
+       "explanation": "Ben explicitly stated that they must stay under the four hundred dollar mark."
+      },
+      {
+       "kind": "action",
+       "question": "What is Sarah most likely to do next?",
+       "options": [
+        "Research more affordable camping locations near the lake for the group.",
+        "Insist on finding a cabin that is just slightly more expensive.",
+        "Call Ben to suggest a completely different type of expensive activity.",
+        "Give up on the idea of a trip altogether due to the cost."
+       ],
+       "answer": 0,
+       "explanation": "Sarah conceded and offered to check out the more budget-friendly campsite alternatives herself."
+      }
+     ]
+    }
+   ]
+  }
+ }
+]

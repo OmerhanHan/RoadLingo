@@ -1,0 +1,360 @@
+[
+ {
+  "id": "8c4598009b",
+  "level": "B1",
+  "createdAt": "2026-11-21T16:04:55.050Z",
+  "data": {
+   "scenario": "a university housing office telling residents about planned water maintenance",
+   "text": {
+    "genre": "email",
+    "title": "IMPORTANT: Planned Water Maintenance – North and West Wings",
+    "sender": "Campus Housing Services",
+    "lines": [
+     "Dear Residents,",
+     "Please be advised that essential water maintenance is scheduled for this week. To ensure the safety and proper functioning of our plumbing systems, we must temporarily shut off the main water lines supplying the North Hall and West Wing residential buildings.",
+     "The service interruption is planned for Wednesday, October 25th, from 9:00 AM to 3:00 PM. During this window, all taps, showers, and washing machines will be non-operational.",
+     "We strongly recommend that you store enough water for basic hygiene needs (like flushing toilets) and that you plan any cooking or laundry activities around this schedule. We apologize for any inconvenience this may cause.",
+     "Best regards,",
+     "The Housing Management Team"
+    ]
+   },
+   "questions": [
+    {
+     "type": "purpose",
+     "question": "What is the main purpose of this email?",
+     "options": [
+      "To warn residents about a potential emergency pipe burst.",
+      "To remind students about proper use of campus plumbing.",
+      "To inform residents about scheduled maintenance requiring a temporary water shutoff.",
+      "To advertise a new water filtration system for the campus."
+     ],
+     "answer": 2,
+     "explanation": "The email explicitly states that maintenance requires the temporary shutdown of water lines."
+    },
+    {
+     "type": "detail",
+     "question": "According to the email, which buildings will be affected by the water shutoff?",
+     "options": [
+      "West Hall and Oak Street Residence.",
+      "The North Hall and West Wing residential buildings.",
+      "The main administration building and East Dormitory.",
+      "All campus housing units starting from the Student Union."
+     ],
+     "answer": 1,
+     "explanation": "The text specifies the closure affects the 'North Hall and West Wing residential buildings.'"
+    },
+    {
+     "type": "inference",
+     "question": "Based on the instructions given, what should residents anticipate doing before Wednesday?",
+     "options": [
+      "Calling the housing office to report minor leaks.",
+      "Finding alternative locations for laundry services.",
+      "Saving and storing water for personal use.",
+      "Volunteering to help the maintenance crews clean up."
+     ],
+     "answer": 2,
+     "explanation": "The email recommends storing water for 'basic hygiene needs' when the water is shut off."
+    }
+   ]
+  }
+ },
+ {
+  "id": "4faf509dd3",
+  "level": "B1",
+  "createdAt": "2026-11-21T16:05:18.649Z",
+  "data": {
+   "scenario": "an online store confirming an order and explaining a shipping delay",
+   "text": {
+    "genre": "email",
+    "title": "Your Order Confirmation (Order #CC4590) and Shipping Update",
+    "sender": "The Cozy Corner Store Support",
+    "lines": [
+     "Hi Sarah, Thank you so much for shopping with The Cozy Corner Store! We have successfully processed your order for the lavender soap set and the memory blanket. We appreciate your business. We are writing to update you about the shipping. Due to unexpected delays with our primary courier service, your package shipment has been rescheduled. The good news is that your items are still on their way! They are now expected to arrive between Monday, June 24th, and Tuesday, June 25th. We sincerely apologize for this delay and thank you for your continued patience. Please let us know if you have any questions! Best regards, The Cozy Corner Team"
+    ]
+   },
+   "questions": [
+    {
+     "type": "purpose",
+     "question": "What is the main purpose of this email?",
+     "options": [
+      "To notify the customer that her purchase was successful and provide updated shipping information.",
+      "To persuade the customer to buy more products in the future.",
+      "To apologize for the store's operational inefficiency.",
+      "To confirm that the store has selected the correct items for shipment."
+     ],
+     "answer": 0,
+     "explanation": "The email confirms the order (lavender soap set) and provides the updated shipping schedule, fulfilling both primary functions."
+    },
+    {
+     "type": "detail",
+     "question": "According to the email, when should the customer expect to receive her order?",
+     "options": [
+      "Before Monday, June 24th",
+      "Between Monday, June 24th, and Tuesday, June 25th",
+      "Next week, during standard business hours",
+      "By the end of the current week"
+     ],
+     "answer": 1,
+     "explanation": "The email specifies that the items are now expected to arrive 'between Monday, June 24th, and Tuesday, June 25th.'"
+    },
+    {
+     "type": "inference",
+     "question": "The Cozy Corner Store is most likely hoping that the customer will:",
+     "options": [
+      "Contact them immediately if she has any questions about the delay.",
+      "Understand that delays are normal parts of the shipping process.",
+      "Remain patient and continue shopping with the store despite the inconvenience.",
+      "Compare the pricing of their items with other local competitors."
+     ],
+     "answer": 2,
+     "explanation": "By apologizing and asking for patience, the store aims to maintain customer trust and encourage future business."
+    }
+   ]
+  }
+ },
+ {
+  "id": "3d26ef9fbc",
+  "level": "B2",
+  "createdAt": "2026-11-21T16:05:35.227Z",
+  "data": {
+   "scenario": "a professor replying to a student who asked for a deadline extension",
+   "text": {
+    "genre": "email",
+    "title": "Re: Research Proposal Extension Request",
+    "sender": "Professor Eleanor Vance",
+    "lines": [
+     "Dear Liam,",
+     "Thank you for reaching out regarding the research proposal deadline. I understand that coordinating multiple demanding assignments can be challenging, and I appreciate your proactive communication.",
+     "While I generally prefer adherence to the original schedule, I will grant a brief extension. Please submit the final draft, including the annotated bibliography, by the end of the day next Tuesday, October 17th. Please ensure this revised submission is accompanied by a short outline detailing your revised methodology so I can review it quickly.",
+     "Best regards,",
+     "Eleanor Vance"
+    ]
+   },
+   "questions": [
+    {
+     "type": "purpose",
+     "question": "What is the main purpose of this email?",
+     "options": [
+      "To grant the student an extension on the research proposal.",
+      "To remind the student that they should focus on their annotated bibliography.",
+      "To explain the general difficulties of managing multiple school assignments.",
+      "To suggest that the student improve their communication skills with professors."
+     ],
+     "answer": 0,
+     "explanation": "The professor explicitly grants a brief extension, confirming the purpose of the message."
+    },
+    {
+     "type": "detail",
+     "question": "According to the email, when is the revised research proposal due?",
+     "options": [
+      "The original deadline date, which was near the end of the week.",
+      "The day the student initially requested the extension.",
+      "The end of the day next Tuesday, October 17th.",
+      "Anytime before the end of the following week."
+     ],
+     "answer": 1,
+     "explanation": "The text specifies: 'Please submit the final draft... by the end of the day next Tuesday, October 17th.'"
+    },
+    {
+     "type": "inference",
+     "question": "What does Professor Vance imply about the quality of the student's plan?",
+     "options": [
+      "She believes the student needs to work on developing a clearer research method.",
+      "She suspects the student has been procrastinating on the required readings.",
+      "She thinks the student should take a temporary break from academic work.",
+      "She has no reservations about the student's current progress."
+     ],
+     "answer": 0,
+     "explanation": "The requirement that the submission include a 'short outline detailing your revised methodology' implies the professor wants to review and verify the student's methods."
+    }
+   ]
+  }
+ },
+ {
+  "id": "e4ccf09cc6",
+  "level": "B2",
+  "createdAt": "2026-11-21T16:05:53.224Z",
+  "data": {
+   "scenario": "a poster for a student volunteer day at a community garden",
+   "text": {
+    "genre": "notice",
+    "title": "Sow Seeds of Change: Volunteer Day!",
+    "sender": "The Green Sprout Community Initiative",
+    "lines": [
+     "Join us for a day of planting, weeding, and community connection! Our community garden needs an influx of hands to prepare for the peak growing season.",
+     "📅 Date: Saturday, May 18th",
+     "⏰ Time: 10:00 AM – 2:00 PM",
+     "📍 Location: Central Park Plot 3 (Next to the main gazebo)",
+     "🛠️ What to bring: Wear sturdy shoes, bring reusable water bottles, and a positive attitude. We will provide tools and gloves.",
+     "🥪 Lunch and refreshments will be provided for all participants. Whether you are an experienced gardener or a novice, your help makes a difference. Let's grow something beautiful together!"
+    ]
+   },
+   "questions": [
+    {
+     "type": "purpose",
+     "question": "What is the primary purpose of this notice?",
+     "options": [
+      "To announce the general opening hours for the community garden.",
+      "To recruit local students and residents to volunteer for a specific gardening day.",
+      "To advertise a local picnic and provide gardening tips to attendees.",
+      "To inform residents about the high cost of gardening supplies in the area."
+     ],
+     "answer": 1,
+     "explanation": "The notice explicitly asks people to 'Join us... Our community garden needs an influx of hands,' indicating recruitment."
+    },
+    {
+     "type": "detail",
+     "question": "According to the poster, what item should volunteers remember to bring?",
+     "options": [
+      "Gardening gloves.",
+      "A picnic blanket.",
+      "Reusable water bottles.",
+      "Sturdy shoes."
+     ],
+     "answer": 2,
+     "explanation": "The notice states, 'Wear sturdy shoes, bring reusable water bottles, and a positive attitude.'"
+    },
+    {
+     "type": "inference",
+     "question": "The organizers of the garden likely hope that:",
+     "options": [
+      "All volunteers have prior experience in horticulture.",
+      "The community will continue to rely on the garden for fresh produce.",
+      "The available tools will be adequate for the entire growing season.",
+      "The event will remain contained to the main gazebo area."
+     ],
+     "answer": 1,
+     "explanation": "The message emphasizes that 'your help makes a difference' and the garden needs help for the 'peak growing season,' implying continued reliance."
+    }
+   ]
+  }
+ },
+ {
+  "id": "eb9fc0e7da",
+  "level": "C1",
+  "createdAt": "2026-11-21T16:06:10.317Z",
+  "data": {
+   "scenario": "a professor replying to a student who asked for a deadline extension",
+   "text": {
+    "genre": "email",
+    "title": "Re: Inquiry regarding the Advanced Literary Theory paper",
+    "sender": "Professor Eleanor Vance",
+    "lines": [
+     "Dear Marcus, Thank you for reaching out regarding the feasibility of extending the deadline for the Literary Theory paper. I appreciate your proactive communication. While I usually maintain a strict adherence to stated deadlines to foster timely submission habits, I am willing to grant a conditional extension, given your consistent engagement with the course material. However, I must stipulate that this extension is limited to the end of day, Friday, November 10th. Furthermore, to adequately compensate for the delay, your accompanying proposal must include a detailed annotated bibliography of at least five primary sources, which you must submit alongside the final draft. Please confirm receipt of these revised parameters at your earliest convenience. Best regards, Eleanor Vance"
+    ]
+   },
+   "questions": [
+    {
+     "type": "purpose",
+     "question": "What is the main purpose of the professor's email?",
+     "options": [
+      "To inform the student of a new, later submission deadline for the assignment.",
+      "To remind the student about the importance of meeting established academic deadlines.",
+      "To request additional source material from the student for the next paper.",
+      "To praise the student's consistent effort in the course and maintain motivation."
+     ],
+     "answer": 0,
+     "explanation": "The professor directly modifies the deadline and sets new submission requirements, fulfilling the purpose of granting an extension."
+    },
+    {
+     "type": "detail",
+     "question": "According to the professor, what specific requirement must the student include with the extended paper?",
+     "options": [
+      "A list of at least five annotated primary sources.",
+      "A detailed bibliography of external literary articles.",
+      "Confirmation of receipt regarding the revised terms.",
+      "A justification of why the extension is necessary for the project."
+     ],
+     "answer": 0,
+     "explanation": "The text states, 'your accompanying proposal must include a detailed annotated bibliography of at least five primary sources.'"
+    },
+    {
+     "type": "inference",
+     "question": "The professor’s refusal to grant an automatic extension suggests that:",
+     "options": [
+      "The student has previously missed multiple deadlines in the course.",
+      "The professor generally favors prompt work completion to maintain a disciplined academic pace.",
+      "The assigned topic is inherently too difficult for the average student to complete on time.",
+      "The grading criteria for the Literary Theory paper are exceptionally strict."
+     ],
+     "answer": 1,
+     "explanation": "The professor mentions, 'I usually maintain a strict adherence to stated deadlines to foster timely submission habits,' implying that adhering to deadlines is a core value."
+    }
+   ]
+  }
+ },
+ {
+  "id": "c27aa1e07b",
+  "level": "C1",
+  "createdAt": "2026-11-21T16:06:34.980Z",
+  "data": {
+   "scenario": "two roommates texting about splitting grocery costs and cleaning",
+   "text": {
+    "genre": "messages",
+    "title": "Rent & House Duties",
+    "sender": "Liam",
+    "lines": [],
+    "messages": [
+     {
+      "from": "Chloe",
+      "text": "Hey, can we settle the shared expenses? Given the outstanding state of the communal areas, and considering the exorbitant cost of the cleaning supplies, we really need to divide the labor evenly this week."
+     },
+     {
+      "from": "Liam",
+      "text": "Right, the upkeep. I did buy the bulk pasta and the fresh berries, which should last until Sunday. Did you remember to calculate the total grocery cost on the receipt?"
+     },
+     {
+      "from": "Chloe",
+      "text": "Of course. The groceries were $87.50, plus the specialized eco-friendly cleaner, which totalled $14.30. So, $101.80 altogether."
+     },
+     {
+      "from": "Liam",
+      "text": "Okay, so $50.90 each for the food, and we need to make a more formalized chore schedule going forward."
+     },
+     {
+      "from": "Chloe",
+      "text": "Agreed. I’ve sent you a spreadsheet outlining the division of labor, and I’ll wait for your contribution by tomorrow evening."
+     }
+    ]
+   },
+   "questions": [
+    {
+     "type": "purpose",
+     "question": "What is the main purpose of this text exchange?",
+     "options": [
+      "To establish a comprehensive agreement for splitting both cleaning chores and shared household expenses.",
+      "To negotiate who should take responsibility for buying future cleaning supplies.",
+      "To argue over which roommate is more responsible for the current mess in the bathroom.",
+      "To remind Liam that he bought the bulk pasta and berries for the household."
+     ],
+     "answer": 0,
+     "explanation": "Chloe's opening message establishes the need to divide both labor and costs, which is confirmed in the final messages."
+    },
+    {
+     "type": "detail",
+     "question": "According to the messages, what was the total cost associated with the groceries and cleaning supplies?",
+     "options": [
+      "Approximately $50.90 per person.",
+      "Exactly $14.30 for cleaning supplies.",
+      "A combined total of $101.80.",
+      "The price of the fresh berries mentioned by Liam."
+     ],
+     "answer": 2,
+     "explanation": "Chloe explicitly states that the total cost of groceries and the specialized cleaner was '$101.80'."
+    },
+    {
+     "type": "inference",
+     "question": "What can be inferred about the relationship between the roommates?",
+     "options": [
+      "They frequently have financial disputes, requiring detailed tracking of shared costs.",
+      "They successfully manage their household through a structured chore schedule.",
+      "They are comfortable discussing their living arrangement using advanced vocabulary.",
+      "They are both meticulous about maintaining expensive, eco-friendly cleaning products."
+     ],
+     "answer": 0,
+     "explanation": "The detailed negotiation regarding costs and labor suggests that settling these finances is a recurring issue for them."
+    }
+   ]
+  }
+ }
+]

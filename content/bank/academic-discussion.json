@@ -1,0 +1,134 @@
+[
+ {
+  "id": "8dfb81d403",
+  "level": "B2",
+  "createdAt": "2026-11-21T16:00:39.650Z",
+  "data": {
+   "course": "public health",
+   "professor": {
+    "name": "Dr. Chen",
+    "text": "Welcome back to Public Health! We’ve been discussing community wellness strategies. A common point of debate is how best to fund preventative health measures. Should the primary focus be on large, mandatory government initiatives (like city-wide air filters or vaccinations), or should we instead empower local community groups and incentives? Considering resource limitations, where should public health budgets prioritize the greatest impact on public well-being? I look forward to your thoughtful perspectives."
+   },
+   "students": [
+    {
+     "name": "Michael",
+     "text": "I think government programs are essential because they ensure everyone, regardless of income, has access to necessary resources. Community efforts often struggle with consistency and reach marginalized populations effectively. Mandates create a baseline standard of care for all citizens."
+    },
+    {
+     "name": "Sarah",
+     "text": "While mandates sound strong, I believe empowering local communities is more effective in the long run. People are more motivated to adopt healthy habits if the changes feel voluntary and are integrated into their immediate neighborhood culture. Rewards work better than rules."
+    }
+   ]
+  }
+ },
+ {
+  "id": "9c833f3166",
+  "level": "B2",
+  "createdAt": "2026-11-21T16:00:55.853Z",
+  "data": {
+   "course": "environmental science",
+   "professor": {
+    "name": "Dr. Chen",
+    "text": "As we discuss climate change mitigation, the conversation often focuses on reducing our carbon footprint. While personal choices—like recycling or biking—are certainly valuable, I wonder if we place too much emphasis on individual lifestyle changes. Shouldn't the primary focus be on systemic shifts, such as large-scale infrastructure overhauls? To what extent do corporate policies and government regulations hold more power in solving our environmental crises than individual efforts do?"
+   },
+   "students": [
+    {
+     "name": "Maya",
+     "text": "I think individual action is crucial because it creates market demand for change. If enough people consciously reduce consumption, companies are forced to innovate and adopt greener practices. Our habits set the initial trend, which is a powerful force for corporate accountability."
+    },
+    {
+     "name": "Ben",
+     "text": "But individual effort is often a distraction from the root problem. A single person switching to electric cars doesn't change the fact that industrial power grids are still heavily fossil-fueled. We need mandated policy changes, like carbon taxes, to force real systemic mitigation."
+    }
+   ]
+  }
+ },
+ {
+  "id": "5e42860838",
+  "level": "B1",
+  "createdAt": "2026-11-21T16:09:46.094Z",
+  "data": {
+   "course": "psychology",
+   "professor": {
+    "name": "Dr. Chen",
+    "text": "This week we discussed how people remember information. It seems that studying just before a test helps us pass, but research suggests that spaced repetition is actually better. Sometimes, people feel they need to cram everything at once to feel prepared. I wonder if the way we structure our studying matters more than the amount of time we spend. Do you think intense, short study sessions are effective, or is it better to study a little bit every day over a longer period?"
+   },
+   "students": [
+    {
+     "name": "Ethan",
+     "text": "I think cramming works if the material isn't too big. If I have a small exam on history, I can read everything in one night and remember it better. My main teacher told me that a quick review before the test helps me access the facts quickly. So, focused study sessions are really useful."
+    },
+    {
+     "name": "Chloe",
+     "text": "I disagree. Studying for a little bit every day is much better for my memory. If I try to learn too much quickly, I just get overwhelmed and forget half of it. It’s better to review five minutes daily than to study for five hours once a week."
+    }
+   ]
+  }
+ },
+ {
+  "id": "776a6c1518",
+  "level": "B1",
+  "createdAt": "2026-11-21T16:10:00.899Z",
+  "data": {
+   "course": "sociology",
+   "professor": {
+    "name": "Dr. Chen",
+    "text": "Hello everyone. This week we are discussing how technology changes our social bonds. Think about local community groups or neighborhood activities. Some argue that social media helps us stay connected, while others worry it replaces face-to-face interaction. For instance, planning a neighborhood potluck online feels different than doing it in person. Based on what we have learned, do you believe that digital communication is replacing genuine real-life community ties, or is it just a helpful supplement?"
+   },
+   "students": [
+    {
+     "name": "Michael",
+     "text": "I think social media is bad for real community. When people only talk online, they lose the ability to talk face-to-face. You cannot really read body language or hear someone’s tone through a screen, so relationships feel shallow."
+    },
+    {
+     "name": "Sarah",
+     "text": "I disagree that it is bad. For people who can't leave home often, like elderly neighbors, social media is vital. It helps keep them informed and connected to family, which is a very necessary form of community support."
+    }
+   ]
+  }
+ },
+ {
+  "id": "adbf023996",
+  "level": "C1",
+  "createdAt": "2026-11-21T16:10:19.780Z",
+  "data": {
+   "course": "economics",
+   "professor": {
+    "name": "Dr. Sharma",
+    "text": "Welcome back, class. Our readings this week addressed the accelerating influence of artificial intelligence on global economies. It is clear that AI is triggering a significant paradigm shift across multiple sectors, which is generating considerable economic anxiety. While some argue that technological advancement inevitably creates more opportunities than it destroys, others fear structural unemployment. Given the current velocity of AI adoption, how should policymakers balance promoting innovation with mitigating potential mass job displacement?"
+   },
+   "students": [
+    {
+     "name": "Marcus",
+     "text": "The worry about job loss is overstated. Historically, every major technological leap, from the tractor to the internet, has ultimately led to the creation of entirely new, high-paying sectors. We should focus on retraining the existing workforce rather than fear the technology itself. The net effect will be positive."
+    },
+    {
+     "name": "Chloe",
+     "text": "I disagree that the effects are simply positive. Automation tends to concentrate wealth in the hands of those who own the AI infrastructure. This greatly exacerbates income inequality, making the 'new jobs' inaccessible to the vast majority of current laborers."
+    }
+   ]
+  }
+ },
+ {
+  "id": "b59c454ee8",
+  "level": "C1",
+  "createdAt": "2026-11-21T16:10:40.282Z",
+  "data": {
+   "course": "education policy",
+   "professor": {
+    "name": "Dr. Chen",
+    "text": "The integration of AI and digital tools has profoundly reshaped pedagogy. While proponents argue that these technologies enhance personalization and accessibility, critics worry about diminishing critical thinking skills and intellectual stamina. We must consider whether relying on adaptive learning algorithms fundamentally alters the necessary human element of scholarly discourse. Given these competing views, what is the optimal role for AI in guiding student intellectual development without merely automating the learning process?"
+   },
+   "students": [
+    {
+     "name": "Ethan",
+     "text": "I believe we are over-relying on AI to grade or provide instant feedback. While helpful for basic quizzes, critical analysis requires the nuanced interaction with a human professor. These complex discussions cannot be fully replicated by algorithms, which diminishes genuine scholarly engagement."
+    },
+    {
+     "name": "Sophia",
+     "text": "On the contrary, resisting technology hinders preparedness for the modern workforce. Students need to be comfortable utilizing these advanced tools not just as recipients, but as active research partners. Failing to integrate AI now is a significant gap in educational policy."
+    }
+   ]
+  }
+ }
+]

@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { getStats } from '@/lib/storage'
+import { activePlanId, getPlanById, getSubscription } from '@/lib/plans'
 import styles from './profile.module.css'
 
 function level(n: number) {
@@ -23,6 +24,7 @@ export default function ProfilePage() {
   const router = useRouter()
   // Rendered client-only (AppLayout waits for auth), so localStorage is safe to read here.
   const [stats] = useState(() => getStats())
+  const [planName] = useState(() => getPlanById(activePlanId(getSubscription())).name)
   const [modal, setModal] = useState(false)
 
   const firstName = user?.name?.split(' ')[0] || ''
@@ -68,6 +70,9 @@ export default function ProfilePage() {
 
       {/* Actions */}
       <div className={`${styles.actions} anim-fade-up d3`}>
+        <button id="go-plans-btn" className={styles.actionBtn} onClick={() => router.push('/app/plans')}>
+          ✦ Planlar & Ödeme ({planName})
+        </button>
         <button id="go-writing-btn" className={styles.actionBtn} onClick={() => router.push('/app/writing')}>→ Yeni Yazı Başlat</button>
         <button id="logout-btn" className={styles.logoutBtn} onClick={() => setModal(true)}>🚪 Çıkış Yap</button>
       </div>

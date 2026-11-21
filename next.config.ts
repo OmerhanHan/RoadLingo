@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // The content bank is read from disk at runtime by the TOEFL content routes.
+  outputFileTracingIncludes: {
+    "/api/toefl/**": ["./content/bank/**/*.json"],
+  },
 };
 
 export default nextConfig;

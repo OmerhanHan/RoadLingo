@@ -1,3 +1,4 @@
+import { planHeaders } from '@/lib/plans'
 import type { Feedback, GrammarError } from './supabase'
 
 /* Fallback topic pool — only used by the commented-out generateTopic() below.
@@ -86,7 +87,7 @@ export async function analyzeWriting(content: string, topic: string): Promise<Fe
   try {
     const res = await fetch('/api/analyze', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...planHeaders() },
       body: JSON.stringify({ content, topic }),
     })
 

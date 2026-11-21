@@ -1,5 +1,5 @@
 import type { ChatMessage, StreamChunk } from '../types'
-import type { SpeakingProvider } from './types'
+import type { SpeakingProvider, StreamOptions } from './types'
 
 /**
  * OpenAI-compatible chat provider (ready for when OPENAI_API_KEY is set).
@@ -15,7 +15,7 @@ export function createOpenAIProvider(opts: {
 
     async *streamChat(
       messages: ChatMessage[],
-      options?: { signal?: AbortSignal }
+      options?: StreamOptions
     ): AsyncGenerator<StreamChunk, void, unknown> {
       if (!opts.apiKey) {
         yield {
@@ -38,6 +38,7 @@ export function createOpenAIProvider(opts: {
             model: opts.model,
             messages,
             stream: true,
+            ...(options?.maxTokens ? { max_tokens: options.maxTokens } : {}),
           }),
           signal: options?.signal,
         })
