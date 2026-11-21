@@ -127,7 +127,7 @@ export default function ListeningPractice({ task }: { task: ListeningTaskId }) {
   const preparing = player.total > 0 && player.ready < player.total
 
   return (
-    <main className={t.page}>
+    <main className={`${t.page} ${t.pageWide}`}>
       <header className={`${t.header} anim-fade-up`}>
         <button id="back-btn" className={t.back} onClick={() => { stop(); router.back() }} aria-label="Geri">←</button>
         <div>
@@ -177,58 +177,64 @@ export default function ListeningPractice({ task }: { task: ListeningTaskId }) {
             {set.clips.length > 1 && <span className={t.progressText}>{clipIndex + 1} / {set.clips.length}</span>}
           </div>
 
-          <div className={`${styles.player} ${playing ? styles.playerOn : ''}`}>
-            {set.clips.length === 1 && <p className={styles.playerTitle}>{set.title}</p>}
-            {clip.context && <p className={styles.context}>🎧 {clip.context}</p>}
-            <div className={styles.speakers}>
-              {speakersOf(clip).map(([name, gender]) => {
-                const active = playing && clip.lines[player.current]?.speaker === name
-                return (
-                  <span key={name} className={`${styles.speaker} ${active ? styles.speakerActive : ''}`}>
-                    {gender === 'female' ? '♀' : '♂'} {name === 'Speaker' ? (gender === 'female' ? 'Kadın' : 'Erkek') : name}
+          <div className={t.split}>
+            <div className={t.splitText}>
+              <div className={`${styles.player} ${playing ? styles.playerOn : ''}`}>
+                {set.clips.length === 1 && <p className={styles.playerTitle}>{set.title}</p>}
+                {clip.context && <p className={styles.context}>🎧 {clip.context}</p>}
+                <div className={styles.speakers}>
+                  {speakersOf(clip).map(([name, gender]) => {
+                    const active = playing && clip.lines[player.current]?.speaker === name
+                    return (
+                      <span key={name} className={`${styles.speaker} ${active ? styles.speakerActive : ''}`}>
+                        {gender === 'female' ? '♀' : '♂'} {name === 'Speaker' ? (gender === 'female' ? 'Kadın' : 'Erkek') : name}
+                      </span>
+                    )
+                  })}
+                </div>
+
+                <div className={styles.wave} aria-hidden>
+                  {Array.from({ length: 24 }, (_, i) => (
+                    <span key={i} className={styles.bar} style={{ animationDelay: `${(i % 6) * 0.11}s` }} />
+                  ))}
+                </div>
+
+                {playing ? (
+                  <p className={styles.status}>
+                    Çalıyor… {clip.lines.length > 1 ? `${player.current + 1}/${clip.lines.length}` : ''}
+                  </p>
+                ) : heard[clipIndex] && !allowReplay ? (
+                  <p className={styles.status}>Kayıt dinlendi</p>
+                ) : (
+                  <button id="listening-play" className={t.primaryBtn} onClick={() => listen(clipIndex)}>
+                    {heard[clipIndex] ? '↺ Tekrar Dinle' : '▶ Dinle'}
+                  </button>
+                )}
+                {preparing && <p className={styles.prep}>Ses hazırlanıyor {player.ready}/{player.total}</p>}
+                {player.fallbackUsed && <p className={styles.prep}>Sunucu sesi alınamadı, tarayıcı sesi kullanılıyor.</p>}
+              </div>
+            </div>
+
+            <div className={t.splitSide}>
+              {clip.questions.map((qq, qi) => (
+                <div key={qi} className={q.question}>
+                  <span className={q.qType}>
+                    {clip.questions.length > 1 ? `${qi + 1} · ` : ''}{QUESTION_KIND_LABEL[qq.kind]}
                   </span>
-                )
-              })}
-            </div>
-
-            <div className={styles.wave} aria-hidden>
-              {Array.from({ length: 24 }, (_, i) => (
-                <span key={i} className={styles.bar} style={{ animationDelay: `${(i % 6) * 0.11}s` }} />
+                  <h3 className={q.qText}>{qq.question}</h3>
+                  <Options
+                    question={qq}
+                    selected={answers[clipIndex]?.[qi] ?? null}
+                    reviewing={false}
+                    onChoose={(i) => choose(clipIndex, qi, i)}
+                  />
+                </div>
               ))}
-            </div>
-
-            {playing ? (
-              <p className={styles.status}>
-                Çalıyor… {clip.lines.length > 1 ? `${player.current + 1}/${clip.lines.length}` : ''}
-              </p>
-            ) : heard[clipIndex] && !allowReplay ? (
-              <p className={styles.status}>Kayıt dinlendi</p>
-            ) : (
-              <button id="listening-play" className={t.primaryBtn} onClick={() => listen(clipIndex)}>
-                {heard[clipIndex] ? '↺ Tekrar Dinle' : '▶ Dinle'}
+              <button id="listening-next" className={t.primaryBtn} onClick={next} disabled={!clipAnswered}>
+                {clipIndex < set.clips.length - 1 ? 'Sonraki →' : '✓ Bitir'}
               </button>
-            )}
-            {preparing && <p className={styles.prep}>Ses hazırlanıyor {player.ready}/{player.total}</p>}
-            {player.fallbackUsed && <p className={styles.prep}>Sunucu sesi alınamadı, tarayıcı sesi kullanılıyor.</p>}
-          </div>
-
-          {clip.questions.map((qq, qi) => (
-            <div key={qi} className={q.question}>
-              <span className={q.qType}>
-                {clip.questions.length > 1 ? `${qi + 1} · ` : ''}{QUESTION_KIND_LABEL[qq.kind]}
-              </span>
-              <h3 className={q.qText}>{qq.question}</h3>
-              <Options
-                question={qq}
-                selected={answers[clipIndex]?.[qi] ?? null}
-                reviewing={false}
-                onChoose={(i) => choose(clipIndex, qi, i)}
-              />
             </div>
-          ))}
-          <button id="listening-next" className={t.primaryBtn} onClick={next} disabled={!clipAnswered}>
-            {clipIndex < set.clips.length - 1 ? 'Sonraki →' : '✓ Bitir'}
-          </button>
+          </div>
         </section>
       )}
 
@@ -265,22 +271,24 @@ export default function ListeningPractice({ task }: { task: ListeningTaskId }) {
                 ))}
               </div>
 
-              {c.questions.map((qq, qi) => {
-                const sel = answers[ci]?.[qi] ?? null
-                return (
-                  <div key={qi} className={q.question}>
-                    <span className={q.qType}>{QUESTION_KIND_LABEL[qq.kind]}</span>
-                    <h3 className={q.qText}>{qq.question}</h3>
-                    <Options question={qq} selected={sel} reviewing onChoose={() => {}} />
-                    {qq.explanation && (
-                      <div className={`${t.feedback} ${sel === qq.answer ? t.feedbackOk : t.feedbackBad} ${q.explain}`}>
-                        <span className={t.feedbackTitle}>{sel === qq.answer ? '✓ Doğru' : '✕ Yanlış'}</span>
-                        {qq.explanation}
-                      </div>
-                    )}
-                  </div>
-                )
-              })}
+              <div className={styles.reviewQuestions}>
+                {c.questions.map((qq, qi) => {
+                  const sel = answers[ci]?.[qi] ?? null
+                  return (
+                    <div key={qi} className={q.question}>
+                      <span className={q.qType}>{QUESTION_KIND_LABEL[qq.kind]}</span>
+                      <h3 className={q.qText}>{qq.question}</h3>
+                      <Options question={qq} selected={sel} reviewing onChoose={() => {}} />
+                      {qq.explanation && (
+                        <div className={`${t.feedback} ${sel === qq.answer ? t.feedbackOk : t.feedbackBad} ${q.explain}`}>
+                          <span className={t.feedbackTitle}>{sel === qq.answer ? '✓ Doğru' : '✕ Yanlış'}</span>
+                          {qq.explanation}
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
             </div>
           ))}
 
