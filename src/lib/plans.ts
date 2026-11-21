@@ -99,6 +99,21 @@ export function planLimit(plan: PlanId, kind: LimitKind): number {
   return getPlanById(plan).limits[kind]
 }
 
+/**
+ * Internal daily budgets that the plans page does not list. They only stop
+ * abuse of endpoints that cost money or CPU; normal use stays well below them.
+ * - ttsChars: characters of server speech (cache hits are free). One listening
+ *   clip is ~1–3k characters, one interview reply ~300.
+ * - topics: AI-generated essay topics (past the budget the fixed pool is used).
+ */
+export type BudgetKind = 'ttsChars' | 'topics'
+
+export const PLAN_BUDGETS: Record<PlanId, Record<BudgetKind, number>> = {
+  free: { ttsChars: 20_000, topics: 5 },
+  pro: { ttsChars: 120_000, topics: 30 },
+  exam: { ttsChars: 180_000, topics: 30 },
+}
+
 export const LIMIT_LABEL: Record<LimitKind, string> = {
   scoring: 'Yazı değerlendirmesi',
   chat: 'Canlı konuşma yanıtı',

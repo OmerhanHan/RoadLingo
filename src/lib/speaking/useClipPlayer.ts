@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { planHeaders } from '@/lib/plans'
 
 export type ClipSegment = { text: string; voice?: string; speaker?: string }
 
@@ -85,7 +86,7 @@ export function useClipPlayer() {
           try {
             const res = await fetch('/api/speaking/tts', {
               method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
+              headers: { 'Content-Type': 'application/json', ...planHeaders() },
               body: JSON.stringify({ text: seg.text, voice: seg.voice }),
               signal: ac.signal,
             })
