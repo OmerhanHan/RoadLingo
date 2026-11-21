@@ -4,6 +4,7 @@
   z-index: 100;
   border-top: 2px solid var(--ink);
   background: var(--warm-white);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 .inner {

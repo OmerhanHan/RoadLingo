@@ -12,6 +12,8 @@
     "content:generate": "node scripts/generate-content.mjs"
   },
   "dependencies": {
+    "@capacitor/core": "^8.6.2",
+    "@capacitor/status-bar": "^8.0.4",
     "@google/generative-ai": "^0.24.1",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.116.0",
@@ -23,6 +25,7 @@
     "react-reader": "^2.0.15"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.6.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
