@@ -386,3 +386,42 @@
 .stepCurrent .stepLabel { color: var(--ink); font-weight: 600; }
 
 .doneNote { text-align: center; font-family: var(--font-mono); font-size: 12px; color: var(--sage-dark); letter-spacing: 0.5px; }
+
+/* ── Columns: on phones the wrappers disappear (same single-column flow as before) ── */
+.stageLeft, .stageRight { display: contents; }
+.stage .controls { margin-top: 4px; }
+
+/* ── Desktop: character + stages on the left (kept in view), conversation on the right ── */
+@media (min-width: 1024px) {
+  .page { max-width: var(--wide-w); padding: 0 40px 40px; }
+
+  /* Category picker */
+  .pickIntro { max-width: 760px; font-size: 15px; }
+  .topicGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+  .freeBtn { max-width: 420px; }
+
+  /* Session */
+  .stage {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: 28px;
+    align-items: start;
+  }
+  .stageLeft {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    position: sticky;
+    top: 24px;
+  }
+  .stageRight { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+
+  .characterStage { height: auto; aspect-ratio: 16 / 10; }
+
+  .chatBox {
+    min-height: 320px;
+    max-height: none;
+    height: clamp(320px, calc(100dvh - 430px), 620px);
+  }
+  .stage .controls { margin-top: 0; }
+}

@@ -269,209 +269,213 @@ export default function SpeakingPage() {
       </header>
 
       <div className={`${styles.stage} anim-fade-up d1`}>
-        <div className={styles.characterStage}>
-          <Image
-            src={topic?.image ?? '/characters/speaking-coach.jpeg'}
-            alt={topic?.imageAlt ?? 'Speaking coach'}
-            width={topic ? 1600 : 2752}
-            height={topic ? 900 : 1536}
-            sizes="(max-width: 680px) 100vw, 680px"
-            loading="eager"
-            className={`${styles.characterImage} ${!topic || topic.pixelArt ? styles.pixelated : ''} ${coachActive ? styles.characterTalking : ''}`}
-            style={topic ? { objectPosition: topic.focus } : undefined}
-          />
+        <div className={styles.stageLeft}>
+          <div className={styles.characterStage}>
+            <Image
+              src={topic?.image ?? '/characters/speaking-coach.jpeg'}
+              alt={topic?.imageAlt ?? 'Speaking coach'}
+              width={topic ? 1600 : 2752}
+              height={topic ? 900 : 1536}
+              sizes="(max-width: 680px) 100vw, 680px"
+              loading="eager"
+              className={`${styles.characterImage} ${!topic || topic.pixelArt ? styles.pixelated : ''} ${coachActive ? styles.characterTalking : ''}`}
+              style={topic ? { objectPosition: topic.focus } : undefined}
+            />
+            {topic && (
+              <span className={styles.nameTag}>
+                <strong>{topic.character.name}</strong> · {topic.character.roleTr}
+              </span>
+            )}
+            {coachActive && <span className={styles.liveBadge}>{isSpeaking ? 'TTS' : 'Live'}</span>}
+          </div>
+
           {topic && (
-            <span className={styles.nameTag}>
-              <strong>{topic.character.name}</strong> · {topic.character.roleTr}
-            </span>
+            <ol className={styles.stepper} aria-label="Konuşma aşamaları">
+              {TOPIC_STAGES.map((st) => {
+                const idx = TOPIC_STAGES.indexOf(st)
+                const cur = TOPIC_STAGES.indexOf(currentStage)
+                const state = !sessionStarted
+                  ? ''
+                  : finished || idx < cur
+                    ? styles.stepDone
+                    : idx === cur
+                      ? styles.stepCurrent
+                      : ''
+                return (
+                  <li key={st.id} className={`${styles.step} ${state}`}>
+                    <span className={styles.stepDot}>{idx + 1}</span>
+                    <span className={styles.stepLabel}>{st.label}</span>
+                  </li>
+                )
+              })}
+            </ol>
           )}
-          {coachActive && <span className={styles.liveBadge}>{isSpeaking ? 'TTS' : 'Live'}</span>}
         </div>
 
-        {topic && (
-          <ol className={styles.stepper} aria-label="Konuşma aşamaları">
-            {TOPIC_STAGES.map((st) => {
-              const idx = TOPIC_STAGES.indexOf(st)
-              const cur = TOPIC_STAGES.indexOf(currentStage)
-              const state = !sessionStarted
-                ? ''
-                : finished || idx < cur
-                  ? styles.stepDone
-                  : idx === cur
-                    ? styles.stepCurrent
-                    : ''
-              return (
-                <li key={st.id} className={`${styles.step} ${state}`}>
-                  <span className={styles.stepDot}>{idx + 1}</span>
-                  <span className={styles.stepLabel}>{st.label}</span>
-                </li>
-              )
-            })}
-          </ol>
-        )}
+        <div className={styles.stageRight}>
+          <section className={styles.chatBox} aria-live="polite">
+            <div className={styles.chatTop}>
+              <span className={styles.answerLabel}>Canlı sohbet</span>
+              <div className={styles.chatActions}>
+                <button
+                  type="button"
+                  className={styles.clearBtn}
+                  onClick={() => setTtsEnabled(!ttsEnabled)}
+                  aria-pressed={ttsEnabled}
+                >
+                  {ttsEnabled ? 'Ses açık' : 'Ses kapalı'}
+                </button>
+                {sessionStarted && (
+                  <button type="button" className={styles.clearBtn} onClick={endLive}>
+                    Bitir
+                  </button>
+                )}
+                {!sessionStarted && (
+                  <button type="button" className={styles.clearBtn} onClick={changeTopic}>
+                    Kategori
+                  </button>
+                )}
+              </div>
+            </div>
 
-        <section className={styles.chatBox} aria-live="polite">
-          <div className={styles.chatTop}>
-            <span className={styles.answerLabel}>Canlı sohbet</span>
-            <div className={styles.chatActions}>
-              <button
-                type="button"
-                className={styles.clearBtn}
-                onClick={() => setTtsEnabled(!ttsEnabled)}
-                aria-pressed={ttsEnabled}
-              >
-                {ttsEnabled ? 'Ses açık' : 'Ses kapalı'}
-              </button>
-              {sessionStarted && (
-                <button type="button" className={styles.clearBtn} onClick={endLive}>
-                  Bitir
-                </button>
-              )}
-              {!sessionStarted && (
-                <button type="button" className={styles.clearBtn} onClick={changeTopic}>
-                  Kategori
-                </button>
+            {!sessionStarted && (
+              <p className={`${styles.answerText} ${styles.answerPlaceholder}`}>
+                {topic
+                  ? `Live oturumu başlat — ${topic.character.shortName} kendini tanıtıp ilk soruyu soracak. ${TOPIC_TOTAL_ANSWERS} cevaplık bir sohbet olacak.`
+                  : 'Live oturumu başlat — koç seninle serbest bir İngilizce sohbet yapacak.'}
+              </p>
+            )}
+
+            {sessionStarted && live.turns.length === 0 && live.isBusy && (
+              <p className={`${styles.answerText} ${styles.answerPlaceholder}`}>
+                {coachName} bağlanıyor…
+              </p>
+            )}
+
+            <div className={styles.chatList}>
+              {live.turns.map((turn) => (
+                <div
+                  key={turn.id}
+                  className={`${styles.bubble} ${turn.role === 'user' ? styles.bubbleUser : styles.bubbleCoach}`}
+                >
+                  <div className={styles.bubbleHead}>
+                    <span className={styles.bubbleRole}>
+                      {turn.role === 'user' ? 'Sen' : coachName}
+                      {turn.streaming ? ' · …' : ''}
+                    </span>
+                    {turn.role === 'assistant' && !turn.streaming && turn.content && (
+                      <button
+                        type="button"
+                        className={styles.replayBtn}
+                        onClick={() => speakFull(turn.content, { voice: topic?.character.voice })}
+                        aria-label="Yanıtı seslendir"
+                      >
+                        ▶
+                      </button>
+                    )}
+                  </div>
+                  <p className={styles.bubbleText}>
+                    {turn.content || (turn.streaming ? '…' : '')}
+                  </p>
+                </div>
+              ))}
+              <div ref={chatEndRef} />
+            </div>
+
+            {live.error && <p className={styles.errorNote}>{live.error}</p>}
+            {ttsError && <p className={styles.errorNote}>TTS: {ttsError}</p>}
+          </section>
+
+          <section className={styles.answerBox}>
+            <div className={styles.answerTop}>
+              <span className={styles.answerLabel}>Senin cevabın</span>
+              {displayAnswer && (
+                <button type="button" className={styles.clearBtn} onClick={clearAnswer}>Temizle</button>
               )}
             </div>
-          </div>
-
-          {!sessionStarted && (
-            <p className={`${styles.answerText} ${styles.answerPlaceholder}`}>
-              {topic
-                ? `Live oturumu başlat — ${topic.character.shortName} kendini tanıtıp ilk soruyu soracak. ${TOPIC_TOTAL_ANSWERS} cevaplık bir sohbet olacak.`
-                : 'Live oturumu başlat — koç seninle serbest bir İngilizce sohbet yapacak.'}
+            <p className={`${styles.answerText} ${!displayAnswer ? styles.answerPlaceholder : ''}`}>
+              {displayAnswer || (sessionStarted ? 'Mikrofona basıp İngilizce konuş…' : 'Önce live oturumu başlat')}
             </p>
-          )}
+          </section>
 
-          {sessionStarted && live.turns.length === 0 && live.isBusy && (
-            <p className={`${styles.answerText} ${styles.answerPlaceholder}`}>
-              {coachName} bağlanıyor…
-            </p>
-          )}
-
-          <div className={styles.chatList}>
-            {live.turns.map((turn) => (
-              <div
-                key={turn.id}
-                className={`${styles.bubble} ${turn.role === 'user' ? styles.bubbleUser : styles.bubbleCoach}`}
-              >
-                <div className={styles.bubbleHead}>
-                  <span className={styles.bubbleRole}>
-                    {turn.role === 'user' ? 'Sen' : coachName}
-                    {turn.streaming ? ' · …' : ''}
-                  </span>
-                  {turn.role === 'assistant' && !turn.streaming && turn.content && (
-                    <button
-                      type="button"
-                      className={styles.replayBtn}
-                      onClick={() => speakFull(turn.content, { voice: topic?.character.voice })}
-                      aria-label="Yanıtı seslendir"
-                    >
-                      ▶
-                    </button>
-                  )}
-                </div>
-                <p className={styles.bubbleText}>
-                  {turn.content || (turn.streaming ? '…' : '')}
-                </p>
-              </div>
-            ))}
-            <div ref={chatEndRef} />
-          </div>
-
-          {live.error && <p className={styles.errorNote}>{live.error}</p>}
-          {ttsError && <p className={styles.errorNote}>TTS: {ttsError}</p>}
-        </section>
-
-        <section className={styles.answerBox}>
-          <div className={styles.answerTop}>
-            <span className={styles.answerLabel}>Senin cevabın</span>
-            {displayAnswer && (
-              <button type="button" className={styles.clearBtn} onClick={clearAnswer}>Temizle</button>
-            )}
-          </div>
-          <p className={`${styles.answerText} ${!displayAnswer ? styles.answerPlaceholder : ''}`}>
-            {displayAnswer || (sessionStarted ? 'Mikrofona basıp İngilizce konuş…' : 'Önce live oturumu başlat')}
-          </p>
-        </section>
-      </div>
-
-      <div className={`${styles.controls} anim-fade-up d2`}>
-        {finished ? (
-          <>
-            <p className={styles.doneNote}>✓ Sohbet tamamlandı · {TOPIC_TOTAL_ANSWERS} cevap</p>
-            <button type="button" className={styles.micBtn} onClick={beginLive}>
-              <span className={styles.micIcon}>↺</span>
-              <span>Tekrar Konuş</span>
-            </button>
-            <button type="button" className={styles.nextBtn} onClick={changeTopic}>
-              Başka kategori seç →
-            </button>
-          </>
-        ) : !sessionStarted ? (
-          <button
-            id="speaking-live-start"
-            type="button"
-            className={styles.micBtn}
-            onClick={beginLive}
-            disabled={live.isBusy}
-          >
-            <span className={styles.micIcon}>▶</span>
-            <span>Live Başlat</span>
-          </button>
-        ) : (
-          <>
-            <button
-              id="speaking-mic"
-              type="button"
-              className={`${styles.micBtn} ${status === 'listening' ? styles.micActive : ''}`}
-              onClick={toggleMic}
-              aria-pressed={status === 'listening'}
-              disabled={live.isBusy}
-            >
-              <span className={styles.micIcon}>{status === 'listening' ? '■' : '🎙️'}</span>
-              <span>{status === 'listening' ? 'Durdur' : 'Dikte Başlat'}</span>
-            </button>
-
-            <button
-              id="speaking-send"
-              type="button"
-              className={styles.nextBtn}
-              onClick={sendToCoach}
-              disabled={live.isBusy || !displayAnswer.trim()}
-            >
-              {live.isBusy ? `${coachName} yanıtlıyor…` : 'Cevabı Gönder →'}
-            </button>
-
-            {(live.isBusy || isSpeaking) && (
+          <div className={`${styles.controls} anim-fade-up d2`}>
+            {finished ? (
+              <>
+                <p className={styles.doneNote}>✓ Sohbet tamamlandı · {TOPIC_TOTAL_ANSWERS} cevap</p>
+                <button type="button" className={styles.micBtn} onClick={beginLive}>
+                  <span className={styles.micIcon}>↺</span>
+                  <span>Tekrar Konuş</span>
+                </button>
+                <button type="button" className={styles.nextBtn} onClick={changeTopic}>
+                  Başka kategori seç →
+                </button>
+              </>
+            ) : !sessionStarted ? (
               <button
+                id="speaking-live-start"
                 type="button"
-                className={styles.stopStreamBtn}
-                onClick={() => {
-                  live.stop()
-                  stopTts()
-                }}
+                className={styles.micBtn}
+                onClick={beginLive}
+                disabled={live.isBusy}
               >
-                Yanıtı / sesi kes
+                <span className={styles.micIcon}>▶</span>
+                <span>Live Başlat</span>
               </button>
+            ) : (
+              <>
+                <button
+                  id="speaking-mic"
+                  type="button"
+                  className={`${styles.micBtn} ${status === 'listening' ? styles.micActive : ''}`}
+                  onClick={toggleMic}
+                  aria-pressed={status === 'listening'}
+                  disabled={live.isBusy}
+                >
+                  <span className={styles.micIcon}>{status === 'listening' ? '■' : '🎙️'}</span>
+                  <span>{status === 'listening' ? 'Durdur' : 'Dikte Başlat'}</span>
+                </button>
+
+                <button
+                  id="speaking-send"
+                  type="button"
+                  className={styles.nextBtn}
+                  onClick={sendToCoach}
+                  disabled={live.isBusy || !displayAnswer.trim()}
+                >
+                  {live.isBusy ? `${coachName} yanıtlıyor…` : 'Cevabı Gönder →'}
+                </button>
+
+                {(live.isBusy || isSpeaking) && (
+                  <button
+                    type="button"
+                    className={styles.stopStreamBtn}
+                    onClick={() => {
+                      live.stop()
+                      stopTts()
+                    }}
+                  >
+                    Yanıtı / sesi kes
+                  </button>
+                )}
+              </>
             )}
-          </>
-        )}
+          </div>
+
+          {status === 'unsupported' && (
+            <p className={styles.supportNote}>
+              Tarayıcı diktesi bu cihazda yok. Chrome veya Edge ile dene.
+            </p>
+          )}
+
+          {status === 'listening' && (
+            <p className={styles.listeningNote} aria-live="polite">Dinleniyor… sistem diktesi aktif</p>
+          )}
+
+          {isSpeaking && (
+            <p className={styles.listeningNote} aria-live="polite">{coachName} konuşuyor…</p>
+          )}
+        </div>
       </div>
-
-      {status === 'unsupported' && (
-        <p className={styles.supportNote}>
-          Tarayıcı diktesi bu cihazda yok. Chrome veya Edge ile dene.
-        </p>
-      )}
-
-      {status === 'listening' && (
-        <p className={styles.listeningNote} aria-live="polite">Dinleniyor… sistem diktesi aktif</p>
-      )}
-
-      {isSpeaking && (
-        <p className={styles.listeningNote} aria-live="polite">{coachName} konuşuyor…</p>
-      )}
 
       {toast && <div className="toast">{toast}</div>}
     </main>
