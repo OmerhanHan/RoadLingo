@@ -42,8 +42,9 @@ E-posta doğrulaması **Authentication → Providers → Email** altında açık
 
 ### Şifre kuralları
 **Authentication → Providers → Email** (yeni arayüzde **Sign In / Providers → Email**):
-- **Minimum password length:** 8. Uygulama da en az 8 karakter ister (`MIN_PASSWORD`, `src/lib/auth/config.ts`); ikisi aynı kalmalı.
-- **Password requirements:** En az harf ve rakam.
+- **Minimum password length:** 8.
+- **Password requirements:** Lowercase, uppercase letters, digits and symbols (küçük harf, büyük harf, rakam ve sembol). Supabase yalnızca İngilizce harfleri sayar: ç, ş, ğ gibi harfler harf de sembol de sayılmaz.
+- Uygulama aynı kuralı kayıt ve şifre sıfırlama ekranında önceden kontrol eder (`passwordProblem`, `src/lib/auth/config.ts`). Supabase'te kural değişirse orası da değişmeli.
 - **Secure password change:** Açık. Şifre değiştirmek için yakın zamanda giriş yapmış olmak gerekir.
 - **Prevent use of leaked passwords:** Sızmış şifreleri reddeder. Supabase'in ücretli (Pro) planında açılabiliyor; ücretsiz planda bu seçenek kapalı kalır.
 

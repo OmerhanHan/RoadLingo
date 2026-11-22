@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { useAuth } from '@/contexts/AuthContext'
 import AuthShowcase from '@/components/AuthShowcase'
 import GoogleButton from '@/components/GoogleButton'
-import { MAX_NAME, MIN_PASSWORD } from '@/lib/auth/config'
+import { MAX_NAME, PASSWORD_HINT, passwordProblem } from '@/lib/auth/config'
 import styles from '../login/login.module.css'
 
 export default function RegisterPage() {
@@ -23,7 +23,8 @@ export default function RegisterPage() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault(); setError('')
     if (!name || !email || !password) { setError('Lütfen tüm alanları doldurun.'); return }
-    if (password.length < MIN_PASSWORD) { setError(`Şifre en az ${MIN_PASSWORD} karakter olmalı.`); return }
+    const weak = passwordProblem(password)
+    if (weak) { setError(weak); return }
     setLoading(true)
     try {
       const { needsConfirmation } = await register(email, password, name.trim().slice(0, MAX_NAME))
@@ -64,7 +65,7 @@ export default function RegisterPage() {
               </div>
               <div className={styles.field}>
                 <label htmlFor="reg-password" className={styles.label}>Şifre</label>
-                <input id="reg-password" type="password" className={styles.input} placeholder={`En az ${MIN_PASSWORD} karakter`} value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" />
+                <input id="reg-password" type="password" className={styles.input} placeholder={PASSWORD_HINT} value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" />
               </div>
               {error && <p className={styles.error}>{error}</p>}
               <button id="register-submit" type="submit" className={styles.submitBtn} disabled={loading}>

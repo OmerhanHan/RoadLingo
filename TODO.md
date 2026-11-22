@@ -7,7 +7,7 @@ Tamamlananları `[x]` ile işaretle. Başlıklar önem sırasına göre dizili (
 ## 1. Hemen: güvenlik ve bakım
 Küçük ve hızlı işler; açık riskleri kapatır.
 - [x] Next.js'i 16.3.5'ten 16.4.6'ya yükselt; `npm audit fix` ile sharp ve source-map-js'i güncelle (epubjs'in xmldom'u 0.8.15'e sabitlendi; `npm audit`: 0 açık)
-- [ ] Supabase ayarları: en az 8 karakter, harf + rakam, güvenli şifre değişimi (uygulama tarafı 8 karakter istiyor)
+- [x] Supabase şifre ayarları: en az 8 karakter; küçük harf, büyük harf, rakam ve sembol; güvenli şifre değişimi (kayıt ve sıfırlama ekranları aynı kuralı önceden kontrol ediyor; ölçülerek doğrulandı)
 - [ ] Dalları main'e birleştir (`feat/supabase` … `feat/game-word-road`, tek PR)
 - [x] PR'larda otomatik tip ve lint kontrolü (CI: `.github/workflows/ci.yml`; tip, lint, build, bağımlılık taraması)
 - [x] Gemini model adını güncelle: `gemini-3.8-flash` (`GEMINI_MODEL`), meşgulse `gemini-3.6-flash` (`GEMINI_FALLBACK_MODEL`); deneme başına 25 sn, toplam 40 sn sınır
