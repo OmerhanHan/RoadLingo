@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
+import { geminiModel } from '@/lib/ai/gemini'
 import { NextResponse, type NextRequest } from 'next/server'
 import { consumeBudget, refundBudget } from '@/lib/usage/quota'
 import { isSignedIn, rateLimit } from '@/lib/security/guard'
@@ -50,7 +51,7 @@ export async function GET(req: NextRequest) {
   if (!process.env.GOOGLE_AI_API_KEY || !(await isSignedIn(req)) || !(await consumeBudget(req, 'topics'))) return poolTopic()
 
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
+    const model = genAI.getGenerativeModel({ model: geminiModel() })
 
     const prompt = `Generate one unique, thought-provoking IELTS Academic Writing Task 2 essay topic.
 Return ONLY the topic sentence, nothing else. No numbering, no quotes, no explanation.

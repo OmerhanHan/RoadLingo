@@ -1,4 +1,5 @@
 import type { SpeakingConfig, SpeakingProviderId } from './types'
+import { geminiModel } from '@/lib/ai/gemini'
 
 function env(name: string, fallback?: string): string | undefined {
   const value = process.env[name]
@@ -22,7 +23,7 @@ export function getSpeakingConfig(): SpeakingConfig {
     },
     gemini: {
       apiKey: env('GOOGLE_AI_API_KEY') ?? null,
-      model: env('GEMINI_SPEAKING_MODEL', 'gemini-2.0-flash')!,
+      model: env('GEMINI_SPEAKING_MODEL') ?? geminiModel(),
     },
   }
 }
