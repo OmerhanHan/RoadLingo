@@ -323,6 +323,27 @@ export default function PlansPage() {
             </article>
           )
         })}
+
+        <article id="plan-business" className={`${styles.planCard} ${styles.planCardSoon}`}>
+          <div className={styles.soonText}>
+            <div className={styles.planNameRow}>
+              <h2 className={styles.planName}>Kurumsal</h2>
+              <span className={`${styles.planBadge} ${styles.badge_paper}`}>Yakında</span>
+            </div>
+            <p className={styles.planTagline}>Dershaneler, okullar ve şirketler için</p>
+          </div>
+          <ul className={styles.soonList}>
+            {['Toplu öğrenci hesabı ve tek fatura', 'Öğretmen paneli: ödev ve deneme sınavı', 'Öğrenci ilerleme ve puan raporları'].map((feat) => (
+              <li key={feat} className={styles.featureItem}>
+                <span className={styles.soonDot}>◦</span>
+                <span>{feat}</span>
+              </li>
+            ))}
+          </ul>
+          <button className={`${styles.planBtn} ${styles.planBtnOutline} ${styles.soonBtn}`} disabled>
+            Yakında
+          </button>
+        </article>
       </section>
 
       {usage && (
