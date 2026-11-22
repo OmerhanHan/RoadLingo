@@ -26,6 +26,7 @@ const ENDPOINTS = {
   'listening-academic-talk': '/api/toefl/listening?task=academic-talk',
   'error-hunt': '/api/games/error-hunt',
   'word-road': '/api/games/word-road',
+  'listen-repeat': '/api/toefl/listen-repeat',
 }
 
 function arg(name, fallback) {

@@ -42,9 +42,12 @@ Adımlar: [supabase/README.md](supabase/README.md)
 - [ ] Mobil için App Store ve Google Play uygulama içi satın alma (RevenueCat gibi bir aracı ile)
 - [ ] Pro yenilemesinde dönem sonunu ödeme bildirimiyle uzat
 - [ ] Canlıda demo ödemeyi kapalı tut (`DEMO_PAYMENTS` boş)
+- [ ] Kurumsal plan (planlar sayfasında "Yakında" olarak duruyor): toplu öğrenci hesabı ve tek fatura, öğretmen paneli (ödev, deneme sınavı), öğrenci ilerleme raporları
 
 ## 4. Uygulama özellikleri
-- [ ] Konuşma bölümüne **Listen and Repeat** görevini ekle (`listen-repeat`, şu an `status: 'soon'`)
+- [x] Konuşma bölümüne **Listen and Repeat** görevini ekle: 7 cümle, sunucu sesi, tarayıcı konuşma tanıma, kelime kelime 0–5 puan, desteklemeyen tarayıcıda yazarak çalışma
+- [ ] Listen and Repeat içeriğini çoğalt: seviye başına en az 10 set (`--tasks listen-repeat`), elle gözden geçir (canlı üretim kapalı; şu an seviye başına 2 elle yazılmış set var)
+- [ ] Listen and Repeat'i gerçek mikrofonla Chrome, Edge ve Safari'de (iPhone dahil) dene
 - [ ] Mobil uygulamada Google girişi (Capacitor dönüş bağlantısı / deep link)
 - [ ] Giriş kartındaki "English Writing Practice" yazısını "TOEFL Hazırlık" gibi bir ifadeyle değiştir
 - [ ] Gemini model adını güncelle (`gemini-1.5-flash`: analyze, analyze/email, topic)
