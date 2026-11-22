@@ -45,8 +45,10 @@ export const RATE_LIMITS = {
   tts: 40,
   /** Content and game rounds (mostly served from the bank). */
   content: 30,
-  /** Subscription changes. */
+  /** Subscription changes, data import, account deletion. */
   account: 10,
+  /** Saving the user's work (writings). */
+  data: 30,
 } as const
 
 export type RateBucket = keyof typeof RATE_LIMITS
@@ -127,6 +129,31 @@ export async function guard(
   return rateLimit(req, bucket)
 }
 
+/* ── Account data ── */
+
+export type AccountGuard = { ok: true; userId: string } | { ok: false; response: NextResponse }
+
+/**
+ * Routes that store the user's work: Supabase mode only (in demo mode the
+ * browser keeps it), a verified sign-in, then the per-minute limit.
+ */
+export async function accountGuard(req: NextRequest, bucket: RateBucket): Promise<AccountGuard> {
+  if (!serverSupabaseEnabled) {
+    return {
+      ok: false,
+      response: NextResponse.json(
+        { error: 'Hesap verisi için Supabase bağlantısı gerekiyor.', code: 'cloud_disabled' },
+        { status: 404 }
+      ),
+    }
+  }
+  const denied = await guard(req, bucket, { auth: true })
+  if (denied) return { ok: false, response: denied }
+  const { userId } = await getCaller(req)
+  if (!userId) return { ok: false, response: badRequest('Oturum bulunamadı', 401) }
+  return { ok: true, userId }
+}
+
 /* ── Input ── */
 
 /** Largest JSON body any route accepts (the longest field is a 6000-character essay). */
@@ -168,10 +195,20 @@ export function textField(value: unknown, max: number): string | null {
 
 /* ── Errors ── */
 
+/** A readable message for Error objects and for the plain error objects Supabase returns. */
+export function errorMessage(err: unknown): string {
+  if (err instanceof Error) return err.message
+  if (err && typeof err === 'object') {
+    const e = err as { message?: unknown; code?: unknown; details?: unknown }
+    if (typeof e.message === 'string') return [e.code, e.message, e.details].filter(Boolean).join(' · ')
+  }
+  return String(err)
+}
+
 /** Logs the error and answers with a plain message; the internal detail is only sent outside production. */
 export function serverError(tag: string, err: unknown, error: string, status = 500) {
-  console.error(`[${tag}]`, err)
+  console.error(`[${tag}]`, errorMessage(err))
   const body: { error: string; detail?: string } = { error }
-  if (process.env.NODE_ENV !== 'production') body.detail = err instanceof Error ? err.message : String(err)
+  if (process.env.NODE_ENV !== 'production') body.detail = errorMessage(err)
   return NextResponse.json(body, { status })
 }

@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import MascotSpeech from '@/components/MascotSpeech'
+import { savePrefs } from '@/lib/data/account'
 import styles from './onboarding.module.css'
 
 const EXAMS = [
@@ -15,7 +16,8 @@ export default function OnboardingPage() {
   const [done, setDone] = useState(false)
 
   const choose = (id: string) => {
-    localStorage.setItem('selectedExam', id)
+    // Written to this browser at once (the next screen reads it), then to the profile.
+    void savePrefs({ selectedExam: id === 'ielts' ? 'ielts' : 'toefl' })
     router.replace('/onboarding2')
   }
 

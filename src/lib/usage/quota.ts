@@ -18,7 +18,8 @@ import { getCaller } from '@/lib/auth/server'
 
 export type QuotaKind = LimitKind
 
-const MESSAGE: Record<QuotaKind, string> = {
+/** Shown when a daily limit is reached. */
+export const QUOTA_MESSAGE: Record<QuotaKind, string> = {
   scoring: 'Bugünkü yazı değerlendirme hakkın doldu. Yarın yenilenir ya da planını yükseltebilirsin.',
   chat: 'Bugünkü canlı konuşma hakkın doldu. Yarın yenilenir ya da planını yükseltebilirsin.',
   generation: 'Bugünkü yeni içerik üretme hakkın doldu.',
@@ -162,7 +163,7 @@ export async function usageFor(req: NextRequest) {
 
 export function quotaExceeded(kind: QuotaKind, limit: number) {
   return NextResponse.json(
-    { error: MESSAGE[kind], code: 'quota_exceeded', kind, limit },
+    { error: QUOTA_MESSAGE[kind], code: 'quota_exceeded', kind, limit },
     { status: 429, headers: { 'Retry-After': '3600' } }
   )
 }

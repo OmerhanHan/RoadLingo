@@ -1,8 +1,8 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { getWritings } from '@/lib/storage'
-import type { Writing } from '@/lib/supabase'
+import { listWritings } from '@/lib/data/client'
+import { useLoad } from '@/lib/data/useLoad'
 import styles from './history.module.css'
 
 function bandColor(s: number) {
@@ -17,7 +17,8 @@ function fmtDate(d: string) {
 
 export default function HistoryPage() {
   const router = useRouter()
-  const [writings] = useState<Writing[]>(() => getWritings())
+  const { data, error, loading, reload } = useLoad('writings', listWritings)
+  const writings = data ?? []
   const [filter, setFilter]     = useState<'all' | 'predetermined' | 'random'>('all')
   const filtered = filter === 'all' ? writings : writings.filter(w => w.mode === filter)
 
@@ -25,7 +26,7 @@ export default function HistoryPage() {
     <main className={styles.page}>
       <header className={`${styles.header} anim-fade-up`}>
         <h1 className={styles.title}>Geçmiş</h1>
-        <p className={styles.sub}>{writings.length} yazı · arşiv</p>
+        <p className={styles.sub}>{loading ? 'Yükleniyor…' : `${writings.length} yazı · arşiv`}</p>
       </header>
 
       <div className={`${styles.filters} anim-fade-up d1`}>
@@ -37,7 +38,16 @@ export default function HistoryPage() {
       </div>
 
       <div className={styles.list}>
-        {filtered.length === 0 ? (
+        {loading ? (
+          <div className={styles.loading} aria-label="Yükleniyor"><div className={styles.spinner} /></div>
+        ) : error ? (
+          <div className={`${styles.empty} anim-fade-in`}>
+            <div className={styles.emptyIcon}>📡</div>
+            <h2 className={styles.emptyTitle}>Yazılar yüklenemedi</h2>
+            <p className={styles.emptyDesc}>Bağlantını kontrol edip tekrar dene</p>
+            <button id="retry-load-btn" className={styles.emptyBtn} onClick={reload}>↻ Tekrar dene</button>
+          </div>
+        ) : filtered.length === 0 ? (
           <div className={`${styles.empty} anim-fade-in`}>
             <div className={styles.emptyIcon}>📭</div>
             <h2 className={styles.emptyTitle}>Henüz yazı yok</h2>

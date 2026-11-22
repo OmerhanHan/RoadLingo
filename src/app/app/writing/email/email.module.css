@@ -772,3 +772,14 @@
 
   .historyLayout { grid-template-columns: 300px 1fr; min-height: 600px; }
 }
+
+/* Sample analysis (no model connected, development) */
+.sampleNote {
+  margin: 0 0 12px;
+  padding: 8px 10px;
+  border: 1px dashed var(--border-dark);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-2);
+}

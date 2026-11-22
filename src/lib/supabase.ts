@@ -28,6 +28,8 @@ export type Feedback = {
   suggestions: string[]
   overall_comment: string
   created_at: string
+  /** 'ai': the model; 'mock': sample scoring (no model, development); 'import': scored in the browser before the account. */
+  source?: 'ai' | 'mock' | 'import'
 }
 
 export type GrammarError = {

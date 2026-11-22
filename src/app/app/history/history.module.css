@@ -52,3 +52,7 @@
   /* The empty state spans the whole grid */
   .empty { grid-column: 1 / -1; }
 }
+
+/* Loading (writings come from the server) */
+.loading { display: flex; justify-content: center; padding: 48px 0; grid-column: 1 / -1; }
+.spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--ink); border-radius: 50%; animation: spin 0.75s linear infinite; }

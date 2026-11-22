@@ -1,7 +1,9 @@
 import type { Writing, Feedback } from './supabase'
 
-// LocalStorage-based storage (no Supabase needed for prototype)
-const WRITINGS_KEY = 'writer_writings'
+// Browser storage for demo mode (no Supabase). With Supabase the writings live
+// on the server (src/lib/data/client.ts); these keys are then only read once,
+// to move old writings to the account.
+export const WRITINGS_KEY = 'writer_writings'
 const PROFILE_KEY = 'writer_profile'
 
 export function getWritings(): Writing[] {
@@ -48,10 +50,21 @@ export function setProfile(profile: { name: string; email: string }) {
   localStorage.setItem(PROFILE_KEY, JSON.stringify(profile))
 }
 
-export function getStats() {
-  const writings = getWritings()
+export type WritingStats = {
+  totalWritings: number
+  totalWords: number
+  avgBandScore: number
+  lastStudied: string | null
+  streak: number
+}
+
+export const EMPTY_STATS: WritingStats = { totalWritings: 0, totalWords: 0, avgBandScore: 0, lastStudied: null, streak: 0 }
+
+/** Totals, average band and the daily streak (newest writing first). */
+export function computeStats(writings: Writing[]): WritingStats {
   const totalWords = writings.reduce((acc, w) => acc + (w.word_count || 0), 0)
-  const withFeedback = writings.filter(w => w.has_feedback && w.feedback)
+  // Sample scores (no model, development) do not count towards the average.
+  const withFeedback = writings.filter(w => w.has_feedback && w.feedback && w.feedback.source !== 'mock')
   const avgBand = withFeedback.length
     ? withFeedback.reduce((acc, w) => acc + (w.feedback?.band_score || 0), 0) / withFeedback.length
     : 0

@@ -2,9 +2,10 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
-import { getStats } from '@/lib/storage'
+import { EMPTY_STATS } from '@/lib/storage'
+import { loadStats } from '@/lib/data/client'
+import { useLoad } from '@/lib/data/useLoad'
 import { TOEFL_SECTIONS } from '@/lib/exam/structure'
-import { useState } from 'react'
 import styles from './home.module.css'
 import PlanCard from './PlanCard'
 
@@ -18,8 +19,7 @@ function greeting(name: string) {
 export default function HomePage() {
   const { user } = useAuth()
   const router   = useRouter()
-  // Rendered client-only (AppLayout waits for auth), so localStorage is safe to read here.
-  const [stats] = useState(() => getStats())
+  const { data: stats = EMPTY_STATS } = useLoad('stats', loadStats)
 
   const firstName = user?.name?.split(' ')[0] || 'Kullanıcı'
   const { label }  = greeting(firstName)

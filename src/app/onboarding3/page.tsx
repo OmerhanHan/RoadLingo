@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import MascotSpeech from '@/components/MascotSpeech'
+import { savePrefs } from '@/lib/data/account'
 import { STORED_SSR as SSR, useStoredValue } from '@/lib/exam/useStoredValue'
 import { voiceDialogue } from '@/lib/speaking/tts/voices'
 import { useSpeakingTts } from '@/lib/speaking/useSpeakingTts'
@@ -69,11 +70,7 @@ export default function PlacementTestPage() {
       stopAudio()
       const duration = Math.round((Date.now() - startedAt.current) / 1000)
       const r = scorePlacement(exam, questions, finalAnswers, duration)
-      try {
-        localStorage.setItem('placementResult', JSON.stringify(r))
-      } catch {
-        /* storage unavailable — result is still shown */
-      }
+      void savePrefs({ placement: r })
       setResult(r)
       setPhase('result')
     },

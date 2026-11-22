@@ -1,11 +1,12 @@
 'use client'
-import { createContext, useContext, useEffect, useMemo, useState, useSyncExternalStore, ReactNode } from 'react'
+import { createContext, useContext, useEffect, useMemo, useRef, useState, useSyncExternalStore, ReactNode } from 'react'
 import type { Session } from '@supabase/supabase-js'
 import { getProfile, setProfile as saveProfile } from '@/lib/storage'
 import { supabaseConfigured } from '@/lib/auth/config'
 import { authErrorMessage, authRedirect, supabaseBrowser } from '@/lib/auth/client'
 import { setAccessToken } from '@/lib/auth/token'
 import { clearSubscription, planHeaders, saveSubscription, type SubscriptionState } from '@/lib/plans'
+import { clearAccountCache, clearLocalWork, syncAccount } from '@/lib/data/account'
 
 type User = { id: string | null; name: string; email: string } | null
 
@@ -21,6 +22,8 @@ type AuthContextType = {
   loginWithGoogle: () => Promise<void>
   resetPassword: (email: string) => Promise<void>
   logout: () => Promise<void>
+  /** Deletes the account and everything stored for it, then signs out. */
+  deleteAccount: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
@@ -50,22 +53,48 @@ async function syncSubscription() {
   }
 }
 
+/** Sign-in waits at most this long for the account data before showing the app. */
+const SYNC_TIMEOUT_MS = 5000
+
+const withTimeout = (work: Promise<unknown>) =>
+  Promise.race([work, new Promise((resolve) => setTimeout(resolve, SYNC_TIMEOUT_MS))])
+
 function SupabaseAuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User>(null)
-  const [loading, setLoading] = useState(true)
+  const [authLoading, setAuthLoading] = useState(true)
+  // True while the plan, onboarding choices and old browser data are synced after sign-in,
+  // so the first screen already knows the chosen exam (no onboarding flash on a new device).
+  const [syncing, setSyncing] = useState(false)
+  const syncedFor = useRef<string | null>(null)
 
   useEffect(() => {
     const supabase = supabaseBrowser()
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
       setAccessToken(session?.access_token ?? null)
       setUser(userFrom(session))
-      setLoading(false)
+      setAuthLoading(false)
       // Supabase calls must not run inside this callback (they would wait on it).
-      if (event === 'SIGNED_OUT') clearSubscription()
-      else if (session && (event === 'INITIAL_SESSION' || event === 'SIGNED_IN')) setTimeout(syncSubscription, 0)
+      if (event === 'SIGNED_OUT') {
+        syncedFor.current = null
+        clearSubscription()
+        clearAccountCache()
+        return
+      }
+      const userId = session?.user.id
+      if (!userId || (event !== 'INITIAL_SESSION' && event !== 'SIGNED_IN')) return
+      // SIGNED_IN also fires when a tab regains focus: sync once per user.
+      if (syncedFor.current === userId) return
+      syncedFor.current = userId
+      setSyncing(true)
+      setTimeout(async () => {
+        await withTimeout(Promise.allSettled([syncSubscription(), syncAccount(userId)]))
+        setSyncing(false)
+      }, 0)
     })
     return () => data.subscription.unsubscribe()
   }, [])
+
+  const loading = authLoading || syncing
 
   const value = useMemo<AuthContextType>(
     () => ({
@@ -101,6 +130,16 @@ function SupabaseAuthProvider({ children }: { children: ReactNode }) {
       },
       async logout() {
         await supabaseBrowser().auth.signOut()
+      },
+      async deleteAccount() {
+        const res = await fetch('/api/me', { method: 'DELETE', headers: planHeaders() })
+        if (!res.ok) {
+          const body = (await res.json().catch(() => ({}))) as { error?: string }
+          throw new Error(body.error || 'Hesap silinemedi.')
+        }
+        clearLocalWork()
+        // The user no longer exists on the server; just drop the session here.
+        await supabaseBrowser().auth.signOut({ scope: 'local' })
       },
     }),
     [user, loading]
@@ -150,6 +189,11 @@ function DemoAuthProvider({ children }: { children: ReactNode }) {
       throw new Error(DEMO_ONLY)
     },
     async logout() {
+      setUser(null)
+      localStorage.removeItem('writer_profile')
+    },
+    async deleteAccount() {
+      clearLocalWork()
       setUser(null)
       localStorage.removeItem('writer_profile')
     },

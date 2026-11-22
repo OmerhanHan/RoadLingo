@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import MascotSpeech from '@/components/MascotSpeech'
+import { savePrefs } from '@/lib/data/account'
 import { STORED_SSR, useStoredValue } from '@/lib/exam/useStoredValue'
 import styles from '../onboarding/onboarding.module.css'
 
@@ -34,7 +35,7 @@ export default function Onboarding2Page() {
       setJoke(true)
       return
     }
-    localStorage.setItem('targetScore', String(score))
+    void savePrefs({ targetScore: score })
     router.replace('/onboarding3')
   }
 
