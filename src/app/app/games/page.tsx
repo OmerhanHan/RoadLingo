@@ -32,6 +32,7 @@ const GAMES: GameCard[] = [
     title: 'Kelime Yolculuğu',
     skill: 'Kelime · Okuma',
     desc: 'Maskotla yola çık; her durakta doğru kelimeyi seçip ilerle.',
+    href: '/app/games/word-road',
     accent: 'sage',
   },
   {
@@ -48,8 +49,14 @@ const GAMES: GameCard[] = [
 export default function GamesPage() {
   const router = useRouter()
   // Rendered client-only (AppLayout waits for auth), so localStorage is safe to read here.
-  const [best] = useState(() => readBest('error-hunt'))
-  const topScore = Math.max(0, ...TOEFL_LEVELS.map((l) => best[l] ?? 0))
+  const [tops] = useState(() =>
+    Object.fromEntries(
+      GAMES.map((g) => {
+        const best = readBest(g.id)
+        return [g.id, Math.max(0, ...TOEFL_LEVELS.map((l) => best[l] ?? 0))]
+      })
+    ) as Record<string, number>
+  )
 
   return (
     <main className={`${t.page} ${styles.page}`}>
@@ -81,7 +88,7 @@ export default function GamesPage() {
               <span className={styles.skill}>{g.skill}</span>
               <span className={styles.desc}>{g.desc}</span>
               <span className={styles.foot}>
-                {!ready ? 'Yakında' : g.id === 'error-hunt' && topScore > 0 ? `En iyi skor: ${topScore} · Oyna →` : 'Oyna →'}
+                {!ready ? 'Yakında' : tops[g.id] > 0 ? `En iyi skor: ${tops[g.id]} · Oyna →` : 'Oyna →'}
               </span>
             </button>
           )

@@ -22,6 +22,7 @@ export const BANK_TASKS = [
   'listening-announcement',
   'listening-academic-talk',
   'error-hunt',
+  'word-road',
 ] as const
 
 export type BankTask = (typeof BANK_TASKS)[number]

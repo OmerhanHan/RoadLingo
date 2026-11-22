@@ -45,6 +45,11 @@ export async function serveContent<T, R>(opts: {
    * (`fresh=1`, dev) does, so every item can be reviewed before users see it.
    */
   liveAi?: boolean
+  /**
+   * Curated built-in items that join the pool: once the bank has nothing new
+   * for this user, an unseen one is served before anything repeats.
+   */
+  builtIn?: T[]
 }): Promise<NextResponse> {
   const { task, req, level, generate, fallback, finalize, filter } = opts
   const respond = (data: T, source: ContentSource, id = contentId(data)) =>
@@ -83,6 +88,9 @@ export async function serveContent<T, R>(opts: {
       console.warn(`[content:${task}] live generation failed:`, err instanceof Error ? err.message : err)
     }
   }
+
+  const freshBuiltIn = (opts.builtIn ?? []).filter((d) => !seen.has(contentId(d)))
+  if (freshBuiltIn.length) return respond(freshBuiltIn[Math.floor(Math.random() * freshBuiltIn.length)], 'fallback')
 
   const repeat = pickAny<T>(task, level, filter)
   if (repeat) return respond(repeat.data, 'bank', repeat.id)

@@ -33,6 +33,7 @@ export async function GET(req: NextRequest) {
     level,
     // Small models sometimes mark correct English as wrong: only reviewed bank items reach players.
     liveAi: false,
+    builtIn: ERROR_HUNT_FALLBACKS.filter((f) => f.level === level).map((f) => f.content),
     async generate(signal) {
       const raw = await generateText(
         [

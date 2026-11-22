@@ -81,7 +81,7 @@ export default function HomePage() {
         <span className={styles.cardEmoji}>🔍</span>
         <span className={styles.historyText}>
           <span className={styles.cardTitle}>Oyunlar</span>
-          <span className={styles.cardDesc}>Hata Avı: 1 dakikada gizli hataları bul · Sınırsız</span>
+          <span className={styles.cardDesc}>Hata Avı ve Kelime Yolculuğu · Kısa turlar, sınırsız</span>
         </span>
         <span className={styles.historyArrow}>→</span>
       </button>

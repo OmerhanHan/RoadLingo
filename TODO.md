@@ -52,7 +52,8 @@ Adımlar: [supabase/README.md](supabase/README.md)
 - [x] Hata Avı: altyapı, oyun ekranı, oyunlar sayfası, ana sayfa ve kenar çubuğu girişleri
 - [ ] Hata Avı içeriğini çoğalt: seviye başına en az 20 tur (`npm run content:generate -- --tasks error-hunt --target 20`) ve elle gözden geçir
 - [ ] Hata Avı içeriğini daha güçlü bir modelle üretmeyi değerlendir (yerel küçük model bazen doğru ifadeyi hata sayıyor; ikinci kontrol bunu azaltıyor ama sıfırlamıyor)
-- [ ] Kelime Yolculuğu
+- [x] Kelime Yolculuğu: 8 duraklı yol, boşluk ve eş anlam soruları, 3 can, durak süresi, sonda kelime listesi
+- [ ] Kelime Yolculuğu içeriğini çoğalt: seviye başına en az 15 yol (`--tasks word-road`), elle gözden geçir (yerel model kelime türü uyuşmazlığı ve iki doğru şık üretebiliyor)
 - [ ] Günün Bulmacası (Supabase sonrası: herkese aynı tur, seri, sıralama; puan sunucuda doğrulanmalı)
 
 ## 5. Admin paneli
