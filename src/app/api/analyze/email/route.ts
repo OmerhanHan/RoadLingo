@@ -1,9 +1,12 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { NextRequest, NextResponse } from 'next/server'
 import { consumeQuota, quotaExceeded, refundQuota } from '@/lib/usage/quota'
+import { badRequest, guard, readJson, serverError, textField } from '@/lib/security/guard'
 
 /** Longer texts are rejected rather than paid for. */
 const MAX_INPUT_CHARS = 6000
+const MAX_SCENARIO_CHARS = 2000
+const MAX_HEADER_CHARS = 200
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY!)
 
@@ -41,19 +44,22 @@ JSON şablonu:
 }`
 
 export async function POST(req: NextRequest) {
+  const denied = await guard(req, 'ai', { auth: true })
+  if (denied) return denied
+  const parsed = await readJson<Record<string, unknown>>(req)
+  if (!parsed.ok) return parsed.response
+
+  const body = textField(parsed.body.body, MAX_INPUT_CHARS)
+  const scenario = textField(parsed.body.scenario, MAX_SCENARIO_CHARS)
+  const to = textField(parsed.body.to, MAX_HEADER_CHARS)
+  const subject = textField(parsed.body.subject, MAX_HEADER_CHARS)
+  if (body === null) return badRequest('Metin çok uzun')
+  if (scenario === null || to === null || subject === null) return badRequest('Alanlardan biri çok uzun')
+  if (!body) return badRequest('body is required')
+  if (!scenario) return badRequest('scenario is required')
+
   let charged = false
   try {
-    const { to, subject, body, scenario } = await req.json()
-
-    if (!body || typeof body !== 'string') {
-      return NextResponse.json({ error: 'body is required' }, { status: 400 })
-    }
-    if (!scenario || typeof scenario !== 'string') {
-      return NextResponse.json({ error: 'scenario is required' }, { status: 400 })
-    }
-    if (String(body).length > MAX_INPUT_CHARS) {
-      return NextResponse.json({ error: 'Metin çok uzun' }, { status: 400 })
-    }
     if (!process.env.GOOGLE_AI_API_KEY) {
       return NextResponse.json({ error: 'GOOGLE_AI_API_KEY is not configured' }, { status: 500 })
     }
@@ -72,8 +78,8 @@ export async function POST(req: NextRequest) {
 ${scenario}
 
 Öğrencinin e-postası:
-To: ${to ?? ''}
-Subject: ${subject ?? ''}
+To: ${to}
+Subject: ${subject}
 
 ${body}`
 
@@ -94,10 +100,6 @@ ${body}`
     return NextResponse.json(feedback)
   } catch (err) {
     if (charged) await refundQuota(req, 'scoring')
-    console.error('[analyze/email] Error:', err)
-    return NextResponse.json(
-      { error: 'Email analysis failed', detail: err instanceof Error ? err.message : String(err) },
-      { status: 500 },
-    )
+    return serverError('analyze/email', err, 'E-posta değerlendirmesi yapılamadı')
   }
 }

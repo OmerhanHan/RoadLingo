@@ -1,6 +1,7 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { NextResponse, type NextRequest } from 'next/server'
 import { consumeBudget, refundBudget } from '@/lib/usage/quota'
+import { isSignedIn, rateLimit } from '@/lib/security/guard'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -43,8 +44,10 @@ const TOPICS_POOL = [
 const poolTopic = () => NextResponse.json({ topic: TOPICS_POOL[Math.floor(Math.random() * TOPICS_POOL.length)] })
 
 export async function GET(req: NextRequest) {
-  // No API key, or today's AI topic budget is used up → a topic from the fixed pool.
-  if (!process.env.GOOGLE_AI_API_KEY || !(await consumeBudget(req, 'topics'))) return poolTopic()
+  const limited = await rateLimit(req, 'content')
+  if (limited) return limited
+  // No API key, not signed in (Supabase mode), or today's AI topic budget is used up → a topic from the fixed pool.
+  if (!process.env.GOOGLE_AI_API_KEY || !(await isSignedIn(req)) || !(await consumeBudget(req, 'topics'))) return poolTopic()
 
   try {
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { serverSupabaseEnabled, supabaseAdmin } from '@/lib/auth/admin'
 import { forgetPlan, loadSubscription, requestUserId } from '@/lib/auth/server'
+import { readJson, rateLimit } from '@/lib/security/guard'
 import { activePlanId, checkoutCycle, checkoutTotal, getPlanById, periodEnd, PLANS } from '@/lib/plans'
 
 export const runtime = 'nodejs'
@@ -55,7 +56,11 @@ export async function POST(req: NextRequest) {
   const auth = await authed(req)
   if ('error' in auth) return auth.error
   const { userId } = auth
-  const body = (await req.json().catch(() => ({}))) as Body
+  const limited = await rateLimit(req, 'account')
+  if (limited) return limited
+  const parsed = await readJson<Body>(req, 4_000)
+  if (!parsed.ok) return parsed.response
+  const body = parsed.body
   const db = supabaseAdmin()
 
   try {
@@ -64,7 +69,8 @@ export async function POST(req: NextRequest) {
       const plan = PLANS.find((p) => p.id === body.planId)
       if (!plan || plan.id === 'free') return fail(400, 'Geçersiz plan')
       const cycle = checkoutCycle(plan, body.cycle === 'yearly' ? 'yearly' : 'monthly')
-      const { total } = checkoutTotal(plan, cycle, body.coupon)
+      const coupon = typeof body.coupon === 'string' ? body.coupon.slice(0, 40) : undefined
+      const { total } = checkoutTotal(plan, cycle, coupon)
       const last4 = /^\d{4}$/.test(body.cardLast4 ?? '') ? body.cardLast4! : null
       const brand = ['Visa', 'Mastercard', 'Kart'].includes(body.cardBrand ?? '') ? body.cardBrand! : null
 

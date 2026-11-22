@@ -1,9 +1,11 @@
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { NextRequest, NextResponse } from 'next/server'
 import { consumeQuota, quotaExceeded, refundQuota } from '@/lib/usage/quota'
+import { badRequest, guard, readJson, serverError, textField } from '@/lib/security/guard'
 
 /** Longer texts are rejected rather than paid for. */
 const MAX_INPUT_CHARS = 6000
+const MAX_TOPIC_CHARS = 400
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY!)
 
@@ -37,17 +39,19 @@ Scoring guide:
 IMPORTANT: Return raw JSON only. No markdown. No explanation outside the JSON.`
 
 export async function POST(req: NextRequest) {
+  const denied = await guard(req, 'ai', { auth: true })
+  if (denied) return denied
+  const parsed = await readJson<{ content?: unknown; topic?: unknown }>(req)
+  if (!parsed.ok) return parsed.response
+
+  const content = textField(parsed.body.content, MAX_INPUT_CHARS)
+  const topic = textField(parsed.body.topic, MAX_TOPIC_CHARS)
+  if (content === null) return badRequest('Metin çok uzun')
+  if (topic === null) return badRequest('Konu çok uzun')
+  if (!content || !topic) return badRequest('content and topic are required')
+
   let charged = false
   try {
-    const { content, topic } = await req.json()
-
-    if (!content || !topic) {
-      return NextResponse.json({ error: 'content and topic are required' }, { status: 400 })
-    }
-
-    if (String(content).length > MAX_INPUT_CHARS) {
-      return NextResponse.json({ error: 'Metin çok uzun' }, { status: 400 })
-    }
     if (!process.env.GOOGLE_AI_API_KEY) {
       return NextResponse.json({ error: 'GOOGLE_AI_API_KEY is not configured' }, { status: 500 })
     }
@@ -90,10 +94,6 @@ ${content}`
     return NextResponse.json(feedback)
   } catch (err) {
     if (charged) await refundQuota(req, 'scoring')
-    console.error('[analyze] Error:', err)
-    return NextResponse.json(
-      { error: 'Analysis failed', detail: err instanceof Error ? err.message : String(err) },
-      { status: 500 }
-    )
+    return serverError('analyze', err, 'Değerlendirme yapılamadı')
   }
 }

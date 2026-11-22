@@ -4,12 +4,13 @@ Tamamlananları `[x]` ile işaretle. Sıra kabaca önceliği gösterir.
 
 ## 0. Güvenlik (ön analiz, 22.11.2026)
 - [ ] Next.js'i 16.3.5'ten 16.4.6'ya yükselt; `npm audit fix` ile sharp ve source-map-js'i güncelle
-- [ ] Supabase modunda yapay zekâ rotaları girişsiz çağrılamasın (IP başlığı taklit edilip ücretsiz sınır aşılabiliyor)
+- [x] Supabase modunda yapay zekâ rotaları girişsiz çağrılamasın (IP başlığı taklit edilip ücretsiz sınır aşılabiliyor)
 - [ ] Canlıda Supabase yoksa tarayıcının plan bilgisine güvenme (herkes Başlangıç planı sayılsın)
-- [ ] Yapay zekâya giden tüm alanlara uzunluk sınırı koy (analyze `topic`; e-posta `to/subject/scenario`; tartışma puanlamada `prompt`)
-- [ ] Güvenlik başlıkları ekle: çerçeveye gömmeyi engelle, `nosniff`, referrer politikası, CSP
-- [ ] Hata cevaplarında iç ayrıntıları (`detail`) canlıda gösterme
-- [ ] Dakikalık istek sınırı (ses ve içerik rotaları için)
+- [x] Yapay zekâya giden tüm alanlara uzunluk sınırı koy (analyze `topic`; e-posta `to/subject/scenario`; tartışma puanlamada `prompt`)
+- [x] Güvenlik başlıkları ekle: çerçeveye gömmeyi engelle, `nosniff`, referrer politikası, CSP
+- [x] Hata cevaplarında iç ayrıntıları (`detail`) canlıda gösterme
+- [x] Dakikalık istek sınırı (ses ve içerik rotaları için)
+- [ ] Dakikalık sınırı birden fazla sunucuda paylaşılır yap (şu an her sunucu kendi belleğinde sayıyor; gerekirse Supabase veya Redis)
 - [ ] `profiles.name` için uzunluk sınırı
 - [ ] Supabase ayarları: güvenli şifre değişimi, sızmış şifre koruması, en az 8 karakter
 
@@ -55,6 +56,12 @@ Adımlar: [supabase/README.md](supabase/README.md)
 - [x] Kelime Yolculuğu: 8 duraklı yol, boşluk ve eş anlam soruları, 3 can, durak süresi, sonda kelime listesi
 - [ ] Kelime Yolculuğu içeriğini çoğalt: seviye başına en az 15 yol (`--tasks word-road`), elle gözden geçir (yerel model kelime türü uyuşmazlığı ve iki doğru şık üretebiliyor)
 - [ ] Günün Bulmacası (Supabase sonrası: herkese aynı tur, seri, sıralama; puan sunucuda doğrulanmalı)
+
+## 4c. Kütüphane (RAG)
+- [ ] Kütüphane: kitapları (telif sorunu olmayan, ör. Project Gutenberg) ekle; bölümlere ayır, parçala ve vektör olarak sakla (Supabase pgvector)
+- [ ] Kitaptan soru üret: seçilen bölümden okuma soruları (TOEFL tarzı), cevap ve açıklama yalnızca metne dayansın
+- [ ] Kitaba soru sor: kullanıcının sorusuna ilgili parçaları bulup cevapla, kaynak paragrafı göster
+- [ ] Embedding modeli seç (yerelde Ollama `nomic-embed-text` gibi) ve maliyet/plan sınırını belirle
 
 ## 5. Admin paneli
 - [ ] İçerik bankasını (`content/bank/*.json`) tabloya taşı, admin rolü ekle
