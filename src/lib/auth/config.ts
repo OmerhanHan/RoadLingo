@@ -14,3 +14,9 @@ export const SUPABASE_PUBLIC_KEY =
 
 /** True once a real project URL and key are set (the .env.example placeholders do not count). */
 export const supabaseConfigured = /^https?:\/\/\S+$/.test(SUPABASE_URL) && SUPABASE_PUBLIC_KEY.length >= 30
+
+/** Same as the Supabase setting (Authentication → Providers → Email → Minimum password length). */
+export const MIN_PASSWORD = 8
+
+/** Same as the profiles_name_length check in the database. */
+export const MAX_NAME = 80

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { authErrorMessage, supabaseBrowser } from '@/lib/auth/client'
+import { MIN_PASSWORD } from '@/lib/auth/config'
 import styles from '../login/login.module.css'
 
 /** New password, reached from the reset email (via /auth/callback, which opens the session). */
@@ -17,7 +18,7 @@ export default function ResetPasswordPage() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault(); setError('')
-    if (password.length < 6) { setError('Şifre en az 6 karakter olmalı.'); return }
+    if (password.length < MIN_PASSWORD) { setError(`Şifre en az ${MIN_PASSWORD} karakter olmalı.`); return }
     if (password !== repeat) { setError('Şifreler aynı değil.'); return }
     setSaving(true)
     const { error: err } = await supabaseBrowser().auth.updateUser({ password })
@@ -46,7 +47,7 @@ export default function ResetPasswordPage() {
           <form onSubmit={submit} className={styles.form}>
             <div className={styles.field}>
               <label htmlFor="reset-password" className={styles.label}>Yeni şifre</label>
-              <input id="reset-password" type="password" className={styles.input} placeholder="En az 6 karakter" value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" />
+              <input id="reset-password" type="password" className={styles.input} placeholder={`En az ${MIN_PASSWORD} karakter`} value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" />
             </div>
             <div className={styles.field}>
               <label htmlFor="reset-repeat" className={styles.label}>Yeni şifre (tekrar)</label>

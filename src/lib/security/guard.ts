@@ -8,12 +8,13 @@
  *   readJson      Body size cap before parsing.
  *   serverError   Error response without internal details in production.
  *
- * The per-minute counters live in memory, so each server instance counts on
- * its own. That is enough to stop bursts; the daily limits (quota.ts) are the
- * shared, durable ones. RATE_LIMIT=0 turns the per-minute limit off.
+ * With Supabase the per-minute counters are kept in the rate_limits table
+ * (rate_limit_hit function), shared by every server instance. Without it, or
+ * while the database cannot be reached, each instance counts in memory.
+ * RATE_LIMIT=0 turns the per-minute limit off.
  */
 import { NextResponse, type NextRequest } from 'next/server'
-import { serverSupabaseEnabled } from '@/lib/auth/admin'
+import { serverSupabaseEnabled, supabaseAdmin } from '@/lib/auth/admin'
 import { getCaller } from '@/lib/auth/server'
 
 /* ── Sign-in ── */
@@ -64,25 +65,53 @@ function sweep(now: number) {
   }
 }
 
-/** 429 once the caller has used this bucket's allowance in the last minute; otherwise counts the request. */
-export async function rateLimit(req: NextRequest, bucket: RateBucket): Promise<NextResponse | null> {
-  if (!rateLimitEnabled()) return null
+/** In-memory sliding window. Returns 0 when allowed, else seconds to wait. */
+function memoryHit(key: string, limit: number): number {
   const now = Date.now()
   sweep(now)
-
-  const key = `${bucket}:${(await getCaller(req)).subject}`
   const recent = (hits.get(key) ?? []).filter((t) => now - t < WINDOW_MS)
-  if (recent.length >= RATE_LIMITS[bucket]) {
+  if (recent.length >= limit) {
     hits.set(key, recent)
-    const retry = Math.max(1, Math.ceil((recent[0] + WINDOW_MS - now) / 1000))
-    return NextResponse.json(
-      { error: 'Çok hızlı istek gönderildi. Birkaç saniye sonra tekrar dene.', code: 'rate_limited' },
-      { status: 429, headers: { 'Retry-After': String(retry) } }
-    )
+    return Math.max(1, Math.ceil((recent[0] + WINDOW_MS - now) / 1000))
   }
   recent.push(now)
   hits.set(key, recent)
-  return null
+  return 0
+}
+
+let lastDbError = 0
+
+/** Shared counter in Supabase; null when the database could not be reached. */
+async function databaseHit(key: string, limit: number): Promise<number | null> {
+  try {
+    const { data, error } = await supabaseAdmin().rpc('rate_limit_hit', {
+      p_key: key,
+      p_limit: limit,
+      p_window_seconds: WINDOW_MS / 1000,
+    })
+    if (error) throw error
+    return typeof data === 'number' ? data : 0
+  } catch (err) {
+    // Once a minute is enough to notice (e.g. the migration was not run).
+    if (Date.now() - lastDbError > WINDOW_MS) {
+      lastDbError = Date.now()
+      console.error('[rate-limit] rate_limit_hit failed, counting in memory:', err instanceof Error ? err.message : err)
+    }
+    return null
+  }
+}
+
+/** 429 once the caller has used this bucket's allowance in the last minute; otherwise counts the request. */
+export async function rateLimit(req: NextRequest, bucket: RateBucket): Promise<NextResponse | null> {
+  if (!rateLimitEnabled()) return null
+  const key = `${bucket}:${(await getCaller(req)).subject}`
+  const limit = RATE_LIMITS[bucket]
+  const wait = (serverSupabaseEnabled ? await databaseHit(key, limit) : null) ?? memoryHit(key, limit)
+  if (wait === 0) return null
+  return NextResponse.json(
+    { error: 'Çok hızlı istek gönderildi. Birkaç saniye sonra tekrar dene.', code: 'rate_limited' },
+    { status: 429, headers: { 'Retry-After': String(wait) } }
+  )
 }
 
 /** Sign-in (if required) and then the per-minute limit. */

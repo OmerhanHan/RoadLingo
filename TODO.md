@@ -5,26 +5,28 @@ Tamamlananları `[x]` ile işaretle. Sıra kabaca önceliği gösterir.
 ## 0. Güvenlik (ön analiz, 22.11.2026)
 - [ ] Next.js'i 16.3.5'ten 16.4.6'ya yükselt; `npm audit fix` ile sharp ve source-map-js'i güncelle
 - [x] Supabase modunda yapay zekâ rotaları girişsiz çağrılamasın (IP başlığı taklit edilip ücretsiz sınır aşılabiliyor)
-- [ ] Canlıda Supabase yoksa tarayıcının plan bilgisine güvenme (herkes Başlangıç planı sayılsın)
+- [x] Canlıda Supabase yoksa tarayıcının plan bilgisine güvenme (herkes Başlangıç planı, IP'ye göre; `DEMO_PAYMENTS=1` ile demo açılabilir)
 - [x] Yapay zekâya giden tüm alanlara uzunluk sınırı koy (analyze `topic`; e-posta `to/subject/scenario`; tartışma puanlamada `prompt`)
 - [x] Güvenlik başlıkları ekle: çerçeveye gömmeyi engelle, `nosniff`, referrer politikası, CSP
 - [x] Hata cevaplarında iç ayrıntıları (`detail`) canlıda gösterme
 - [x] Dakikalık istek sınırı (ses ve içerik rotaları için)
-- [ ] Dakikalık sınırı birden fazla sunucuda paylaşılır yap (şu an her sunucu kendi belleğinde sayıyor; gerekirse Supabase veya Redis)
-- [ ] `profiles.name` için uzunluk sınırı
-- [ ] Supabase ayarları: güvenli şifre değişimi, sızmış şifre koruması, en az 8 karakter
+- [x] Dakikalık sınırı birden fazla sunucuda paylaşılır yap (`rate_limits` tablosu + `rate_limit_hit`; veritabanı yoksa bellek)
+- [x] `profiles.name` için uzunluk sınırı (80 karakter; kullanıcı profilde sadece adını değiştirebilir)
+- [ ] Supabase ayarları: en az 8 karakter, harf + rakam, güvenli şifre değişimi (uygulama tarafı 8 karakter istiyor)
+- [ ] Sızmış şifre koruması: Supabase Pro planında açılıyor; ücretli plana geçince aç
 
 ## 1. Supabase'i bağla (kod hazır, `feat/supabase`)
 Adımlar: [supabase/README.md](supabase/README.md)
 - [x] Supabase projesi aç (AB / Frankfurt), üç anahtarı `.env.local`'a yaz
 - [x] `supabase/migrations/*.sql` dosyasını SQL Editor'da çalıştır (tablolar, sayaç fonksiyonları ve RLS doğrulandı)
-- [ ] Giriş dönüş adreslerini ekle (`/auth/callback`)
+- [x] Giriş dönüş adreslerini ekle (`/auth/callback`; localhost:3000 ve 3001 doğrulandı, canlı adres yayına çıkarken eklenecek)
 - [ ] Google Cloud'da OAuth istemcisi aç, Supabase'te Google sağlayıcısını etkinleştir
 - [ ] Uçtan uca dene:
   - [x] e-posta + şifre ile giriş, oturumun yenilemede korunması, girişsiz isteklerin reddi
   - [ ] kayıt ve e-posta doğrulama (gerçek bir e-posta adresiyle)
   - [ ] Google girişi
-  - [ ] şifre sıfırlama
+  - [x] şifre sıfırlama ekranı (yeni şifre, 8 karakter kuralı, eski şifrenin geçersizleşmesi)
+  - [ ] şifre sıfırlama e-postası (gerçek bir e-posta adresiyle)
   - [x] demo ödeme ve iptal
   - [x] `QUOTA_ENFORCE=1` ile günlük sayaçlar
 - [ ] `feat/supabase` için PR aç ve main'e birleştir
@@ -35,7 +37,7 @@ Adımlar: [supabase/README.md](supabase/README.md)
 - [ ] E-posta alıştırmaları için `email_exercises` tablosu
 - [ ] Hedef puan, seçilen sınav ve seviye testi sonucunu `profiles` tablosuna taşı
 - [ ] İlk girişte tarayıcıda kalan eski yazıları bir kez hesaba aktar
-- [ ] Eski `usage_daily` satırlarını düzenli temizle (ör. 30 günden eski; pg_cron)
+- [ ] Eski `usage_daily` ve `rate_limits` satırlarını düzenli temizle (ör. 30 günden eski / 1 günden eski; pg_cron)
 
 ## 3. Ödeme
 - [ ] Web için ödeme sağlayıcısı seç (iyzico veya PayTR); onay bildirimini (webhook) `subscriptions` ve `payments` tablolarına yazdır

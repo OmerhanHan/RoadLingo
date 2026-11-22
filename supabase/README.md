@@ -21,7 +21,9 @@ Bu dosyalar şunları kurar:
 - **`subscriptions` ve `payments`:** Sadece sunucu yazar.
 - **`usage_daily`:** Günlük sayaçlar.
 - **`consume_usage` ve `refund_usage`:** Sayaç fonksiyonları, sadece sunucu çağırabilir.
+- **`rate_limits` ve `rate_limit_hit`:** Dakikalık istek sınırı. Bütün sunucular aynı sayacı kullanır; tabloya sadece sunucu erişir.
 - **Erişim kuralları (RLS):** Her kullanıcı yalnızca kendi satırlarını okuyabilir.
+- **Profil adı:** En fazla 80 karakter. Kullanıcı kendi profilinde sadece adını değiştirebilir.
 
 ## 3. Giriş adresleri
 **Authentication → URL Configuration**:
@@ -31,6 +33,13 @@ Bu dosyalar şunları kurar:
   - `https://<canlı-alan-adı>/auth/callback`
 
 E-posta doğrulaması **Authentication → Providers → Email** altında açık kalsın. Supabase'in yerleşik e-posta servisi saatte birkaç e-postayla sınırlı. Canlıya çıkmadan önce **Authentication → SMTP Settings** altında bir e-posta servisi (Resend, Postmark vb.) bağla.
+
+### Şifre kuralları
+**Authentication → Providers → Email** (yeni arayüzde **Sign In / Providers → Email**):
+- **Minimum password length:** 8. Uygulama da en az 8 karakter ister (`MIN_PASSWORD`, `src/lib/auth/config.ts`); ikisi aynı kalmalı.
+- **Password requirements:** En az harf ve rakam.
+- **Secure password change:** Açık. Şifre değiştirmek için yakın zamanda giriş yapmış olmak gerekir.
+- **Prevent use of leaked passwords:** Sızmış şifreleri reddeder. Supabase'in ücretli (Pro) planında açılabiliyor; ücretsiz planda bu seçenek kapalı kalır.
 
 ## 4. Google ile giriş
 1. [Google Cloud Console](https://console.cloud.google.com) → **APIs & Services → Credentials → Create credentials → OAuth client ID** → *Web application*.

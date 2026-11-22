@@ -5,7 +5,7 @@
  * remote server; requests carry the access token instead (planHeaders()).
  */
 import { createClient, type AuthError, type SupabaseClient } from '@supabase/supabase-js'
-import { SUPABASE_PUBLIC_KEY, SUPABASE_URL, supabaseConfigured } from './config'
+import { MIN_PASSWORD, SUPABASE_PUBLIC_KEY, SUPABASE_URL, supabaseConfigured } from './config'
 
 let client: SupabaseClient | null = null
 
@@ -34,7 +34,7 @@ const MESSAGES: Record<string, string> = {
   email_not_confirmed: 'Önce e-postana gelen doğrulama bağlantısına tıklaman gerekiyor.',
   user_already_exists: 'Bu e-postayla zaten bir hesap var. Giriş yapmayı dene.',
   email_exists: 'Bu e-postayla zaten bir hesap var. Giriş yapmayı dene.',
-  weak_password: 'Şifre çok zayıf. En az 6 karakter kullan, harf ve rakam karıştır.',
+  weak_password: `Şifre çok zayıf ya da daha önce bir veri sızıntısında görülmüş. En az ${MIN_PASSWORD} karakter kullan, harf ve rakam karıştır.`,
   over_email_send_rate_limit: 'Çok fazla e-posta istendi. Birkaç dakika sonra tekrar dene.',
   over_request_rate_limit: 'Çok fazla deneme yapıldı. Biraz bekleyip tekrar dene.',
   email_address_invalid: 'Geçerli bir e-posta adresi gir.',

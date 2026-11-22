@@ -7,7 +7,10 @@
  * Tokens (not cookies) so the same API works for the web and the mobile app.
  *
  * Demo mode (no Supabase yet): the plan and device id sent by the browser
- * (X-Plan / X-User-Id) are trusted as before.
+ * (X-Plan / X-User-Id) are trusted outside production, so plans can be tried
+ * locally. In production they are not (anyone could send X-Plan: pro):
+ * everyone counts as the free plan, per IP address, unless demo payments are
+ * switched on on purpose (DEMO_PAYMENTS=1).
  */
 import type { NextRequest } from 'next/server'
 import {
@@ -55,8 +58,14 @@ export async function requestUserId(req: NextRequest): Promise<string | null> {
   }
 }
 
+/** Whether the browser's own plan and device id may be used (demo mode only). */
+function trustClientPlan(): boolean {
+  return process.env.NODE_ENV !== 'production' || process.env.DEMO_PAYMENTS === '1'
+}
+
 async function resolveCaller(req: NextRequest): Promise<Caller> {
   if (!serverSupabaseEnabled) {
+    if (!trustClientPlan()) return { subject: ipSubject(req), plan: 'free', userId: null }
     const device = req.headers.get('x-user-id')
     const subject = device && /^[\w-]{3,64}$/.test(device) ? `d:${device}` : ipSubject(req)
     return { subject, plan: getPlanById(req.headers.get('x-plan')).id, userId: null }
