@@ -4,7 +4,7 @@ const serverUrl = process.env.CAPACITOR_SERVER_URL
 
 const config: CapacitorConfig = {
   appId: 'com.roadlingo.app',
-  appName: 'RoadLingo',
+  appName: 'RoadDash',
   webDir: 'out',
   ...(serverUrl
     ? {

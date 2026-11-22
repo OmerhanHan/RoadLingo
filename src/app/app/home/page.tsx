@@ -29,7 +29,7 @@ export default function HomePage() {
       {/* Header */}
       <header className={`${styles.header} anim-fade-up`}>
         <div className={styles.greetBlock}>
-          <Image src="/logo.png" alt="RoadLingo" width={2304} height={1536} sizes="160px" loading="eager" className={styles.brandLogo} />
+          <Image src="/logo.png" alt="RoadDash" width={1536} height={1024} sizes="160px" loading="eager" className={styles.brandLogo} />
           <p className={styles.greetLabel}>{label}</p>
           <h1 className={styles.greetName}>{firstName}</h1>
           <p className={styles.greetSub}>

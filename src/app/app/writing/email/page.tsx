@@ -61,7 +61,7 @@ function AnalysisBlock({ analysis }: { analysis: EmailAnalysis }) {
   return (
     <div className={styles.feedbackMail}>
       <div className={styles.feedbackHead}>
-        <span className={styles.feedbackFrom}>RoadLingo Coach &lt;coach@roadlingo.app&gt;</span>
+        <span className={styles.feedbackFrom}>RoadDash Coach &lt;coach@roaddash.app&gt;</span>
         <span className={styles.feedbackSubject}>Re: Değerlendirme raporu</span>
       </div>
 
@@ -277,7 +277,7 @@ export default function EmailWritingPage() {
           <div className={styles.mailBrand}>
             <span className={styles.mailLogo}>✉</span>
             <div>
-              <h1 className={styles.hTitle}>RoadLingo Mail</h1>
+              <h1 className={styles.hTitle}>RoadDash Mail</h1>
               <p className={styles.hSub}>7 dk · Hızlı e-posta</p>
             </div>
           </div>

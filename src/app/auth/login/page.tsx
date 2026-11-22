@@ -42,7 +42,7 @@ export default function LoginPage() {
       <AuthShowcase />
       <div className={styles.card}>
         <div className={styles.logo}>
-          <Image src="/logo.png" alt="RoadLingo" width={2304} height={1536} sizes="160px" loading="eager" className={styles.brandLogo} />
+          <Image src="/logo.png" alt="RoadDash" width={1536} height={1024} sizes="160px" loading="eager" className={styles.brandLogo} />
           <span className={styles.logoSub}>English Writing Practice</span>
         </div>
         <hr className={styles.rule} />

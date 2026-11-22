@@ -33,7 +33,7 @@ export default function MascotSpeech({ title, text, onDone }: Props) {
       {/* unoptimized: keeps the GIF animated and the pixel art crisp */}
       <Image
         src={done ? '/mascot-idle.png' : '/mascot-talking.gif'}
-        alt="RoadLingo maskotu"
+        alt="RoadDash maskotu"
         width={128}
         height={128}
         unoptimized

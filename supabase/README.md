@@ -39,7 +39,7 @@ E-posta doğrulaması **Authentication → Providers → Email** altında açık
    - canlı adres
 3. **Authorized redirect URIs:** `https://<proje>.supabase.co/auth/v1/callback`. Bu adres Supabase'in Google sağlayıcı sayfasında da yazar.
 4. Oluşan Client ID ve Client Secret'ı Supabase'te **Authentication → Providers → Google** altına gir ve sağlayıcıyı aç.
-5. **OAuth consent screen:** Uygulama adı RoadLingo, destek e-postası ve gizlilik politikası adresi gir.
+5. **OAuth consent screen:** Uygulama adı RoadDash, destek e-postası ve gizlilik politikası adresi gir.
 
 Mobil uygulamada (Capacitor) Google girişi için ayrıca uygulama içi dönüş bağlantısı (deep link) gerekir. Bu ayrı bir adım olarak yapılacak.
 

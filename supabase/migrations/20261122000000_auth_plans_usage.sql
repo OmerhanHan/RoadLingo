@@ -1,4 +1,4 @@
--- RoadLingo: accounts, plans and daily usage.
+-- RoadDash: accounts, plans and daily usage.
 --
 -- Row Level Security is on for every table. Users can read their own rows;
 -- subscriptions, payments and usage are written only by the server (secret

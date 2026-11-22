@@ -22,7 +22,7 @@ export default function OnboardingPage() {
   return (
     <main className={styles.page}>
       <div className={styles.content}>
-        <Image src="/logo.png" alt="RoadLingo" width={2304} height={1536} sizes="160px" loading="eager" className={styles.brandLogo} />
+        <Image src="/logo.png" alt="RoadDash" width={1536} height={1024} sizes="160px" loading="eager" className={styles.brandLogo} />
 
         <MascotSpeech title="Selam 👋" text="Hangi sınava hazırlanıyorsun?" onDone={() => setDone(true)} />
 

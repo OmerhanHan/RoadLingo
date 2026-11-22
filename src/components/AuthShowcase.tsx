@@ -13,7 +13,7 @@ export default function AuthShowcase() {
   return (
     <aside className={styles.panel}>
       <Image src="/mascot-idle.png" alt="" width={128} height={128} className={styles.mascot} unoptimized />
-      <h2 className={styles.title}>Sınava RoadLingo ile hazırlan</h2>
+      <h2 className={styles.title}>Sınava RoadDash ile hazırlan</h2>
       <p className={styles.lead}>Her gün birkaç görev, anında geri bildirim ve seviyene göre içerik.</p>
 
       <div className={styles.sections}>
