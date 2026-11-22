@@ -12,6 +12,7 @@ import {
   formatTRY,
   getPlanById,
   getSubscription,
+  SUBSCRIPTION_EVENT,
   interviewsFor,
   periodEnd,
   planHeaders,
@@ -77,6 +78,13 @@ export default function PlansPage() {
   const [sub, setSub] = useState<SubscriptionState>(() => getSubscription())
   const [cycle, setCycle] = useState<'monthly' | 'yearly'>(() => (getSubscription().cycle === 'yearly' ? 'yearly' : 'monthly'))
   const [usage, setUsage] = useState<{ enforced: boolean; usage: Usage } | null>(null)
+
+  // The server copy arrives shortly after sign-in (Supabase): follow it.
+  useEffect(() => {
+    const refresh = () => setSub(getSubscription())
+    window.addEventListener(SUBSCRIPTION_EVENT, refresh)
+    return () => window.removeEventListener(SUBSCRIPTION_EVENT, refresh)
+  }, [])
 
   const [checkoutPlan, setCheckoutPlan] = useState<PlanDefinition | null>(null)
   const [cardName, setCardName] = useState('')

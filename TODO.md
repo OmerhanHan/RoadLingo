@@ -16,16 +16,17 @@ Tamamlananları `[x]` ile işaretle. Sıra kabaca önceliği gösterir.
 
 ## 1. Supabase'i bağla (kod hazır, `feat/supabase`)
 Adımlar: [supabase/README.md](supabase/README.md)
-- [ ] Supabase projesi aç (AB / Frankfurt), üç anahtarı `.env.local`'a yaz
-- [ ] `supabase/migrations/*.sql` dosyasını SQL Editor'da çalıştır
+- [x] Supabase projesi aç (AB / Frankfurt), üç anahtarı `.env.local`'a yaz
+- [x] `supabase/migrations/*.sql` dosyasını SQL Editor'da çalıştır (tablolar, sayaç fonksiyonları ve RLS doğrulandı)
 - [ ] Giriş dönüş adreslerini ekle (`/auth/callback`)
 - [ ] Google Cloud'da OAuth istemcisi aç, Supabase'te Google sağlayıcısını etkinleştir
 - [ ] Uçtan uca dene:
-  - [ ] kayıt ve e-posta doğrulama
+  - [x] e-posta + şifre ile giriş, oturumun yenilemede korunması, girişsiz isteklerin reddi
+  - [ ] kayıt ve e-posta doğrulama (gerçek bir e-posta adresiyle)
   - [ ] Google girişi
   - [ ] şifre sıfırlama
-  - [ ] demo ödeme ve iptal
-  - [ ] `QUOTA_ENFORCE=1` ile günlük sayaçlar
+  - [x] demo ödeme ve iptal
+  - [x] `QUOTA_ENFORCE=1` ile günlük sayaçlar
 - [ ] `feat/supabase` için PR aç ve main'e birleştir
 
 ## 2. Kullanıcı verisini sunucuya taşı (Aşama 3)

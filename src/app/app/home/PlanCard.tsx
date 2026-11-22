@@ -1,7 +1,8 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { activePlanId, getPlanById, getSubscription, interviewsFor, planHeaders, type LimitKind } from '@/lib/plans'
+import { activePlanId, getPlanById, interviewsFor, planHeaders, type LimitKind } from '@/lib/plans'
+import { useSubscription } from '@/lib/useSubscription'
 import styles from './home.module.css'
 
 type Usage = Record<LimitKind, { used: number; limit: number }>
@@ -11,12 +12,12 @@ const shortDate = (iso: string) => new Date(iso).toLocaleDateString('tr-TR', { d
 /** Home entry point to the plans page: today's allowance on free, plan status on paid. */
 export default function PlanCard() {
   const router = useRouter()
-  // Rendered client-only (AppLayout waits for auth), so localStorage is safe to read here.
-  const [sub] = useState(() => getSubscription())
+  const sub = useSubscription()
   const [usage, setUsage] = useState<Usage | null>(null)
   const planId = activePlanId(sub)
   const plan = getPlanById(planId)
 
+  // The limits depend on the plan, so usage is reloaded when it changes.
   useEffect(() => {
     const ctrl = new AbortController()
     fetch('/api/usage', { headers: planHeaders(), signal: ctrl.signal })
@@ -24,7 +25,7 @@ export default function PlanCard() {
       .then((d) => setUsage(d.usage))
       .catch(() => {})
     return () => ctrl.abort()
-  }, [])
+  }, [planId])
 
   const left = (k: LimitKind) => (usage ? Math.max(0, usage[k].limit - usage[k].used) : plan.limits[k])
   const scoringLeft = left('scoring')
@@ -40,7 +41,7 @@ export default function PlanCard() {
       ? 'Bugünkü hakların bitti, yarın yenilenir.'
       : `Bugün ${scoringLeft} yazı değerlendirmesi, ${interviewsLeft} canlı mülakat hakkın var.`
     : `Bugün ${scoringLeft} değerlendirme, ${interviewsLeft} mülakat · ${
-        sub.cycle === 'once' || sub.status === 'canceled' ? `${shortDate(sub.renewsAt)}'e kadar` : `yenileme ${shortDate(sub.renewsAt)}`
+        sub.cycle === 'once' || sub.status === 'canceled' ? `bitiş ${shortDate(sub.renewsAt)}` : `yenileme ${shortDate(sub.renewsAt)}`
       }`
 
   return (

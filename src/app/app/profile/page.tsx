@@ -1,9 +1,10 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useSubscription } from '@/lib/useSubscription'
 import { useAuth } from '@/contexts/AuthContext'
 import { getStats } from '@/lib/storage'
-import { activePlanId, getPlanById, getSubscription } from '@/lib/plans'
+import { activePlanId, getPlanById } from '@/lib/plans'
 import styles from './profile.module.css'
 import PlanBadge from './PlanBadge'
 
@@ -25,7 +26,7 @@ export default function ProfilePage() {
   const router = useRouter()
   // Rendered client-only (AppLayout waits for auth), so localStorage is safe to read here.
   const [stats] = useState(() => getStats())
-  const [planName] = useState(() => getPlanById(activePlanId(getSubscription())).name)
+  const planName = getPlanById(activePlanId(useSubscription())).name
   const [modal, setModal] = useState(false)
 
   const firstName = user?.name?.split(' ')[0] || ''
