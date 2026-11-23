@@ -26,6 +26,10 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # Route types such as RouteContext are generated into .next/types,
+      # which a fresh checkout does not have yet.
+      - name: Generate route types
+        run: npx next typegen
       - name: Type check
         run: npx tsc --noEmit
       - name: Lint
