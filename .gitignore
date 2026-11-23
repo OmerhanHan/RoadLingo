@@ -67,3 +67,6 @@ next-env.d.ts
 
 # local caches (synthesized speech)
 /.cache/
+
+# personal to-do list (kept locally, holds test account details)
+/TODO.md
