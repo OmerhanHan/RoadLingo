@@ -18,7 +18,8 @@ import { EMAILS, WRITINGS } from './seed/demo-data.mjs'
 
 const EMBEDDING_MODEL = 'nomic-embed-text'
 const EMBEDDING_DIMENSIONS = 256
-const SIMILAR_THRESHOLD = 0.75
+/** Same as SIMILARITY_FLOOR in src/lib/vectors/writings.ts. */
+const SIMILAR_THRESHOLD = 0.7
 
 function arg(name, fallback) {
   const i = process.argv.indexOf(`--${name}`)

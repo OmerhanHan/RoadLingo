@@ -39,8 +39,9 @@ const GAMES: GameCard[] = [
     id: 'daily',
     emoji: '📅',
     title: 'Günün Bulmacası',
-    skill: 'Herkese aynı görev',
-    desc: 'Her gün yeni bir tur, serini koru ve sıralamada yerini gör.',
+    skill: 'Kelime · Her gün yeni',
+    desc: 'Herkese aynı kelime: Türkçe anlamından İngilizcesini bul, serini koru, sıralamada yerini gör.',
+    href: '/app/games/daily',
     accent: 'slate',
   },
 ]

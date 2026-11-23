@@ -1,0 +1,142 @@
+.page { display: flex; flex-direction: column; gap: 18px; }
+
+.intro { display: flex; flex-direction: column; gap: 16px; }
+.rules {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 0;
+  border-top: 1.5px dashed var(--border);
+  border-bottom: 1.5px dashed var(--border);
+}
+.rules li { display: flex; gap: 10px; font-size: 13.5px; line-height: 1.5; color: var(--text-2); }
+.rules li > span { width: 20px; text-align: center; flex-shrink: 0; }
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 18px;
+  background: var(--warm-white);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-xs);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+.cardHead { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.pos {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius-xs);
+  background: var(--slate-light);
+}
+.stats { display: flex; gap: 14px; font-family: var(--font-mono); font-size: 12px; color: var(--text-2); }
+.stats strong { color: var(--ink); }
+
+.meaning { font-family: var(--font-serif); font-size: 22px; line-height: 1.35; color: var(--ink); }
+
+/* Letter slots: hangman-style, no per-guess colouring. */
+.letters { display: flex; flex-wrap: wrap; gap: 6px; }
+.letter {
+  width: 30px;
+  height: 38px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 4px;
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  border-bottom: 3px solid var(--border-dark);
+}
+.letterShown { border-bottom-color: var(--ink); }
+.letterSolved { color: var(--sage-dark); border-bottom-color: var(--sage-dark); }
+
+.hints { display: flex; flex-direction: column; gap: 12px; padding: 14px 0; border-top: 1.5px dashed var(--border); }
+.hint { display: flex; flex-direction: column; gap: 4px; }
+.sentence { font-family: var(--font-serif); font-size: 18px; line-height: 1.6; color: var(--ink); overflow-wrap: anywhere; }
+.blank {
+  display: inline-block;
+  min-width: 64px;
+  padding: 0 6px;
+  margin: 0 2px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: var(--text-3);
+  border-bottom: 2.5px solid var(--ink);
+}
+.definition { font-size: 15px; line-height: 1.55; color: var(--text-2); font-style: italic; }
+
+.tried { display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px; color: var(--text-3); }
+.tried s { font-family: var(--font-mono); color: var(--text-2); }
+
+.guessRow { display: flex; gap: 10px; }
+.input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 14px;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  color: var(--ink);
+  background: var(--cream);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-xs);
+}
+.input:focus { outline: none; box-shadow: 3px 3px 0 var(--ink); }
+.guessBtn {
+  flex-shrink: 0;
+  padding: 0 16px;
+  font-weight: 600;
+  color: var(--cream);
+  background: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-xs);
+}
+.guessBtn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.actions { display: flex; flex-direction: column; gap: 8px; }
+.muted { font-size: 12.5px; line-height: 1.5; color: var(--text-3); }
+
+.result { display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; border-radius: var(--radius-xs); }
+.resultGood { background: var(--sage-light); border: 1.5px solid var(--sage-dark); }
+.resultBad { background: var(--rose-light); border: 1.5px solid var(--dusty-rose); }
+.resultTitle { font-size: 15px; color: var(--ink); }
+.note { font-size: 13.5px; line-height: 1.5; color: var(--text-2); }
+
+.summary { display: flex; flex-direction: column; align-items: stretch; gap: 14px; text-align: left; }
+.board { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.boardRow {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto 40px;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  font-size: 14px;
+  border-radius: var(--radius-xs);
+}
+.boardRow:nth-child(odd) { background: var(--cream); }
+.boardMe { background: var(--butter-light) !important; border: 1.5px solid var(--ink); }
+.boardGap { margin-top: 8px; }
+.rank { font-family: var(--font-mono); font-weight: 600; color: var(--text-3); }
+.boardName { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); }
+.boardTime { font-family: var(--font-mono); font-size: 12px; color: var(--text-3); }
+.boardScore { font-family: var(--font-mono); font-weight: 600; text-align: right; color: var(--ink); }
+
+.nickLine { font-size: 13.5px; color: var(--text-2); }
+.nickForm { display: flex; flex-direction: column; gap: 8px; padding-top: 12px; border-top: 1.5px dashed var(--border); }
+.linkBtn { padding: 0; font: inherit; color: var(--ink); text-decoration: underline; background: none; border: none; cursor: pointer; }
+.next { font-family: var(--font-mono); font-size: 12px; color: var(--text-2); }
+.linkCard { display: flex; align-items: center; justify-content: center; text-align: center; }
+
+@media (min-width: 1024px) {
+  .page { max-width: 720px; padding: 0 40px 48px; }
+  .card { padding: 26px 28px; }
+  .meaning { font-size: 26px; }
+  .letter { width: 36px; height: 44px; font-size: 21px; }
+}

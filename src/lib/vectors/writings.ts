@@ -83,10 +83,12 @@ export type SimilarWriting = {
 
 /**
  * Below this the writings are about different things. Measured with
- * nomic-embed-text at 256 dimensions: two essays on free university ≈ 0.85,
- * unrelated essays 0.5–0.65.
+ * nomic-embed-text at 256 dimensions on 250–300 word essays
+ * (npm run seed:demo): same theme 0.66–0.80, different themes mostly below
+ * 0.70 (highest 0.78). Short one-sentence texts score higher, so measure with
+ * real-length essays when changing it. Keep scripts/seed-demo.mjs in step.
  */
-export const SIMILARITY_FLOOR = 0.75
+export const SIMILARITY_FLOOR = 0.7
 
 /** The user's other writings closest in meaning to this one ([] while it has no vector yet). */
 export async function similarWritings(userId: string, writingId: string, count = 3): Promise<SimilarWriting[]> {
