@@ -9,7 +9,8 @@
     "lint": "eslint",
     "generate:epubs": "node scripts/generate-sample-epubs.mjs",
     "tts:pocket": "pocket-tts serve --port 8765 --default-voice marius",
-    "content:generate": "node scripts/generate-content.mjs"
+    "content:generate": "node scripts/generate-content.mjs",
+    "seed:demo": "node --env-file=.env.local scripts/seed-demo.mjs"
   },
   "dependencies": {
     "@capacitor/core": "^8.6.2",
