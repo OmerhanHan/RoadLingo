@@ -6,10 +6,15 @@ import {
   LIMIT_LABEL,
   PLANS,
   activePlanId,
+  checkoutCycle as cycleFor,
+  checkoutTotal,
+  couponDiscount,
   formatTRY,
   getPlanById,
   getSubscription,
+  SUBSCRIPTION_EVENT,
   interviewsFor,
+  periodEnd,
   planHeaders,
   saveSubscription,
   type BillingCycle,
@@ -17,7 +22,20 @@ import {
   type PlanDefinition,
   type SubscriptionState,
 } from '@/lib/plans'
+import { supabaseConfigured } from '@/lib/auth/config'
 import styles from './plans.module.css'
+
+/** Supabase mode: the server records the (demo) payment and returns the new subscription. */
+async function postSubscription(body: Record<string, unknown>): Promise<SubscriptionState> {
+  const res = await fetch('/api/subscription', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...planHeaders() },
+    body: JSON.stringify(body),
+  })
+  const data = await res.json().catch(() => ({}))
+  if (!res.ok) throw new Error(data.error || 'İşlem tamamlanamadı.')
+  return data as SubscriptionState
+}
 
 const FAQ_ITEMS = [
   {
@@ -61,13 +79,20 @@ export default function PlansPage() {
   const [cycle, setCycle] = useState<'monthly' | 'yearly'>(() => (getSubscription().cycle === 'yearly' ? 'yearly' : 'monthly'))
   const [usage, setUsage] = useState<{ enforced: boolean; usage: Usage } | null>(null)
 
+  // The server copy arrives shortly after sign-in (Supabase): follow it.
+  useEffect(() => {
+    const refresh = () => setSub(getSubscription())
+    window.addEventListener(SUBSCRIPTION_EVENT, refresh)
+    return () => window.removeEventListener(SUBSCRIPTION_EVENT, refresh)
+  }, [])
+
   const [checkoutPlan, setCheckoutPlan] = useState<PlanDefinition | null>(null)
   const [cardName, setCardName] = useState('')
   const [cardNumber, setCardNumber] = useState('')
   const [expiry, setExpiry] = useState('')
   const [cvc, setCvc] = useState('')
   const [promoInput, setPromoInput] = useState('')
-  const [promoApplied, setPromoApplied] = useState(false)
+  const [promoApplied, setPromoApplied] = useState<string | null>(null)
   const [promoMsg, setPromoMsg] = useState<{ ok: boolean; text: string } | null>(null)
   const [formError, setFormError] = useState<string | null>(null)
   const [processing, setProcessing] = useState(false)
@@ -94,13 +119,10 @@ export default function PlansPage() {
     return () => ctrl.abort()
   }, [activeId])
 
-  const checkoutCycle = (plan: PlanDefinition): BillingCycle => (plan.passMonths ? 'once' : cycle)
+  const checkoutCycle = (plan: PlanDefinition): BillingCycle => cycleFor(plan, cycle)
 
-  const computeTotal = (plan: PlanDefinition) => {
-    const base = plan.passMonths ? plan.price : cycle === 'yearly' ? (plan.yearlyMonthlyPrice ?? plan.price) * 12 : plan.price
-    const discount = promoApplied ? Math.round(base * 0.2) : 0
-    return { base, discount, total: Math.max(0, base - discount) }
-  }
+  const appliedCoupon = promoApplied
+  const computeTotal = (plan: PlanDefinition) => checkoutTotal(plan, checkoutCycle(plan), appliedCoupon)
 
   const openCheckout = (plan: PlanDefinition) => {
     if (plan.id === 'free') {
@@ -111,7 +133,7 @@ export default function PlansPage() {
     setFormError(null)
     setPaidSuccess(false)
     setPromoMsg(null)
-    setPromoApplied(false)
+    setPromoApplied(null)
     setPromoInput('')
   }
 
@@ -132,11 +154,11 @@ export default function PlansPage() {
   const handleApplyPromo = () => {
     const code = promoInput.trim().toUpperCase()
     if (!code) return
-    if (code === 'ROAD20') {
-      setPromoApplied(true)
+    if (couponDiscount(code) > 0) {
+      setPromoApplied(code)
       setPromoMsg({ ok: true, text: 'ROAD20 uygulandı: ilk ödemede %20 indirim.' })
     } else {
-      setPromoApplied(false)
+      setPromoApplied(null)
       setPromoMsg({ ok: false, text: 'Geçersiz kupon kodu.' })
     }
   }
@@ -158,16 +180,33 @@ export default function PlansPage() {
     const { total } = computeTotal(checkoutPlan)
     const last4 = digits.slice(-4)
     const brand = digits.startsWith('4') ? 'Visa' : digits.startsWith('5') ? 'Mastercard' : 'Kart'
-    const ends = new Date()
-    if (planCycle === 'once') ends.setMonth(ends.getMonth() + (checkoutPlan.passMonths ?? 3))
-    else if (planCycle === 'yearly') ends.setFullYear(ends.getFullYear() + 1)
-    else ends.setMonth(ends.getMonth() + 1)
+
+    if (supabaseConfigured) {
+      try {
+        const updated = await postSubscription({
+          action: 'checkout',
+          planId: checkoutPlan.id,
+          cycle,
+          coupon: appliedCoupon,
+          cardLast4: last4,
+          cardBrand: brand,
+        })
+        saveSubscription(updated)
+        setSub(updated)
+        setPaidSuccess(true)
+      } catch (err) {
+        setFormError(err instanceof Error ? err.message : 'Ödeme tamamlanamadı.')
+      } finally {
+        setProcessing(false)
+      }
+      return
+    }
 
     const updated: SubscriptionState = {
       planId: checkoutPlan.id,
       cycle: planCycle,
       status: 'active',
-      renewsAt: ends.toISOString(),
+      renewsAt: periodEnd(checkoutPlan, planCycle).toISOString(),
       cardLast4: last4,
       cardBrand: brand,
       payments: [
@@ -182,8 +221,17 @@ export default function PlansPage() {
   }
 
   /** Pro: stop renewal (benefits last until the period ends). */
-  const handleCancel = () => {
-    const updated: SubscriptionState = { ...sub, status: 'canceled' }
+  const handleCancel = async () => {
+    let updated: SubscriptionState = { ...sub, status: 'canceled' }
+    if (supabaseConfigured) {
+      try {
+        updated = await postSubscription({ action: 'cancel' })
+      } catch (err) {
+        setConfirmCancel(false)
+        showToast(err instanceof Error ? err.message : 'İptal edilemedi.')
+        return
+      }
+    }
     saveSubscription(updated)
     setSub(updated)
     setConfirmCancel(false)
@@ -275,6 +323,27 @@ export default function PlansPage() {
             </article>
           )
         })}
+
+        <article id="plan-business" className={`${styles.planCard} ${styles.planCardSoon}`}>
+          <div className={styles.soonText}>
+            <div className={styles.planNameRow}>
+              <h2 className={styles.planName}>Kurumsal</h2>
+              <span className={`${styles.planBadge} ${styles.badge_paper}`}>Yakında</span>
+            </div>
+            <p className={styles.planTagline}>Dershaneler, okullar ve şirketler için</p>
+          </div>
+          <ul className={styles.soonList}>
+            {['Toplu öğrenci hesabı ve tek fatura', 'Öğretmen paneli: ödev ve deneme sınavı', 'Öğrenci ilerleme ve puan raporları'].map((feat) => (
+              <li key={feat} className={styles.featureItem}>
+                <span className={styles.soonDot}>◦</span>
+                <span>{feat}</span>
+              </li>
+            ))}
+          </ul>
+          <button className={`${styles.planBtn} ${styles.planBtnOutline} ${styles.soonBtn}`} disabled>
+            Yakında
+          </button>
+        </article>
       </section>
 
       {usage && (

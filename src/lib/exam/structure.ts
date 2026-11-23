@@ -121,7 +121,7 @@ export const TOEFL_SECTIONS: SkillSection[] = [
       {
         id: 'listen-repeat', title: 'Listen and Repeat', titleTr: 'Dinle ve Tekrarla', emoji: '🔁',
         desc: 'Duyduğun cümleyi aynı telaffuz ve tonla tekrar et.',
-        status: 'soon',
+        status: 'ready', href: '/app/speaking/listen-repeat',
       },
       {
         id: 'interview', title: 'Take an Interview', titleTr: 'Mülakat', emoji: '🎤',

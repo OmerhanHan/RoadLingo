@@ -2,9 +2,10 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
-import { getStats } from '@/lib/storage'
+import { EMPTY_STATS } from '@/lib/storage'
+import { loadStats } from '@/lib/data/client'
+import { useLoad } from '@/lib/data/useLoad'
 import { TOEFL_SECTIONS } from '@/lib/exam/structure'
-import { useState } from 'react'
 import styles from './home.module.css'
 import PlanCard from './PlanCard'
 
@@ -18,8 +19,7 @@ function greeting(name: string) {
 export default function HomePage() {
   const { user } = useAuth()
   const router   = useRouter()
-  // Rendered client-only (AppLayout waits for auth), so localStorage is safe to read here.
-  const [stats] = useState(() => getStats())
+  const { data: stats = EMPTY_STATS } = useLoad('stats', loadStats)
 
   const firstName = user?.name?.split(' ')[0] || 'Kullanıcı'
   const { label }  = greeting(firstName)
@@ -29,7 +29,7 @@ export default function HomePage() {
       {/* Header */}
       <header className={`${styles.header} anim-fade-up`}>
         <div className={styles.greetBlock}>
-          <Image src="/logo.png" alt="RoadLingo" width={2304} height={1536} sizes="160px" loading="eager" className={styles.brandLogo} />
+          <Image src="/logo.png" alt="RoadDash" width={1536} height={1024} sizes="160px" loading="eager" className={styles.brandLogo} />
           <p className={styles.greetLabel}>{label}</p>
           <h1 className={styles.greetName}>{firstName}</h1>
           <p className={styles.greetSub}>
@@ -76,6 +76,15 @@ export default function HomePage() {
           )
         })}
       </div>
+
+      <button id="home-games" className={`${styles.historyRow} ${styles.gamesRow} anim-fade-up d3`} onClick={() => router.push('/app/games')}>
+        <span className={styles.cardEmoji}>🔍</span>
+        <span className={styles.historyText}>
+          <span className={styles.cardTitle}>Oyunlar</span>
+          <span className={styles.cardDesc}>Hata Avı ve Kelime Yolculuğu · Kısa turlar, sınırsız</span>
+        </span>
+        <span className={styles.historyArrow}>→</span>
+      </button>
 
       <button id="home-history" className={`${styles.historyRow} anim-fade-up d3`} onClick={() => router.push('/app/history')}>
         <span className={styles.cardEmoji}>📁</span>

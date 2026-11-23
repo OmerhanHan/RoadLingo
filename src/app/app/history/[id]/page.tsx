@@ -1,8 +1,8 @@
 'use client'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
-import { getWritingById } from '@/lib/storage'
-import type { Writing } from '@/lib/supabase'
+import { cloudData, getWriting, listSimilarWritings } from '@/lib/data/client'
+import { useLoad } from '@/lib/data/useLoad'
 import styles from './detail.module.css'
 
 function bandColor(s: number) { return s >= 7 ? '#7A9E7E' : s >= 5.5 ? '#C9A84C' : '#B07070' }
@@ -26,11 +26,22 @@ export default function DetailPage() {
   const router = useRouter()
   const params = useParams()
   const id = typeof params.id === 'string' ? params.id : null
-  const writing = useMemo<Writing | null>(() => (id ? getWritingById(id) : null), [id])
+  const { data: writing, error, loading } = useLoad(id, () => (id ? getWriting(id) : Promise.resolve(null)))
+  const { data: similar } = useLoad(cloudData && id ? `similar:${id}` : null, () => listSimilarWritings(id!))
   const [tabChoice, setTab] = useState<'feedback' | 'essay' | null>(null)
   const tab = tabChoice ?? (writing?.has_feedback ? 'feedback' : 'essay')
 
-  if (!writing) return <div className={styles.loading}><div className={styles.spinnerInk} /></div>
+  if (loading) return <div className={styles.loading}><div className={styles.spinnerInk} /></div>
+  if (!writing) {
+    return (
+      <main className={styles.page}>
+        <header className={`${styles.header} anim-fade-up`}>
+          <button id="back-btn" className={styles.back} onClick={() => router.push('/app/history')}>←</button>
+        </header>
+        <p className={styles.noFb}>{error ? 'Yazı yüklenemedi. Bağlantını kontrol edip tekrar dene.' : 'Bu yazı bulunamadı.'}</p>
+      </main>
+    )
+  }
 
   const fb = writing.feedback
   const bc = fb ? bandColor(fb.band_score) : '#8C7D65'
@@ -85,6 +96,10 @@ export default function DetailPage() {
               <div className={styles.bandMeta}>
                 <h2 className={styles.bandTitle}>Band Score</h2>
                 <p className={styles.bandSub}>IELTS Writing Task 2 tahmini</p>
+                {fb.source === 'mock' && (
+                  <p className={styles.sampleNote}>Örnek değerlendirme: yapay zekâ bağlı değilken üretildi, ortalamaya sayılmaz.</p>
+                )}
+                {fb.source === 'import' && <p className={styles.sampleNote}>Hesap açılmadan önce bu cihazda yapılan değerlendirme.</p>}
               </div>
             </div>
 
@@ -141,6 +156,25 @@ export default function DetailPage() {
       </div>
 
       {!fb && <p className={styles.noFb}>Bu yazı için AI analizi yapılmadı.</p>}
+
+      {similar && similar.length > 0 && (
+        <section className={`${styles.similar} anim-fade-up`} aria-labelledby="similar-title">
+          <span id="similar-title" className={styles.secLabel}>🧭 Bu konuya yakın yazıların</span>
+          <ul className={styles.similarList}>
+            {similar.map(s => (
+              <li key={s.id}>
+                <button id={`similar-${s.id}`} className={styles.similarItem} onClick={() => router.push(`/app/history/${s.id}`)}>
+                  <span className={styles.similarTopic}>{s.topic}</span>
+                  <span className={styles.similarMeta}>
+                    {new Date(s.created_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })}
+                    {s.band_score !== null && <> · Band {s.band_score}</>}
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </main>
   )
 }

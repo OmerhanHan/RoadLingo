@@ -6,10 +6,12 @@
  * prep is usually bought. Daily limits cap the AI cost per user; they are
  * enforced on the server by src/lib/usage/quota.ts.
  *
- * Payments are a demo for now (no payment provider): the subscription lives
- * in localStorage and the plan is sent to the server in the X-Plan header.
- * With a real provider the plan must come from the backend instead.
+ * Payments are a demo for now (no payment provider). With Supabase the
+ * subscription is stored by the server (/api/subscription) and localStorage
+ * only caches it for the UI; without Supabase it lives in localStorage alone.
  */
+import { accessToken } from '@/lib/auth/token'
+import { supabaseConfigured } from '@/lib/auth/config'
 
 export type PlanId = 'free' | 'pro' | 'exam'
 export type BillingCycle = 'monthly' | 'yearly' | 'once'
@@ -124,7 +126,37 @@ export function formatTRY(amount: number): string {
   return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(amount)
 }
 
-/* ── Client-side (demo) subscription state ── */
+/* ── Checkout (shared by the plans page and /api/subscription) ── */
+
+/** Coupon code → discount on the first payment. */
+export const COUPONS: Record<string, number> = { ROAD20: 0.2 }
+
+export function couponDiscount(code: string | null | undefined): number {
+  return COUPONS[(code ?? '').trim().toUpperCase()] ?? 0
+}
+
+/** Billing cycle a checkout uses: an exam pass is always a one-time payment. */
+export function checkoutCycle(plan: PlanDefinition, cycle: 'monthly' | 'yearly'): BillingCycle {
+  return plan.passMonths ? 'once' : cycle
+}
+
+export function checkoutTotal(plan: PlanDefinition, cycle: BillingCycle, coupon?: string | null) {
+  const base =
+    cycle === 'once' ? plan.price : cycle === 'yearly' ? (plan.yearlyMonthlyPrice ?? plan.price) * 12 : plan.price
+  const discount = Math.round(base * couponDiscount(coupon))
+  return { base, discount, total: Math.max(0, base - discount) }
+}
+
+/** End of the period a checkout pays for (renewal date, or pass end). */
+export function periodEnd(plan: PlanDefinition, cycle: BillingCycle, from = new Date()): Date {
+  const end = new Date(from)
+  if (cycle === 'once') end.setMonth(end.getMonth() + (plan.passMonths ?? 3))
+  else if (cycle === 'yearly') end.setFullYear(end.getFullYear() + 1)
+  else end.setMonth(end.getMonth() + 1)
+  return end
+}
+
+/* ── Subscription state (cached in localStorage for the UI) ── */
 
 export interface PaymentRecord {
   id: string
@@ -152,7 +184,7 @@ const SUB_KEY = 'writer_subscription'
 export const SUBSCRIPTION_EVENT = 'roadlingo:subscription'
 const DEVICE_KEY = 'roadlingo_device_id'
 
-function defaultSubscription(): SubscriptionState {
+export function defaultSubscription(): SubscriptionState {
   return { planId: 'free', cycle: 'monthly', status: 'active', renewsAt: new Date().toISOString(), cardLast4: '', cardBrand: '', payments: [] }
 }
 
@@ -168,6 +200,15 @@ export function getSubscription(): SubscriptionState {
   }
 }
 
+export function clearSubscription(): void {
+  try {
+    localStorage.removeItem(SUB_KEY)
+  } catch {
+    /* storage unavailable */
+  }
+  window.dispatchEvent(new Event(SUBSCRIPTION_EVENT))
+}
+
 export function saveSubscription(sub: SubscriptionState): void {
   try {
     localStorage.setItem(SUB_KEY, JSON.stringify(sub))
@@ -177,8 +218,13 @@ export function saveSubscription(sub: SubscriptionState): void {
   window.dispatchEvent(new Event(SUBSCRIPTION_EVENT))
 }
 
-/** The plan in effect right now (an expired exam pass or canceled Pro falls back to free). */
-export function activePlanId(sub: SubscriptionState = getSubscription()): PlanId {
+/**
+ * The plan in effect right now (an expired exam pass or canceled Pro falls
+ * back to free). Pure when `sub` is passed, so the server uses it too.
+ */
+export function activePlanId(
+  sub: Pick<SubscriptionState, 'planId' | 'cycle' | 'status' | 'renewsAt'> = getSubscription()
+): PlanId {
   if (sub.planId === 'free') return 'free'
   const ended = new Date(sub.renewsAt).getTime() < Date.now()
   if (ended && (sub.cycle === 'once' || sub.status === 'canceled')) return 'free'
@@ -198,8 +244,17 @@ function deviceId(): string {
   }
 }
 
-/** Headers for AI endpoints so the server can apply the plan's daily limits. */
+/**
+ * Headers for AI endpoints so the server can apply the plan's daily limits.
+ * With Supabase the server identifies the user from the access token and
+ * reads the plan itself; the X-Plan / X-User-Id headers are only the local
+ * demo mode and are ignored there.
+ */
 export function planHeaders(): Record<string, string> {
   if (typeof window === 'undefined') return {}
+  if (supabaseConfigured) {
+    const token = accessToken()
+    return token ? { Authorization: `Bearer ${token}` } : {}
+  }
   return { 'X-Plan': activePlanId(), 'X-User-Id': deviceId() }
 }

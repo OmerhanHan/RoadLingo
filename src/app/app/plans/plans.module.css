@@ -297,6 +297,33 @@
   box-shadow: 4px 4px 0 var(--border-dark);
 }
 
+/* Kurumsal: announced, not for sale yet */
+.planCardSoon {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--paper);
+  border-style: dashed;
+  border-color: var(--border-dark);
+}
+.soonList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.soonDot {
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}
+.soonBtn:disabled {
+  cursor: default;
+  color: var(--text-3);
+  border-color: var(--border-dark);
+  box-shadow: none;
+}
+
 .planBtnActive {
   background: var(--sage-light);
   color: var(--sage-dark);
@@ -731,6 +758,19 @@
   .planTop { flex-direction: column; gap: 14px; }
   .priceBlock { text-align: left; }
   .featureList { flex: 1; }
+
+  /* Kurumsal spans the row: name, features and button side by side. */
+  .planCardSoon {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    gap: 28px;
+    padding: 20px 24px;
+  }
+  .planCardSoon:hover { transform: none; }
+  .soonText { flex: 0 0 230px; }
+  .soonList { flex: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .soonBtn { width: auto; flex-shrink: 0; padding: 12px 22px; }
 
   .planGrid ~ .sectionTitle,
   .planGrid ~ section { max-width: 760px; }

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getTtsConfig, synthesizeWithFallback } from '@/lib/speaking/tts'
 import { readTtsCache, ttsCacheKey, writeTtsCache } from '@/lib/speaking/tts/cache'
 import { consumeBudget, refundBudget } from '@/lib/usage/quota'
+import { badRequest, guard, readJson, serverError } from '@/lib/security/guard'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -14,21 +15,18 @@ type Body = {
 }
 
 export async function POST(req: NextRequest) {
+  const denied = await guard(req, 'tts', { auth: true })
+  if (denied) return denied
+  const parsed = await readJson<Body>(req, 16_000)
+  if (!parsed.ok) return parsed.response
+  const body = parsed.body
+
   try {
-    const body = (await req.json()) as Body
     const text = typeof body.text === 'string' ? body.text.trim() : ''
     const config = getTtsConfig()
 
-    if (!text) {
-      return NextResponse.json({ error: 'text required' }, { status: 400 })
-    }
-
-    if (text.length > config.maxChars) {
-      return NextResponse.json(
-        { error: `text too long (max ${config.maxChars})` },
-        { status: 400 }
-      )
-    }
+    if (!text) return badRequest('text required')
+    if (text.length > config.maxChars) return badRequest(`text too long (max ${config.maxChars})`)
 
     // The provider is the server's choice (TTS_PROVIDER) in production: a client
     // must not be able to pick a paid voice (openai). Outside production it can
@@ -52,7 +50,7 @@ export async function POST(req: NextRequest) {
 
     // Cached audio costs nothing; only new synthesis counts against the daily
     // character budget. Past it the clients fall back to the browser voice.
-    if (!cached && !consumeBudget(req, 'ttsChars', text.length)) {
+    if (!cached && !(await consumeBudget(req, 'ttsChars', text.length))) {
       return NextResponse.json(
         { error: 'Bugünkü sunucu sesi sınırı doldu; tarayıcı sesi kullanılacak.', code: 'tts_limit' },
         { status: 429, headers: { 'Retry-After': '3600' } }
@@ -69,7 +67,7 @@ export async function POST(req: NextRequest) {
           voice,
         }))
     } catch (err) {
-      if (!cached) refundBudget(req, 'ttsChars', text.length)
+      if (!cached) await refundBudget(req, 'ttsChars', text.length)
       throw err
     }
     // Only cache the intended provider's voice, not a lower-quality fallback.
@@ -86,13 +84,6 @@ export async function POST(req: NextRequest) {
       },
     })
   } catch (err) {
-    console.error('[speaking/tts]', err)
-    return NextResponse.json(
-      {
-        error: 'TTS failed',
-        detail: err instanceof Error ? err.message : String(err),
-      },
-      { status: 500 }
-    )
+    return serverError('speaking/tts', err, 'Ses oluşturulamadı')
   }
 }

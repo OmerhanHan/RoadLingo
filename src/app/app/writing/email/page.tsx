@@ -1,22 +1,17 @@
 'use client'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { QuotaError } from '@/lib/upgrade'
 import { useRouter } from 'next/navigation'
 import {
   EMAIL_CATEGORY_LABELS,
   EMAIL_SCORE_LABELS,
-  analyzeEmail,
   formatEmailDraft,
   pickRandomEmailScenario,
   type EmailAnalysis,
   type EmailScenario,
   type EmailScoreKey,
 } from '@/lib/emailAnalysis'
-import {
-  getEmailExercises,
-  saveEmailExercise,
-  type EmailExercise,
-} from '@/lib/emailStorage'
+import type { EmailExercise } from '@/lib/emailStorage'
+import { listEmailExercises, submitEmailExercise } from '@/lib/data/client'
 import styles from './email.module.css'
 
 const DURATION_SEC = 7 * 60
@@ -57,11 +52,14 @@ function applyScenarioFields(
   setSubject(s.subject)
 }
 
-function AnalysisBlock({ analysis }: { analysis: EmailAnalysis }) {
+function AnalysisBlock({ analysis, source }: { analysis: EmailAnalysis; source?: EmailExercise['analysis_source'] }) {
   return (
     <div className={styles.feedbackMail}>
+      {source === 'mock' && (
+        <p className={styles.sampleNote}>Örnek değerlendirme: yapay zekâ bağlı değilken üretildi.</p>
+      )}
       <div className={styles.feedbackHead}>
-        <span className={styles.feedbackFrom}>RoadLingo Coach &lt;coach@roadlingo.app&gt;</span>
+        <span className={styles.feedbackFrom}>RoadDash Coach &lt;coach@roaddash.app&gt;</span>
         <span className={styles.feedbackSubject}>Re: Değerlendirme raporu</span>
       </div>
 
@@ -104,8 +102,8 @@ function AnalysisBlock({ analysis }: { analysis: EmailAnalysis }) {
 export default function EmailWritingPage() {
   const router = useRouter()
   const [tab, setTab] = useState<Tab>('compose')
-  // Client-only render (AppLayout), so localStorage / Math.random are safe in initializers.
-  const [history, setHistory] = useState<EmailExercise[]>(() => getEmailExercises())
+  // Client-only render (AppLayout), so Math.random is safe in initializers.
+  const [history, setHistory] = useState<EmailExercise[]>([])
   const [selectedId, setSelectedId] = useState<string | null>(null)
 
   const [scenario, setScenario] = useState<EmailScenario>(() => pickRandomEmailScenario())
@@ -119,6 +117,7 @@ export default function EmailWritingPage() {
   const [copied, setCopied] = useState(false)
   const [analyzing, setAnalyzing] = useState(false)
   const [analysis, setAnalysis] = useState<EmailAnalysis | null>(null)
+  const [analysisSource, setAnalysisSource] = useState<EmailExercise['analysis_source']>(null)
   const [analyzeError, setAnalyzeError] = useState<string | null>(null)
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -132,8 +131,12 @@ export default function EmailWritingPage() {
   }, [to, subject, body, scenario])
 
   const refreshHistory = useCallback(() => {
-    setHistory(getEmailExercises())
+    listEmailExercises().then(setHistory, (e: unknown) => console.warn('[email] history', e))
   }, [])
+
+  useEffect(() => {
+    refreshHistory()
+  }, [refreshHistory])
 
   const canEdit = running && !finished
   const wordCount = body.trim().split(/\s+/).filter(Boolean).length
@@ -147,39 +150,24 @@ export default function EmailWritingPage() {
 
     const draft = draftRef.current
     const sc = scenarioRef.current
-    const words = draft.body.trim().split(/\s+/).filter(Boolean).length
     setCopied(false)
     setAnalyzing(true)
     setAnalyzeError(null)
     setAnalysis(null)
 
-    let result: EmailAnalysis | null = null
     try {
-      result = await analyzeEmail({
-        to: draft.to,
-        subject: draft.subject,
-        body: draft.body,
-        scenario: `${sc.subject}\n${sc.prompt}`,
-      })
-      setAnalysis(result)
+      const { exercise, error } = await submitEmailExercise({ scenario: sc, to: draft.to, subject: draft.subject, body: draft.body })
+      setAnalysis(exercise.analysis)
+      setAnalysisSource(exercise.analysis_source ?? null)
+      setAnalyzeError(error)
+      setHistory(prev => [exercise, ...prev.filter(h => h.id !== exercise.id)])
+      setSelectedId(exercise.id)
     } catch (e) {
-      setAnalyzeError(e instanceof QuotaError ? e.message : 'Analiz tamamlanamadı. Tekrar deneyebilirsin.')
+      console.error('[email] submit', e)
+      setAnalyzeError('E-posta kaydedilemedi. Bağlantını kontrol edip tekrar dene.')
     } finally {
       setAnalyzing(false)
     }
-
-    const saved = saveEmailExercise({
-      scenario_id: sc.id,
-      category: sc.category,
-      title_tr: sc.title_tr,
-      to: draft.to,
-      subject: draft.subject,
-      body: draft.body,
-      word_count: words,
-      analysis: result,
-    })
-    setHistory(getEmailExercises())
-    setSelectedId(saved.id)
   }, [])
 
   useEffect(() => {
@@ -232,6 +220,7 @@ export default function EmailWritingPage() {
     setCopied(false)
     setAnalyzing(false)
     setAnalysis(null)
+    setAnalysisSource(null)
     setAnalyzeError(null)
     finishOnceRef.current = false
     setScenario(next)
@@ -261,9 +250,7 @@ export default function EmailWritingPage() {
   const openHistory = () => {
     refreshHistory()
     setTab('history')
-    if (!selectedId && getEmailExercises()[0]) {
-      setSelectedId(getEmailExercises()[0].id)
-    }
+    if (!selectedId && history[0]) setSelectedId(history[0].id)
   }
 
   return (
@@ -277,7 +264,7 @@ export default function EmailWritingPage() {
           <div className={styles.mailBrand}>
             <span className={styles.mailLogo}>✉</span>
             <div>
-              <h1 className={styles.hTitle}>RoadLingo Mail</h1>
+              <h1 className={styles.hTitle}>RoadDash Mail</h1>
               <p className={styles.hSub}>7 dk · Hızlı e-posta</p>
             </div>
           </div>
@@ -445,7 +432,7 @@ export default function EmailWritingPage() {
                       </p>
                     )}
                     {analyzeError && <p className={styles.analyzeError}>{analyzeError}</p>}
-                    {analysis && <AnalysisBlock analysis={analysis} />}
+                    {analysis && <AnalysisBlock analysis={analysis} source={analysisSource} />}
                   </div>
 
                   <button type="button" className={styles.gotoHistory} onClick={openHistory}>
@@ -539,7 +526,7 @@ export default function EmailWritingPage() {
                   <div className={styles.thread}>
                     <p className={styles.threadLabel}>Coach yanıtı</p>
                     {selected.analysis ? (
-                      <AnalysisBlock analysis={selected.analysis} />
+                      <AnalysisBlock analysis={selected.analysis} source={selected.analysis_source} />
                     ) : (
                       <p className={styles.analyzeError}>Bu egzersiz için analiz kaydı yok.</p>
                     )}

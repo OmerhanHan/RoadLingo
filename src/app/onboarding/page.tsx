@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import MascotSpeech from '@/components/MascotSpeech'
+import { savePrefs } from '@/lib/data/account'
 import styles from './onboarding.module.css'
 
 const EXAMS = [
@@ -15,14 +16,15 @@ export default function OnboardingPage() {
   const [done, setDone] = useState(false)
 
   const choose = (id: string) => {
-    localStorage.setItem('selectedExam', id)
+    // Written to this browser at once (the next screen reads it), then to the profile.
+    void savePrefs({ selectedExam: id === 'ielts' ? 'ielts' : 'toefl' })
     router.replace('/onboarding2')
   }
 
   return (
     <main className={styles.page}>
       <div className={styles.content}>
-        <Image src="/logo.png" alt="RoadLingo" width={2304} height={1536} sizes="160px" loading="eager" className={styles.brandLogo} />
+        <Image src="/logo.png" alt="RoadDash" width={1536} height={1024} sizes="160px" loading="eager" className={styles.brandLogo} />
 
         <MascotSpeech title="Selam 👋" text="Hangi sınava hazırlanıyorsun?" onDone={() => setDone(true)} />
 

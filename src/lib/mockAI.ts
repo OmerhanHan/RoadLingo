@@ -48,7 +48,7 @@ const SUGGESTIONS_FALLBACK = [
   "Use transition words (however, furthermore, in contrast) to connect your ideas more smoothly.",
 ]
 
-function mockFeedback(content: string, topic: string): Feedback {
+export function mockFeedback(content: string, topic: string): Feedback {
   const wordCount = content.trim().split(/\s+/).filter(Boolean).length
   const seed = wordCount + topic.length
   const base = Math.min(wordCount / 250, 1)

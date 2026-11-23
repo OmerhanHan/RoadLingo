@@ -1,0 +1,124 @@
+[
+ {
+  "id": "bbcc01fe63",
+  "level": "B1",
+  "createdAt": "2026-11-21T22:15:35.234Z",
+  "data": {
+   "title": "The History of the Bicycle",
+   "passage": "The history of the bicycle is fascinating. Early versions were very different from what we see today. Initially, people used simple wheel {contraption|contraptions} that required great effort to move. These early models lacked pedals and required the rider to push with their feet. Later, inventors added pedals, creating a structure that was much {most efficient|more efficient}. By the late 19th century, the modern safety bicycle appeared, making cycling accessible to many people. It quickly became a popular form of transportation all {on|over} the world.",
+   "errors": [
+    {
+     "wrong": "contraption",
+     "correct": "contraptions",
+     "type": "plural",
+     "explanation": "Cümlede birden fazla cihazdan bahsedildiği için kelime çoğul formunda kalmalıdır."
+    },
+    {
+     "wrong": "most efficient",
+     "correct": "more efficient",
+     "type": "comparative",
+     "explanation": "Bu yapıda yalnızca iki nesne karşılaştırıldığı için \"more\" yapısı doğrudur."
+    },
+    {
+     "wrong": "on",
+     "correct": "over",
+     "type": "preposition",
+     "explanation": "Dünya gibi geniş bir alanı ifade etmek için \"over\" edatı kullanılmalıdır."
+    }
+   ]
+  }
+ },
+ {
+  "id": "d42848506f",
+  "level": "B2",
+  "createdAt": "2026-11-21T22:16:03.353Z",
+  "data": {
+   "title": "A Trip to the Science Museum",
+   "passage": "The class visited the Natural History Museum last week. They found the exhibits regarding deep-sea life truly fascinating. Our guide explained how marine organisms {adapt on|adapt to} high-pressure environments. Students were eager to examine the skeletal structures of ancient dinosaurs. Furthermore, they learned about the {geology|geological} processes that formed mountain ranges. This outing {provide|provided} students with invaluable knowledge about Earth science.",
+   "errors": [
+    {
+     "wrong": "adapt on",
+     "correct": "adapt to",
+     "type": "preposition",
+     "explanation": "Bir ortama uyum sağlamak için 'adapt to' kalıbı kullanılır."
+    },
+    {
+     "wrong": "geology",
+     "correct": "geological",
+     "type": "word-form",
+     "explanation": "'Processes' (süreçler) kelimesini nitelemek için sıfat olan 'geological' gerekir."
+    },
+    {
+     "wrong": "provide",
+     "correct": "provided",
+     "type": "tense",
+     "explanation": "Hikaye geçmişte yaşandığı için fiilin geçmiş zaman hali 'provided' olmalıdır."
+    }
+   ]
+  }
+ },
+ {
+  "id": "5a6abf0c9d",
+  "level": "B2",
+  "createdAt": "2026-11-21T22:16:34.243Z",
+  "data": {
+   "title": "Community Park Cleanup Project",
+   "passage": "Last Saturday, we organized a significant cleanup project at Willow Creek Park. Our volunteers arrived early, {equipped to|equipped with} gloves and refuse bags. We spent the morning removing litter and trimming overgrown bushes. The commitment of the community {were|was} truly commendable. Although the work was physically demanding, the resulting improvements to the park’s ecosystem were noticeable. We collected several large amounts of recycling, proving that collective effort can {dramatic|dramatically} benefit the environment.",
+   "errors": [
+    {
+     "wrong": "equipped to",
+     "correct": "equipped with",
+     "type": "preposition",
+     "explanation": "Hazırlanma durumu belirtilirken 'with' edatı kullanılır, 'to' değil."
+    },
+    {
+     "wrong": "were",
+     "correct": "was",
+     "type": "agreement",
+     "explanation": "Özne tekil ('commitment') olduğu için fiil de tekil (was) olmalıdır."
+    },
+    {
+     "wrong": "dramatic",
+     "correct": "dramatically",
+     "type": "word-form",
+     "explanation": "Fiili (benefit) nitelediği için zarf (dramatically) gereklidir."
+    }
+   ]
+  }
+ },
+ {
+  "id": "5ddb32cf8c",
+  "level": "C1",
+  "createdAt": "2026-11-21T22:17:04.582Z",
+  "data": {
+   "title": "Developing Culinary Proficiency",
+   "passage": "Mastering culinary skills {require|requires} more than simply following a recipe. One must understand the underlying principles of flavor and texture. For instance, adapting traditional dishes necessitates {thorough grasp|a thorough grasp} of regional ingredients and preparation techniques. Consequently, cooking at home fosters self-sufficiency, allowing one to {adjusts|adjust} meals according to specific dietary needs. This practice not only saves {considerably|considerable} amounts of money but also significantly improves nutritional intake. Eventually, one develops a sophisticated repertoire of gourmet dishes.",
+   "errors": [
+    {
+     "wrong": "require",
+     "correct": "requires",
+     "type": "agreement",
+     "explanation": "Özne 'Mastering' tekil bir eylemi belirttiği için fiil de tekil ('requires') olmalıdır."
+    },
+    {
+     "wrong": "thorough grasp",
+     "correct": "a thorough grasp",
+     "type": "article",
+     "explanation": "'Grasp' (anlayış) gibi sayılabilen isimler bir belirtici artikel ('a') ile kullanılmalıdır."
+    },
+    {
+     "wrong": "adjusts",
+     "correct": "adjust",
+     "type": "verb-pattern",
+     "explanation": "‘Allowing one to’ yapısından sonra gelen ana fiilin yalın (base) formu kullanılır."
+    },
+    {
+     "wrong": "considerably",
+     "correct": "considerable",
+     "type": "word-form",
+     "explanation": "'Amounts' (miktar) bir isim olduğu için, onu niteleyen bir sıfat (adjective) gereklidir."
+    }
+   ]
+  }
+ }
+]

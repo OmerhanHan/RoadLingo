@@ -1,0 +1,42 @@
+name: CI
+
+# Type check, lint and production build on every pull request and on main.
+# Runs without secrets: the app falls back to demo mode when the Supabase
+# and AI keys are missing, so the build does not need them.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Route types such as RouteContext are generated into .next/types,
+      # which a fresh checkout does not have yet.
+      - name: Generate route types
+        run: npx next typegen
+      - name: Type check
+        run: npx tsc --noEmit
+      - name: Lint
+        run: npm run lint
+      - name: Build
+        run: npm run build
+        env:
+          NEXT_TELEMETRY_DISABLED: '1'
+      - name: Dependency audit
+        run: npm audit --omit=dev --audit-level=high

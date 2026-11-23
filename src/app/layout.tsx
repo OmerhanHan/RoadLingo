@@ -15,13 +15,13 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: 'RoadLingo — İngilizce Yazı Sınavı Hazırlık',
+  title: 'RoadDash — İngilizce Yazı Sınavı Hazırlık',
   description: 'AI destekli İngilizce yazı pratiği ve sınav hazırlık uygulaması. IELTS/TOEFL için akıllı geribildirim alın.',
   keywords: 'IELTS, TOEFL, İngilizce yazı, sınav hazırlık, AI feedback',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'RoadLingo',
+    title: 'RoadDash',
   },
   icons: {
     icon: '/icon.png',

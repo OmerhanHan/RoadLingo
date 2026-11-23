@@ -3,11 +3,16 @@ import { discussionScoringPrompt, normalizeDiscussionScore } from '@/lib/toefl/a
 import { extractJson, generateText, MAX_TOKENS } from '@/lib/toefl/generate'
 import type { AcademicDiscussionPrompt } from '@/lib/toefl/types'
 import { consumeQuota, quotaExceeded, refundQuota } from '@/lib/usage/quota'
+import { badRequest, guard, readJson, serverError } from '@/lib/security/guard'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 const MAX_RESPONSE_CHARS = 4000
+/** The prompt comes back from the client, so its parts are capped too. */
+const MAX_COURSE_CHARS = 120
+const MAX_NAME_CHARS = 60
+const MAX_POST_CHARS = 1500
 
 type Body = {
   prompt?: Pick<AcademicDiscussionPrompt, 'course' | 'professor' | 'students'>
@@ -15,26 +20,41 @@ type Body = {
 }
 
 function isPost(v: unknown): v is { name: string; text: string } {
-  return !!v && typeof v === 'object' && typeof (v as { name?: unknown }).name === 'string' && typeof (v as { text?: unknown }).text === 'string'
+  if (!v || typeof v !== 'object') return false
+  const { name, text } = v as { name?: unknown; text?: unknown }
+  return (
+    typeof name === 'string' &&
+    typeof text === 'string' &&
+    name.length <= MAX_NAME_CHARS &&
+    text.length <= MAX_POST_CHARS
+  )
 }
 
 export async function POST(req: NextRequest) {
-  let body: Body
-  try {
-    body = (await req.json()) as Body
-  } catch {
-    return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
-  }
+  const denied = await guard(req, 'ai', { auth: true })
+  if (denied) return denied
+  const parsed = await readJson<Body>(req)
+  if (!parsed.ok) return parsed.response
+  const body = parsed.body
 
   const response = typeof body.response === 'string' ? body.response.trim() : ''
   const p = body.prompt
-  if (!response) return NextResponse.json({ error: 'response required' }, { status: 400 })
-  if (response.length > MAX_RESPONSE_CHARS) return NextResponse.json({ error: 'response too long' }, { status: 400 })
-  if (!p || typeof p.course !== 'string' || !isPost(p.professor) || !Array.isArray(p.students) || !isPost(p.students[0]) || !isPost(p.students[1])) {
-    return NextResponse.json({ error: 'prompt required' }, { status: 400 })
+  if (!response) return badRequest('response required')
+  if (response.length > MAX_RESPONSE_CHARS) return badRequest('Cevap çok uzun')
+  if (
+    !p ||
+    typeof p.course !== 'string' ||
+    p.course.length > MAX_COURSE_CHARS ||
+    !isPost(p.professor) ||
+    !Array.isArray(p.students) ||
+    p.students.length !== 2 ||
+    !isPost(p.students[0]) ||
+    !isPost(p.students[1])
+  ) {
+    return badRequest('Geçersiz soru')
   }
 
-  const quota = consumeQuota(req, 'scoring')
+  const quota = await consumeQuota(req, 'scoring')
   if (!quota.ok) return quotaExceeded('scoring', quota.limit)
 
   try {
@@ -51,11 +71,7 @@ export async function POST(req: NextRequest) {
     if (!score) throw new Error('Score failed validation')
     return NextResponse.json(score)
   } catch (err) {
-    refundQuota(req, 'scoring')
-    console.error('[toefl/academic-discussion/score]', err)
-    return NextResponse.json(
-      { error: 'Puanlama yapılamadı', detail: err instanceof Error ? err.message : String(err) },
-      { status: 502 }
-    )
+    await refundQuota(req, 'scoring')
+    return serverError('toefl/academic-discussion/score', err, 'Puanlama yapılamadı', 502)
   }
 }

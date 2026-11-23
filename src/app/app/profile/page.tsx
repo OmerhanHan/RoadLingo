@@ -1,9 +1,12 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useSubscription } from '@/lib/useSubscription'
 import { useAuth } from '@/contexts/AuthContext'
-import { getStats } from '@/lib/storage'
-import { activePlanId, getPlanById, getSubscription } from '@/lib/plans'
+import { EMPTY_STATS } from '@/lib/storage'
+import { loadStats } from '@/lib/data/client'
+import { useLoad } from '@/lib/data/useLoad'
+import { activePlanId, getPlanById } from '@/lib/plans'
 import styles from './profile.module.css'
 import PlanBadge from './PlanBadge'
 
@@ -21,12 +24,35 @@ function levelPct(n: number) {
 }
 
 export default function ProfilePage() {
-  const { user, logout } = useAuth()
+  const { user, logout, deleteAccount, mode } = useAuth()
   const router = useRouter()
-  // Rendered client-only (AppLayout waits for auth), so localStorage is safe to read here.
-  const [stats] = useState(() => getStats())
-  const [planName] = useState(() => getPlanById(activePlanId(getSubscription())).name)
-  const [modal, setModal] = useState(false)
+  const { data: stats = EMPTY_STATS } = useLoad('stats', loadStats)
+  const planName = getPlanById(activePlanId(useSubscription())).name
+  const [modal, setModal] = useState<'logout' | 'delete' | null>(null)
+  const [confirmText, setConfirmText] = useState('')
+  const [deleting, setDeleting] = useState(false)
+  const [deleteError, setDeleteError] = useState<string | null>(null)
+  const canDelete = confirmText.trim().toLocaleUpperCase('tr') === 'SİL'
+
+  const closeModal = () => {
+    if (deleting) return
+    setModal(null)
+    setConfirmText('')
+    setDeleteError(null)
+  }
+
+  const confirmDelete = async () => {
+    if (!canDelete || deleting) return
+    setDeleting(true)
+    setDeleteError(null)
+    try {
+      await deleteAccount()
+      router.replace('/auth/login')
+    } catch (e) {
+      setDeleteError(e instanceof Error ? e.message : 'Hesap silinemedi.')
+      setDeleting(false)
+    }
+  }
 
   const firstName = user?.name?.split(' ')[0] || ''
 
@@ -75,18 +101,50 @@ export default function ProfilePage() {
           ✦ Planlar & Ödeme ({planName})
         </button>
         <button id="go-writing-btn" className={styles.actionBtn} onClick={() => router.push('/app/writing')}>→ Yeni Yazı Başlat</button>
-        <button id="logout-btn" className={styles.logoutBtn} onClick={() => setModal(true)}>🚪 Çıkış Yap</button>
+        <button id="logout-btn" className={styles.logoutBtn} onClick={() => setModal('logout')}>🚪 Çıkış Yap</button>
+        <button id="delete-account-btn" className={styles.deleteBtn} onClick={() => setModal('delete')}>Hesabımı sil</button>
       </div>
 
-      {modal && (
-        <div className={styles.overlay} onClick={() => setModal(false)}>
+      {modal === 'delete' && (
+        <div className={styles.overlay} onClick={closeModal}>
+          <div className={styles.modal} role="dialog" aria-modal="true" aria-labelledby="delete-title" onClick={e => e.stopPropagation()}>
+            <div className={styles.modalIcon}>⚠️</div>
+            <h2 id="delete-title" className={styles.modalTitle}>Hesabı sil</h2>
+            <p className={styles.modalDesc}>
+              {mode === 'supabase'
+                ? 'Hesabın, yazıların, puanların, e-posta alıştırmaların ve plan bilgin kalıcı olarak silinir. Bu işlem geri alınamaz.'
+                : 'Bu tarayıcıdaki yazıların, e-posta alıştırmaların ve seçimlerin silinir. Bu işlem geri alınamaz.'}
+            </p>
+            <label className={styles.confirmLabel} htmlFor="delete-confirm">Onaylamak için <b>SİL</b> yaz</label>
+            <input
+              id="delete-confirm"
+              className={styles.confirmInput}
+              value={confirmText}
+              onChange={e => setConfirmText(e.target.value)}
+              autoComplete="off"
+              autoCapitalize="characters"
+              disabled={deleting}
+            />
+            {deleteError && <p className={styles.modalError} role="alert">{deleteError}</p>}
+            <div className={styles.modalBtns}>
+              <button id="confirm-delete" className={styles.btnDanger} onClick={confirmDelete} disabled={!canDelete || deleting}>
+                {deleting ? 'Siliniyor…' : 'Kalıcı olarak sil'}
+              </button>
+              <button id="cancel-delete" className={styles.btnCancel} onClick={closeModal} disabled={deleting}>İptal</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {modal === 'logout' && (
+        <div className={styles.overlay} onClick={closeModal}>
           <div className={styles.modal} onClick={e => e.stopPropagation()}>
             <div className={styles.modalIcon}>👋</div>
             <h2 className={styles.modalTitle}>Çıkış Yap</h2>
             <p className={styles.modalDesc}>Yazıların saklanmaya devam edecek.</p>
             <div className={styles.modalBtns}>
               <button id="confirm-logout" className={styles.btnDanger} onClick={() => { logout(); router.push('/auth/login') }}>Evet, çık</button>
-              <button id="cancel-logout" className={styles.btnCancel} onClick={() => setModal(false)}>İptal</button>
+              <button id="cancel-logout" className={styles.btnCancel} onClick={closeModal}>İptal</button>
             </div>
           </div>
         </div>

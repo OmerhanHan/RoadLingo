@@ -1,0 +1,293 @@
+[
+ {
+  "id": "67cccee374",
+  "level": "B1",
+  "createdAt": "2026-11-22T14:02:52.449Z",
+  "data": {
+   "title": "Protecting the Environment",
+   "stops": [
+    {
+     "kind": "gap",
+     "sentence": "We must ___ plastics and glass to reduce landfill waste.",
+     "answer": "recycle",
+     "options": [
+      "recycle",
+      "borrow",
+      "invite"
+     ],
+     "meaningTr": "geri dönüştürmek"
+    },
+    {
+     "kind": "gap",
+     "sentence": "Cars often contribute to air ___ in big cities.",
+     "answer": "pollution",
+     "options": [
+      "pollution",
+      "harvest",
+      "supply"
+     ],
+     "meaningTr": "kirlilik",
+     "note": "Bir isimdir. Çevresel sorunlar bağlamında 'air pollution' (hava kirliliği) sık kullanılır."
+    },
+    {
+     "kind": "gap",
+     "sentence": "Deforestation destroys the natural ___ of many animals.",
+     "answer": "habitat",
+     "options": [
+      "habitat",
+      "material",
+      "activity"
+     ],
+     "meaningTr": "yaşam alanı",
+     "note": "Bir canlının doğal olarak yaşadığı ortam: natural habitat."
+    },
+    {
+     "kind": "gap",
+     "sentence": "People need to learn how to ___ energy more efficiently.",
+     "answer": "consume",
+     "options": [
+      "consume",
+      "ignore",
+      "defeat"
+     ],
+     "meaningTr": "tüketmek"
+    },
+    {
+     "kind": "gap",
+     "sentence": "Sustainable practices help us ___ natural resources for the future.",
+     "answer": "conserve",
+     "options": [
+      "conserve",
+      "destroy",
+      "cancel"
+     ],
+     "meaningTr": "korumak, idareli kullanmak",
+     "note": "conserve energy / water / resources: idareli kullanmak."
+    },
+    {
+     "kind": "synonym",
+     "sentence": "We need to *decrease* our overall carbon footprint.",
+     "answer": "reduce",
+     "options": [
+      "reduce",
+      "increase",
+      "improve"
+     ],
+     "meaningTr": "azaltmak"
+    },
+    {
+     "kind": "synonym",
+     "sentence": "Burning trash can greatly *harm* the local environment.",
+     "answer": "damage",
+     "options": [
+      "damage",
+      "build",
+      "help"
+     ],
+     "meaningTr": "zarar vermek",
+     "note": "Fiziksel bir hasar veya bozulma anlamında 'damage' (zarar vermek) daha güçlü bir fiildir."
+    },
+    {
+     "kind": "synonym",
+     "sentence": "It is vital to *preserve* old-growth forests.",
+     "answer": "protect",
+     "options": [
+      "protect",
+      "waste",
+      "ignore"
+     ],
+     "meaningTr": "korumak",
+     "note": "'Preserve' (korumak) genellikle kültürel veya doğal unsurların bozulmasını önleme anlamını taşır."
+    }
+   ]
+  }
+ },
+ {
+  "id": "9119f84eab",
+  "level": "B1",
+  "createdAt": "2026-11-22T14:03:29.566Z",
+  "data": {
+   "title": "Life in the City",
+   "stops": [
+    {
+     "kind": "gap",
+     "sentence": "I ___ to work every morning by train, which saves me time.",
+     "answer": "commute",
+     "options": [
+      "commute",
+      "borrow",
+      "invite"
+     ],
+     "meaningTr": "işe gidip gelmek",
+     "note": "Commute, işe gitme yolculuğu anlamına gelir. Genellikle 'commute by train' kalıbıyla kullanılır."
+    },
+    {
+     "kind": "gap",
+     "sentence": "It took us an hour to ___ through the crowded and winding old market.",
+     "answer": "navigate",
+     "options": [
+      "navigate",
+      "gather",
+      "submit"
+     ],
+     "meaningTr": "yön bulmak, dolaşmak",
+     "note": "Navigate, bir yerdeki karmaşık ortamda yolunu bulmak anlamında kullanılır. 'Navigate the city' (şehirde yol almak) gibi."
+    },
+    {
+     "kind": "gap",
+     "sentence": "The university offers excellent ___ like a library and a gym for students.",
+     "answer": "facilities",
+     "options": [
+      "facilities",
+      "manners",
+      "concerns"
+     ],
+     "meaningTr": "tesisler, olanaklar",
+     "note": "Facilities, bir binadaki veya alandaki fiziki olanakları ifade eder. 'Public facilities' (kamusal tesisler) gibi."
+    },
+    {
+     "kind": "gap",
+     "sentence": "We had to avoid the main street because it was too ___ with tourists.",
+     "answer": "crowded",
+     "options": [
+      "crowded",
+      "separate",
+      "polite"
+     ],
+     "meaningTr": "kalabalık",
+     "note": "Crowded (kalabalık) bir sıfattır. 'A crowded place' (kalabalık bir yer) şeklinde kullanılır."
+    },
+    {
+     "kind": "gap",
+     "sentence": "The loud city noise and the busy schedule became part of her daily ___.",
+     "answer": "routine",
+     "options": [
+      "routine",
+      "invention",
+      "concept"
+     ],
+     "meaningTr": "rutin, alışkanlık",
+     "note": "Routine, düzenli olarak yapılan, tekrarlanan şey demektir. 'Daily routine' (günlük rutin) çok yaygın bir ifadedir."
+    },
+    {
+     "kind": "synonym",
+     "sentence": "The *bustling* streets were filled with people, cars, and music.",
+     "answer": "lively",
+     "options": [
+      "lively",
+      "sleepy",
+      "careful"
+     ],
+     "meaningTr": "hareketli, canlı",
+     "note": "Bustling, 'canlı' ve 'sürekli hareketli' anlamına gelir. 'Lively' kelimesi bu anlamı en iyi verir."
+    },
+    {
+     "kind": "synonym",
+     "sentence": "Having public transport is *essential* for city dwellers.",
+     "answer": "vital",
+     "options": [
+      "possible",
+      "vital",
+      "unusual"
+     ],
+     "meaningTr": "hayati, gerekli",
+     "note": "essential ve vital ikisi de “olmazsa olmaz” anlamına gelir."
+    }
+   ]
+  }
+ },
+ {
+  "id": "dfc50d0230",
+  "level": "B2",
+  "createdAt": "2026-11-22T14:04:41.609Z",
+  "data": {
+   "title": "University Academic Life",
+   "stops": [
+    {
+     "kind": "gap",
+     "sentence": "Students must ___ their final research papers by the specified due date.",
+     "answer": "submit",
+     "options": [
+      "submit",
+      "borrow",
+      "ignore"
+     ],
+     "meaningTr": "teslim etmek",
+     "note": "Bir ödev, rapor veya form teslim ederken 'submit' kullanın."
+    },
+    {
+     "kind": "synonym",
+     "sentence": "The mountain of required reading seemed *daunting* to the freshmen students.",
+     "answer": "overwhelming",
+     "options": [
+      "overwhelming",
+      "calm",
+      "motivating"
+     ],
+     "meaningTr": "korkutucu, göz korkutucu",
+     "note": "Bir görev veya miktar o kadar büyük gelirse 'daunting' diyebiliriz."
+    },
+    {
+     "kind": "gap",
+     "sentence": "Taking Advanced History requires a strong understanding of Latin, which is a ___ course.",
+     "answer": "prerequisite",
+     "options": [
+      "prerequisite",
+      "consequence",
+      "exception"
+     ],
+     "meaningTr": "ön şart, ön koşul",
+     "note": "Bir derse başlamadan önce olması gereken ön bilgi/ders demektir."
+    },
+    {
+     "kind": "synonym",
+     "sentence": "She spent years in *rigorous* training to become a successful surgeon.",
+     "answer": "demanding",
+     "options": [
+      "demanding",
+      "casual",
+      "leisurely"
+     ],
+     "meaningTr": "titiz, zorlu",
+     "note": "rigorous: sıkı, titiz ve zorlu (rigorous training / research)."
+    },
+    {
+     "kind": "gap",
+     "sentence": "The committee decided to ___ additional funds for the student science fair.",
+     "answer": "allocate",
+     "options": [
+      "allocate",
+      "disperse",
+      "exhaust"
+     ],
+     "meaningTr": "ayırmak, tahsis etmek",
+     "note": "Bütçe veya kaynakları belirli bir amaca yönlendirirken 'allocate' fiilini kullanın."
+    },
+    {
+     "kind": "gap",
+     "sentence": "Successful group projects require team members to ___ effectively to meet deadlines.",
+     "answer": "collaborate",
+     "options": [
+      "collaborate",
+      "dictate",
+      "hesitate"
+     ],
+     "meaningTr": "işbirliği yapmak",
+     "note": "collaborate: birlikte çalışmak, işbirliği yapmak."
+    },
+    {
+     "kind": "gap",
+     "sentence": "The career fair provided a ___ guide to various majors and career paths.",
+     "answer": "comprehensive",
+     "options": [
+      "comprehensive",
+      "trivial",
+      "obscure"
+     ],
+     "meaningTr": "kapsamlı",
+     "note": "Bir konuya dair eksiksiz, her detayı içeren bir rehber için 'comprehensive' çok uygundur."
+    }
+   ]
+  }
+ }
+]

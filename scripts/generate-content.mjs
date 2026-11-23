@@ -24,6 +24,9 @@ const ENDPOINTS = {
   'listening-conversation': '/api/toefl/listening?task=conversation',
   'listening-announcement': '/api/toefl/listening?task=announcement',
   'listening-academic-talk': '/api/toefl/listening?task=academic-talk',
+  'error-hunt': '/api/games/error-hunt',
+  'word-road': '/api/games/word-road',
+  'listen-repeat': '/api/toefl/listen-repeat',
 }
 
 function arg(name, fallback) {

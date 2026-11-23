@@ -1,0 +1,116 @@
+/* ── Setup ── */
+.tips { list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; color: var(--text-2); line-height: 1.5; }
+.toggle { display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; color: var(--text-2); cursor: pointer; }
+.toggle input { margin-top: 3px; accent-color: var(--ink); }
+
+/* ── Stage ── */
+.stage { display: flex; flex-direction: column; gap: 14px; }
+.hud { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.title { font-family: var(--font-serif); font-size: 18px; color: var(--ink); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.points { font-family: var(--font-mono); font-size: 13px; color: var(--text-2); flex-shrink: 0; font-variant-numeric: tabular-nums; }
+
+.dots { display: flex; gap: 6px; }
+.dot { flex: 1; height: 8px; border: 1.5px solid var(--ink); border-radius: 2px; background: var(--paper); transition: background 0.2s; }
+.dotNow { background: var(--butter-light); box-shadow: 0 0 0 2px var(--butter-dark); }
+.dotGood { background: var(--sage-dark); }
+.dotMid { background: var(--butter-dark); }
+.dotBad { background: var(--rose-dark); }
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px 20px;
+  background: var(--warm-white);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-xs);
+  box-shadow: 4px 4px 0 var(--ink);
+  animation: fadeIn 0.25s ease;
+}
+.cardCenter { align-items: center; text-align: center; }
+.cardCenter > button { align-self: stretch; }
+
+.role { align-self: flex-start; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; padding: 3px 8px; border: 1.5px solid var(--ink); border-radius: var(--radius-xs); background: var(--sage-light); color: var(--ink); }
+.scenario { font-family: var(--font-serif); font-size: 19px; line-height: 1.5; color: var(--ink); }
+.scenarioTr { font-size: 14px; color: var(--text-2); line-height: 1.55; }
+.stepNo { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text-3); }
+.status { font-family: var(--font-serif); font-size: 20px; color: var(--ink); }
+.prep { font-family: var(--font-mono); font-size: 11px; color: var(--text-3); }
+
+/* Listening: animated bars */
+.wave { display: flex; align-items: center; justify-content: center; gap: 4px; height: 56px; }
+.bar { width: 5px; height: 12px; background: var(--ink); border-radius: 2px; }
+.waveOn .bar { animation: wave 0.9s ease-in-out infinite; }
+@keyframes wave {
+  0%, 100% { height: 10px; }
+  50% { height: 48px; }
+}
+
+/* Recording */
+.mic {
+  width: 76px;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--rose-light);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--rose-dark) 45%, transparent); }
+  50% { box-shadow: 0 0 0 14px color-mix(in srgb, var(--rose-dark) 0%, transparent); }
+}
+.live { min-height: 1.6em; font-size: 15px; color: var(--text-3); font-style: italic; max-width: 100%; overflow-wrap: anywhere; }
+.typed {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--paper);
+  border: 2px solid var(--border-dark);
+  border-radius: var(--radius-xs);
+  resize: vertical;
+}
+.typed:focus { outline: none; border-color: var(--ink); }
+
+.timeTrack { width: 100%; height: 6px; border: 1.5px solid var(--ink); border-radius: 2px; background: var(--paper); overflow: hidden; }
+.timeFill { height: 100%; background: var(--sage-dark); transition: width 0.1s linear; }
+.timeLow { background: var(--rose-dark); }
+.timer { font-family: var(--font-mono); font-size: 11px; color: var(--text-3); margin-top: -8px; font-variant-numeric: tabular-nums; }
+
+/* Result */
+.result { scroll-margin-bottom: calc(var(--nav-h) + 16px); }
+.resultHead { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.pointBadge { font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.5px; padding: 3px 8px; border: 1.5px solid var(--border-dark); border-radius: var(--radius-xs); color: var(--text-2); background: var(--paper); }
+.pbGood { border-color: var(--sage-dark); background: var(--sage-light); color: var(--ink); }
+.pbMid { border-color: var(--butter-dark); background: var(--butter-light); color: var(--ink); }
+.pbBad { border-color: var(--rose-dark); background: var(--rose-light); color: var(--ink); }
+
+.marks { font-family: var(--font-serif); font-size: 20px; line-height: 1.6; color: var(--ink); overflow-wrap: anywhere; }
+.wordOk { color: var(--ink); }
+.wordMiss { color: var(--rose-dark); text-decoration: line-through; text-decoration-thickness: 1.5px; opacity: 0.8; }
+.said { display: flex; flex-direction: column; font-size: 15px; color: var(--text-2); line-height: 1.5; padding-top: 12px; border-top: 1.5px dashed var(--border); }
+.said em { color: var(--text-3); }
+
+.quit { align-self: center; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-3); border-bottom: 1px solid var(--border-dark); }
+
+/* Done */
+.reviewTitle { margin: 24px 0 10px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-3); }
+.review { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.reviewItem { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; background: var(--warm-white); border: 1.5px solid var(--border); border-radius: var(--radius-xs); }
+.reviewHead { display: flex; align-items: center; justify-content: space-between; }
+.reviewItem .marks { font-size: 17px; }
+.saidSmall { font-size: 13.5px; color: var(--text-3); font-style: italic; }
+.replay { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 12px; border: 2px solid var(--ink); border-radius: 50%; color: var(--ink); background: var(--paper); }
+.replay:hover { background: var(--butter-light); }
+
+@media (min-width: 1024px) {
+  .page { max-width: 760px; padding: 0 40px 48px; }
+  .card { padding: 28px 30px; }
+  .scenario { font-size: 21px; }
+  .marks { font-size: 23px; }
+}

@@ -327,7 +327,7 @@ function clampScore(n: unknown): number {
   return Math.min(6, Math.max(0, Math.round(v * 2) / 2))
 }
 
-function mockEmailAnalysis(body: string): EmailAnalysis {
+export function mockEmailAnalysis(body: string): EmailAnalysis {
   const words = body.trim().split(/\s+/).filter(Boolean).length
   const base = Math.min(words / 120, 1)
   const score = (offset: number) =>

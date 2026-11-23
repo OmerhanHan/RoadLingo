@@ -57,8 +57,8 @@ export default function BottomNav() {
       </nav>
 
       <aside className={styles.sidebar} aria-label="Ana menü">
-        <button className={styles.brand} onClick={() => go('/app/home')} aria-label="RoadLingo ana sayfa">
-          <Image src="/logo.png" alt="RoadLingo" width={2304} height={1536} sizes="140px" className={styles.brandLogo} />
+        <button className={styles.brand} onClick={() => go('/app/home')} aria-label="RoadDash ana sayfa">
+          <Image src="/logo.png" alt="RoadDash" width={1536} height={1024} sizes="140px" className={styles.brandLogo} />
         </button>
 
         <div className={styles.sideGroup}>
@@ -70,6 +70,11 @@ export default function BottomNav() {
           {TOEFL_SECTIONS.map(s => (
             <SideLink key={s.id} icon={s.emoji} label={s.labelTr} active={isActive(s.href)} onClick={() => go(s.href)} />
           ))}
+        </div>
+
+        <p className={styles.sideHeading}>Pratik</p>
+        <div className={styles.sideGroup}>
+          <SideLink icon="🔍" label="Oyunlar" active={isActive('/app/games')} onClick={() => go('/app/games')} />
         </div>
 
         <p className={styles.sideHeading}>Hesap</p>

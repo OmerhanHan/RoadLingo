@@ -1,10 +1,8 @@
-import { createBrowserClient } from '@supabase/ssr'
+import { supabaseBrowser } from '@/lib/auth/client'
 
+/** The shared browser Supabase client (see src/lib/auth/client.ts). */
 export function createClient() {
-  return createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  )
+  return supabaseBrowser()
 }
 
 export type Writing = {
@@ -30,6 +28,8 @@ export type Feedback = {
   suggestions: string[]
   overall_comment: string
   created_at: string
+  /** 'ai': the model; 'mock': sample scoring (no model, development); 'import': scored in the browser before the account. */
+  source?: 'ai' | 'mock' | 'import'
 }
 
 export type GrammarError = {

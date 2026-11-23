@@ -1,7 +1,8 @@
 import type { EmailAnalysis } from './emailAnalysis'
 import type { EmailCategory } from './emailAnalysis'
 
-const EMAIL_EXERCISES_KEY = 'writer_email_exercises'
+// Demo mode only; with Supabase the exercises live on the server (src/lib/data/client.ts).
+export const EMAIL_EXERCISES_KEY = 'writer_email_exercises'
 
 export type EmailExercise = {
   id: string
@@ -13,6 +14,8 @@ export type EmailExercise = {
   body: string
   word_count: number
   analysis: EmailAnalysis | null
+  /** Where the analysis came from (see Feedback.source); absent in the browser-only mode. */
+  analysis_source?: 'ai' | 'mock' | 'import' | null
   created_at: string
 }
 

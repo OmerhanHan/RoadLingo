@@ -150,6 +150,9 @@
 .historyRow:hover { border-color: var(--ink); transform: translateY(-1px); }
 .historyText { flex: 1; display: flex; flex-direction: column; gap: 4px; }
 .historyArrow { font-family: var(--font-mono); font-size: 18px; color: var(--ink); }
+/* Games row: same shape as history, brighter so it reads as play. */
+.gamesRow { margin-bottom: 12px; background: var(--butter-light); border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); }
+.gamesRow:hover { box-shadow: 4px 4px 0 var(--ink); }
 
 /* ── Streak pill ── */
 .streakPill {

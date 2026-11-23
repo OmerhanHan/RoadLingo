@@ -1,7 +1,8 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { PLANS, activePlanId, formatTRY, getPlanById, getSubscription, interviewsFor, type PlanDefinition } from '@/lib/plans'
+import { PLANS, activePlanId, formatTRY, getPlanById, interviewsFor, type PlanDefinition } from '@/lib/plans'
+import { useSubscription } from '@/lib/useSubscription'
 import styles from './profile.module.css'
 
 function priceLabel(plan: PlanDefinition) {
@@ -18,8 +19,7 @@ function priceLabel(plan: PlanDefinition) {
 export default function PlanBadge({ label }: { label: string }) {
   const router = useRouter()
   const [open, setOpen] = useState(false)
-  // Rendered client-only (AppLayout waits for auth), so localStorage is safe to read here.
-  const [current] = useState(() => activePlanId(getSubscription()))
+  const current = activePlanId(useSubscription())
   const wrapRef = useRef<HTMLDivElement>(null)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 

@@ -1,8 +1,8 @@
 'use client'
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { saveWriting, updateWritingFeedback } from '@/lib/storage'
-import { analyzeWriting } from '@/lib/mockAI'
+import { createWriting, scoreWriting } from '@/lib/data/client'
+import type { Writing } from '@/lib/supabase'
 import { QuotaError } from '@/lib/upgrade'
 import styles from './random.module.css'
 
@@ -41,7 +41,7 @@ export default function RandomPage() {
   const [saving, setSaving] = useState(false)
   const [analyzing, setAnalyzing] = useState(false)
   const [showModal, setShowModal] = useState(false)
-  const [savedId, setSavedId] = useState<string | null>(null)
+  const [saved, setSaved] = useState<Writing | null>(null)
   const [toast, setToast] = useState<string | null>(null)
 
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([])
@@ -87,27 +87,33 @@ export default function RandomPage() {
     timersRef.current.push(done)
   }, [rolling])
 
-  const handleSave = useCallback(() => {
+  const handleSave = useCallback(async () => {
     if (!topic || wordCount < 10) { if (wordCount < 10) showToast('⚠ Daha fazla yaz!'); return }
+    if (saving) return
     setSaving(true)
-    const w = saveWriting({ user_id: '', mode: 'random', topic, content, word_count: wordCount, has_feedback: false })
-    setSavedId(w.id); setSaving(false); setShowModal(true)
-  }, [topic, wordCount, content, showToast])
+    try {
+      setSaved(await createWriting({ mode: 'random', topic, content }))
+      setShowModal(true)
+    } catch (e) {
+      console.error(e); showToast('❌ Yazı kaydedilemedi, tekrar dene')
+    } finally {
+      setSaving(false)
+    }
+  }, [topic, wordCount, content, saving, showToast])
 
   const handleAnalyze = useCallback(async () => {
-    if (!savedId || !topic) return
+    if (!saved) return
     setShowModal(false); setAnalyzing(true)
     try {
-      const fb = await analyzeWriting(content, topic)
-      updateWritingFeedback(savedId, fb)
+      await scoreWriting(saved)
       setAnalyzing(false)
-      router.push(`/app/history/${savedId}`)
+      router.push(`/app/history/${saved.id}`)
     } catch (e) {
       setAnalyzing(false)
       if (e instanceof QuotaError) return showToast('Yazın kaydedildi. Günlük değerlendirme hakkın doldu.')
       console.error(e); showToast('❌ Analiz başarısız')
     }
-  }, [savedId, topic, content, showToast, router])
+  }, [saved, showToast, router])
 
   const handleSkip = useCallback(() => {
     setShowModal(false)
